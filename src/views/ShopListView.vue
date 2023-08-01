@@ -21,6 +21,7 @@
       </form>
     </div>
 
+    <div class="text-center mt-5" v-if="shops.length === 0">no items</div>
     <div
       class="border-2 border-green-500 p-2 px-4 mt-5 flex justify-between items-center"
       v-for="shop in shops"
@@ -30,7 +31,7 @@
         <p><strong>Shop Name:</strong> {{ shop.shopName }}</p>
         <p><strong>Location:</strong> {{ shop.location }}</p>
       </div>
-      <button>x</button>
+      <button @click="removeShop(shop.id)">x</button>
     </div>
   </div>
 </template>
@@ -49,6 +50,9 @@ export default {
       location: "",
     };
   },
+  created() {
+    this.loadFromLocalStorage();
+  },
   methods: {
     addShop() {
       const newShop = {
@@ -57,6 +61,20 @@ export default {
         location: this.location,
       };
       this.shops.push(newShop);
+      this.shopName = "";
+      this.location = "";
+      this.saveToLocalStorage();
+    },
+    removeShop(id) {
+      this.shops = this.shops.filter((el) => el.id !== id);
+      this.saveToLocalStorage();
+    },
+    saveToLocalStorage() {
+      localStorage.setItem("shops", JSON.stringify(this.shops));
+    },
+    loadFromLocalStorage() {
+      const storedShops = JSON.parse(localStorage.getItem("shops") || "[]");
+      this.shops = storedShops;
     },
   },
 };
