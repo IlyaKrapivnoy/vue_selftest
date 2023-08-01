@@ -56,6 +56,9 @@ export default {
       filteredArray: [],
     };
   },
+  created() {
+    this.loadFromLocalStorage();
+  },
   methods: {
     handleSubmit() {
       const newBook = {
@@ -66,9 +69,18 @@ export default {
       this.books.push(newBook);
       this.author = "";
       this.title = "";
+      this.saveToLocalStorage();
     },
     removeBook(id) {
       this.books = this.books.filter((item) => item.id !== id);
+      this.saveToLocalStorage();
+    },
+    saveToLocalStorage() {
+      localStorage.setItem("books", JSON.stringify(this.books));
+    },
+    loadFromLocalStorage() {
+      const storedBooks = JSON.parse(localStorage.getItem("books") || "[]");
+      this.books = storedBooks;
     },
   },
 };
