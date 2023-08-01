@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+h1 {
+  @apply font-bold text-2xl uppercase;
+}
+
+nav {
+  @apply flex justify-center;
+}
+
+nav a {
+  @apply uppercase text-orange-700;
+}
+
+nav a:hover {
+  @apply underline;
+}
