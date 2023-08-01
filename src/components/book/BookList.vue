@@ -23,5 +23,10 @@ export default {
       required: true,
     },
   },
+  methods: {
+    removeBook(id) {
+      this.$emit("remove-book", id);
+    },
+  },
 };
 </script>
