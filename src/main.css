@@ -27,5 +27,5 @@ input {
 }
 
 button {
-  @apply bg-green-600 p-4 mt-6 text-white font-bold;
+  @apply bg-green-600 p-4 text-white font-bold;
 }

@@ -15,18 +15,22 @@
             v-bind:value="author"
             @input="author = $event.target.value"
           />
-          <button @click="handleSubmit">Add</button>
+          <button class="mt-6" @click="handleSubmit">Add</button>
         </form>
       </div>
 
       <div class="mt-10">
         <div
-          class="border-2 border-orange-500 p-2 px-4 mt-5"
+          class="border-2 border-orange-500 p-2 px-4 mt-5 flex justify-between items-center"
           v-for="book in books"
           :key="book.id"
         >
-          <p><strong>Book Title:</strong> {{ book.title }}</p>
-          <p><strong>Author:</strong> {{ book.author }}</p>
+          <div>
+            <p><strong>Book Title:</strong> {{ book.title }}</p>
+            <p><strong>Author:</strong> {{ book.author }}</p>
+          </div>
+
+          <button @click="removeBook(book.id)">x</button>
         </div>
       </div>
     </div>
@@ -49,6 +53,7 @@ export default {
       ],
       author: "",
       title: "",
+      filteredArray: [],
     };
   },
   methods: {
@@ -61,6 +66,9 @@ export default {
       this.books.push(newBook);
       this.author = "";
       this.title = "";
+    },
+    removeBook(id) {
+      this.books = this.books.filter((item) => item.id !== id);
     },
   },
 };
