@@ -12,6 +12,11 @@ const routes = [
     name: "bookshelf",
     component: () => import("../views/BookshelfView.vue"),
   },
+  {
+    path: "/shoplist",
+    name: "shoplist",
+    component: () => import("../views/ShopListView.vue"),
+  },
 ];
 
 const router = createRouter({
