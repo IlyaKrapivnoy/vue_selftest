@@ -1,5 +1,5 @@
 <template>
   <div class="bookshelf">
-    <h1>ONLINE BOOKSHELF</h1>
+    <h1 class="text-orange-600">ONLINE BOOKSHELF</h1>
   </div>
 </template>
