@@ -1,7 +1,24 @@
 <template>
   <div class="bookshelf">
     <div class="container mx-auto px-4">
-      <h1>Add Book</h1>
+      <h1>Your Books</h1>
+      <div class="mt-10">
+        <h2>Add a new book</h2>
+        <form @submit.prevent class="flex flex-col w-full">
+          <input
+            placeholder="Add title"
+            v-bind:value="title"
+            @input="title = $event.target.value"
+          />
+          <input
+            placeholder="Add author"
+            v-bind:value="author"
+            @input="author = $event.target.value"
+          />
+          <button>Add</button>
+        </form>
+      </div>
+
       <div class="mt-10">
         <div
           class="border-2 border-orange-500 p-2 px-4 mt-5"
@@ -30,6 +47,8 @@ export default {
           author: "Thomas H. Cormen",
         },
       ],
+      author: "",
+      title: "",
     };
   },
 };

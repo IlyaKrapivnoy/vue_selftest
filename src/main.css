@@ -3,11 +3,15 @@
 @tailwind utilities;
 
 h1 {
-  @apply font-bold text-2xl uppercase;
+  @apply font-bold text-3xl uppercase;
+}
+
+h2 {
+  @apply font-bold text-xl uppercase;
 }
 
 nav {
-  @apply flex justify-center;
+  @apply text-2xl flex justify-center;
 }
 
 nav a {
@@ -16,4 +20,12 @@ nav a {
 
 nav a:hover {
   @apply underline;
+}
+
+input {
+  @apply border border-stone-200 p-2 mt-4;
+}
+
+button {
+  @apply bg-green-600 p-4 mt-6 text-white font-bold;
 }
