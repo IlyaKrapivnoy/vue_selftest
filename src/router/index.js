@@ -7,6 +7,11 @@ const routes = [
     name: "home",
     component: HomeView,
   },
+  {
+    path: "/bookshelf",
+    name: "bookshelf",
+    component: () => import("../views/BookshelfView.vue"),
+  },
 ];
 
 const router = createRouter({
