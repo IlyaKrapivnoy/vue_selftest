@@ -33,6 +33,10 @@
           <button @click="removeBook(book.id)">x</button>
         </div>
       </div>
+
+      <div v-if="books.length === 0" class="text-center mt-5">
+        There are no books.
+      </div>
     </div>
   </div>
 </template>
