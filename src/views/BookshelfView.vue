@@ -15,7 +15,7 @@
             v-bind:value="author"
             @input="author = $event.target.value"
           />
-          <button>Add</button>
+          <button @click="handleSubmit">Add</button>
         </form>
       </div>
 
@@ -50,6 +50,18 @@ export default {
       author: "",
       title: "",
     };
+  },
+  methods: {
+    handleSubmit() {
+      const newBook = {
+        id: Date.now(),
+        title: this.title,
+        author: this.author,
+      };
+      this.books.push(newBook);
+      this.author = "";
+      this.title = "";
+    },
   },
 };
 </script>
