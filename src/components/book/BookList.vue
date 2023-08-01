@@ -13,6 +13,10 @@
       <button @click="removeBook(book.id)">x</button>
     </div>
   </div>
+
+  <div v-if="books.length === 0" class="text-center mt-5">
+    There are no books.
+  </div>
 </template>
 
 <script>
@@ -28,5 +32,6 @@ export default {
       this.$emit("remove-book", id);
     },
   },
+  emits: ["remove-book"],
 };
 </script>

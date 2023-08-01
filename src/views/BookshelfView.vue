@@ -6,10 +6,6 @@
       <book-form @create="createBook" />
       <!--      list-->
       <book-list :books="books" @remove-book="removeBook" />
-
-      <div v-if="books.length === 0" class="text-center mt-5">
-        There are no books.
-      </div>
     </div>
   </div>
 </template>

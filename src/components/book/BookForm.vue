@@ -29,5 +29,6 @@ export default {
       };
     },
   },
+  emits: ["create"],
 };
 </script>
