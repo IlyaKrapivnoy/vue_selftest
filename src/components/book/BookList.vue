@@ -1,17 +1,7 @@
 <template>
   <div class="mt-10">
-    <div
-      class="border-2 border-orange-500 p-2 px-4 mt-5 flex justify-between items-center"
-      v-for="book in books"
-      :key="book.id"
-    >
-      <div>
-        <p><strong>Book Title:</strong> {{ book.title }}</p>
-        <p><strong>Author:</strong> {{ book.author }}</p>
-      </div>
-
-      <button @click="removeBook(book.id)">x</button>
-    </div>
+    <h2>Book List</h2>
+    <book-item :book="book" v-for="book in books" :key="book.id" />
   </div>
 
   <div v-if="books.length === 0" class="text-center mt-5">
@@ -20,7 +10,10 @@
 </template>
 
 <script>
+import BookItem from "@/components/book/BookItem.vue";
+
 export default {
+  components: { BookItem },
   props: {
     books: {
       type: Array,
