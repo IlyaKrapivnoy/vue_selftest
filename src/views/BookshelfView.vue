@@ -5,7 +5,7 @@
       <!--      form-->
       <book-form @create="createBook" />
       <!--      list-->
-      <book-list :books="books" @remove-book="removeBook" />
+      <book-list :books="books" @removeBook="removeBook" />
     </div>
   </div>
 </template>
@@ -38,8 +38,8 @@ export default {
       this.books.push(book);
       this.saveToLocalStorage();
     },
-    removeBook(id) {
-      this.books = this.books.filter((item) => item.id !== id);
+    removeBook(book) {
+      this.books = this.books.filter((item) => item.id !== book.id);
       this.saveToLocalStorage();
     },
     saveToLocalStorage() {
@@ -50,5 +50,6 @@ export default {
       this.books = storedBooks;
     },
   },
+  emits: ["removeBook"],
 };
 </script>

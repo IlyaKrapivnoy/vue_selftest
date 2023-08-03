@@ -5,7 +5,7 @@
     <!--   form-->
     <shop-form @create="addShop" />
     <!--    list-->
-    <shop-list :shops="shops" @remove-shop="removeShop" />
+    <shop-list :shops="shops" @removeShop="removeShop" />
   </div>
 </template>
 
@@ -35,8 +35,8 @@ export default {
       this.shops.push(shop);
       this.saveToLocalStorage();
     },
-    removeShop(id) {
-      this.shops = this.shops.filter((el) => el.id !== id);
+    removeShop(shop) {
+      this.shops = this.shops.filter((el) => el.id !== shop.id);
       this.saveToLocalStorage();
     },
     saveToLocalStorage() {

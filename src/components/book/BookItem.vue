@@ -7,7 +7,7 @@
       <p><strong>Author:</strong> {{ book.author }}</p>
     </div>
 
-    <button @click="removeBook(book.id)">x</button>
+    <button @click="$emit('removeBook', book)">x</button>
   </div>
 </template>
 

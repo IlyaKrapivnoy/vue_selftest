@@ -6,7 +6,7 @@
       <p><strong>Shop Name:</strong> {{ shop.shopName }}</p>
       <p><strong>Location:</strong> {{ shop.location }}</p>
     </div>
-    <button @click="removeShop(shop.id)">x</button>
+    <button @click="$emit('removeShop', shop)">x</button>
   </div>
 </template>
 
