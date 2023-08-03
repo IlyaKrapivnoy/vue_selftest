@@ -2,7 +2,7 @@
   <div class="bookshelf">
     <div class="container mx-auto px-4">
       <h1>Your Books</h1>
-      <button @click="fetchBooks">Get Books</button>
+      <button @click="addBooks">Fetch Books</button>
       <button @click="showDialog" class="mt-6">Add Book</button>
       <!--      form-->
       <my-dialog v-model:show="dialogVisible">
@@ -18,7 +18,7 @@
 import BookForm from "@/components/book/BookForm.vue";
 import BookList from "@/components/book/BookList.vue";
 import MyDialog from "@/components/UI/MyDialog.vue";
-import axios from "axios";
+import { fetchBooks } from "@/services/bookServices";
 
 export default {
   name: "BookshelfView",
@@ -60,15 +60,10 @@ export default {
     showDialog() {
       this.dialogVisible = true;
     },
-    async fetchBooks() {
-      try {
-        const response = await axios.get(
-          "https://www.googleapis.com/books/v1/volumes?q=programming"
-        );
-        console.log("data", response.data.items);
-        this.books = response.data.items;
-      } catch (err) {
-        console.warn("Error fetching books:", err);
+    async addBooks() {
+      const booksData = await fetchBooks();
+      if (booksData) {
+        this.books = booksData.items;
       }
     },
   },

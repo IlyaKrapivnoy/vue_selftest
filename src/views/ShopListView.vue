@@ -1,6 +1,7 @@
 <template>
   <div class="container mx-auto px-4">
     <h1>Shop List</h1>
+    <button @click="addShops">Fetch Shops</button>
     <button class="mt-6" @click="showDialog">Add Shop</button>
     <!--   form-->
     <my-dialog v-model:show="dialogVisible">
@@ -15,6 +16,7 @@
 import ShopList from "@/components/shop/ShopList.vue";
 import ShopForm from "@/components/shop/ShopForm.vue";
 import MyDialog from "@/components/UI/MyDialog.vue";
+import { fetchBooks } from "@/services/bookServices";
 
 export default {
   name: "ShopListView",
@@ -51,6 +53,13 @@ export default {
     },
     showDialog() {
       this.dialogVisible = "true";
+    },
+    async addShops() {
+      const shopsData = await fetchBooks();
+      if (shopsData) {
+        this.shops = shopsData.items;
+        this.saveToLocalStorage();
+      }
     },
   },
 };
