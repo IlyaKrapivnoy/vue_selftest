@@ -1,9 +1,11 @@
 <template>
   <div class="container mx-auto px-4">
     <h1>Shop List</h1>
-
+    <button class="mt-6" @click="showDialog">Add Shop</button>
     <!--   form-->
-    <shop-form @create="addShop" />
+    <my-dialog v-model:show="dialogVisible">
+      <shop-form @create="addShop" />
+    </my-dialog>
     <!--    list-->
     <shop-list :shops="shops" @removeShop="removeShop" />
   </div>
@@ -12,10 +14,11 @@
 <script>
 import ShopList from "@/components/shop/ShopList.vue";
 import ShopForm from "@/components/shop/ShopForm.vue";
+import MyDialog from "@/components/UI/MyDialog.vue";
 
 export default {
   name: "ShopListView",
-  components: { ShopForm, ShopList },
+  components: { MyDialog, ShopForm, ShopList },
   data() {
     return {
       shops: [
@@ -23,8 +26,7 @@ export default {
         { id: 2, shopName: "Adidas", location: "Berlin" },
         { id: 3, shopName: "Under Armour", location: "Paris" },
       ],
-      shopName: "",
-      location: "",
+      dialogVisible: false,
     };
   },
   created() {
@@ -34,6 +36,7 @@ export default {
     addShop(shop) {
       this.shops.push(shop);
       this.saveToLocalStorage();
+      this.dialogVisible = false;
     },
     removeShop(shop) {
       this.shops = this.shops.filter((el) => el.id !== shop.id);
@@ -45,6 +48,9 @@ export default {
     loadFromLocalStorage() {
       const storedShops = JSON.parse(localStorage.getItem("shops") || "[]");
       this.shops = storedShops;
+    },
+    showDialog() {
+      this.dialogVisible = "true";
     },
   },
 };
