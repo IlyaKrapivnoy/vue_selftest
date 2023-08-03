@@ -2,48 +2,25 @@
   <div class="bookshelf">
     <div class="container mx-auto px-4">
       <h1>Your Books</h1>
-      <div class="mt-10">
-        <h2>Add a new book</h2>
-        <form @submit.prevent class="flex flex-col w-full">
-          <input
-            placeholder="Add title"
-            v-bind:value="title"
-            @input="title = $event.target.value"
-          />
-          <input
-            placeholder="Add author"
-            v-bind:value="author"
-            @input="author = $event.target.value"
-          />
-          <button class="mt-6" @click="handleSubmit">Add</button>
-        </form>
-      </div>
-
-      <div class="mt-10">
-        <div
-          class="border-2 border-orange-500 p-2 px-4 mt-5 flex justify-between items-center"
-          v-for="book in books"
-          :key="book.id"
-        >
-          <div>
-            <p><strong>Book Title:</strong> {{ book.title }}</p>
-            <p><strong>Author:</strong> {{ book.author }}</p>
-          </div>
-
-          <button @click="removeBook(book.id)">x</button>
-        </div>
-      </div>
-
-      <div v-if="books.length === 0" class="text-center mt-5">
-        There are no books.
-      </div>
+      <button @click="showDialog" class="mt-6">Add Book</button>
+      <!--      form-->
+      <my-dialog v-model:show="dialogVisible">
+        <book-form @create="createBook" />
+      </my-dialog>
+      <!--      list-->
+      <book-list :books="books" @removeBook="removeBook" />
     </div>
   </div>
 </template>
 
 <script>
+import BookForm from "@/components/book/BookForm.vue";
+import BookList from "@/components/book/BookList.vue";
+import MyDialog from "@/components/UI/MyDialog.vue";
+
 export default {
   name: "BookshelfView",
+  components: { MyDialog, BookList, BookForm },
   data() {
     return {
       books: [
@@ -55,27 +32,20 @@ export default {
           author: "Thomas H. Cormen",
         },
       ],
-      author: "",
-      title: "",
+      dialogVisible: false,
     };
   },
   created() {
     this.loadFromLocalStorage();
   },
   methods: {
-    handleSubmit() {
-      const newBook = {
-        id: Date.now(),
-        title: this.title,
-        author: this.author,
-      };
-      this.books.push(newBook);
-      this.author = "";
-      this.title = "";
+    createBook(book) {
+      this.books.push(book);
+      this.dialogVisible = false;
       this.saveToLocalStorage();
     },
-    removeBook(id) {
-      this.books = this.books.filter((item) => item.id !== id);
+    removeBook(book) {
+      this.books = this.books.filter((item) => item.id !== book.id);
       this.saveToLocalStorage();
     },
     saveToLocalStorage() {
@@ -85,6 +55,10 @@ export default {
       const storedBooks = JSON.parse(localStorage.getItem("books") || "[]");
       this.books = storedBooks;
     },
+    showDialog() {
+      this.dialogVisible = true;
+    },
   },
+  emits: ["removeBook"],
 };
 </script>

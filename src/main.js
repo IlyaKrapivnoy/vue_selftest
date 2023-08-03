@@ -3,5 +3,9 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import "./main.css";
+import components from "./components/UI";
 
-createApp(App).use(store).use(router).mount("#app");
+const app = createApp(App);
+components.forEach((component) => app.component(component.name, component));
+
+app.use(store).use(router).mount("#app");
