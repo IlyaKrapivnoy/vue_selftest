@@ -2,7 +2,6 @@
   <div class="bookshelf">
     <div class="container mx-auto px-4">
       <h1>Your Books</h1>
-      <button @click="addBooks">Fetch Books</button>
       <button @click="showDialog" class="mt-6">Add Book</button>
       <!--      form-->
       <my-dialog v-model:show="dialogVisible">
@@ -29,9 +28,6 @@ export default {
       dialogVisible: false,
     };
   },
-  created() {
-    this.loadFromLocalStorage();
-  },
   methods: {
     createBook(book) {
       this.books.push(book);
@@ -55,8 +51,15 @@ export default {
       const booksData = await fetchBooks();
       if (booksData) {
         this.books = booksData.items;
+        this.saveToLocalStorage();
       }
     },
+  },
+  created() {
+    this.loadFromLocalStorage();
+  },
+  mounted() {
+    this.addBooks();
   },
   emits: ["removeBook"],
 };

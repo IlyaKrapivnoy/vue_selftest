@@ -1,7 +1,6 @@
 <template>
   <div class="container mx-auto px-4">
     <h1>Shop List</h1>
-    <button @click="addShops">Fetch Shops</button>
     <button class="mt-6" @click="showDialog">Add Shop</button>
     <!--   form-->
     <my-dialog v-model:show="dialogVisible">
@@ -26,9 +25,6 @@ export default {
       shops: [],
       dialogVisible: false,
     };
-  },
-  created() {
-    this.loadFromLocalStorage();
   },
   methods: {
     addShop(shop) {
@@ -56,6 +52,12 @@ export default {
         this.saveToLocalStorage();
       }
     },
+  },
+  created() {
+    this.loadFromLocalStorage();
+  },
+  mounted() {
+    this.addShops();
   },
 };
 </script>
