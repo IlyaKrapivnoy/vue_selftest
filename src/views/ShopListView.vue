@@ -1,13 +1,20 @@
 <template>
   <div class="container mx-auto px-4">
     <h1>Shop List</h1>
-    <button class="mt-6" @click="showDialog">Add Shop</button>
+    <div class="flex flex-col">
+      <my-input v-model="searchedQuery" placeholder="Search by shop name..." />
+      <button class="mt-6" @click="showDialog">Add Shop</button>
+    </div>
     <!--   form-->
     <my-dialog v-model:show="dialogVisible">
       <shop-form @create="addShop" />
     </my-dialog>
     <!--    list-->
-    <shop-list v-if="!isShopsLoading" :shops="shops" @removeShop="removeShop" />
+    <shop-list
+      v-if="!isShopsLoading"
+      :shops="searchedShops"
+      @removeShop="removeShop"
+    />
     <my-spinner v-else />
   </div>
 </template>
@@ -18,15 +25,17 @@ import ShopForm from "@/components/shop/ShopForm.vue";
 import MyDialog from "@/components/UI/MyDialog.vue";
 import { fetchBooks } from "@/services/bookServices";
 import MySpinner from "@/components/UI/MySpinner.vue";
+import MyInput from "@/components/UI/MyInput.vue";
 
 export default {
   name: "ShopListView",
-  components: { MySpinner, MyDialog, ShopForm, ShopList },
+  components: { MyInput, MySpinner, MyDialog, ShopForm, ShopList },
   data() {
     return {
       shops: [],
       dialogVisible: false,
       isShopsLoading: false,
+      searchedQuery: "",
     };
   },
   methods: {
@@ -56,6 +65,19 @@ export default {
         this.saveToLocalStorage();
         this.isShopsLoading = false;
       }
+    },
+  },
+  computed: {
+    searchedShops() {
+      if (!this.searchedQuery) {
+        return this.shops;
+      }
+      const query = this.searchedQuery.toLowerCase().trim();
+      return this.shops.filter((shop) => {
+        const shopName =
+          (shop?.shopName || shop?.volumeInfo?.publisher)?.toLowerCase() || "";
+        return shopName.includes(query);
+      });
     },
   },
   created() {

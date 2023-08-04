@@ -5,7 +5,7 @@
     <div>
       <p>
         <strong>Shop Name:</strong>
-        {{ shop?.volumeInfo?.publisher || shop?.shopName || "No title" }}
+        {{ shop?.volumeInfo?.publisher || shop?.shopName || "No Shop Name" }}
       </p>
       <p>
         <strong>Location:</strong>
