@@ -3,8 +3,14 @@
     class="border-2 border-orange-500 p-2 px-4 mt-5 flex justify-between items-center"
   >
     <div>
-      <p><strong>Book Title:</strong> {{ book?.volumeInfo?.title }}</p>
-      <p><strong>Author:</strong> {{ allAuthors }}</p>
+      <p>
+        <strong>Book Title:</strong>
+        {{ book?.volumeInfo?.title || book?.title || "No title" }}
+      </p>
+      <p>
+        <strong>Author:</strong>
+        {{ allAuthors || book?.author || "Unknown Author" }}
+      </p>
     </div>
 
     <button @click="$emit('removeBook', book)">x</button>
