@@ -8,7 +8,7 @@
     </my-dialog>
     <!--    list-->
     <shop-list v-if="!isShopsLoading" :shops="shops" @removeShop="removeShop" />
-    <div v-else>Shops are loading...</div>
+    <my-spinner v-else />
   </div>
 </template>
 
@@ -17,10 +17,11 @@ import ShopList from "@/components/shop/ShopList.vue";
 import ShopForm from "@/components/shop/ShopForm.vue";
 import MyDialog from "@/components/UI/MyDialog.vue";
 import { fetchBooks } from "@/services/bookServices";
+import MySpinner from "@/components/UI/MySpinner.vue";
 
 export default {
   name: "ShopListView",
-  components: { MyDialog, ShopForm, ShopList },
+  components: { MySpinner, MyDialog, ShopForm, ShopList },
   data() {
     return {
       shops: [],

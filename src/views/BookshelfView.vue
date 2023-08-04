@@ -13,7 +13,7 @@
         :books="books"
         @removeBook="removeBook"
       />
-      <div v-else>Books are loading...</div>
+      <my-spinner v-else />
     </div>
   </div>
 </template>
@@ -23,10 +23,11 @@ import BookForm from "@/components/book/BookForm.vue";
 import BookList from "@/components/book/BookList.vue";
 import MyDialog from "@/components/UI/MyDialog.vue";
 import { fetchBooks } from "@/services/bookServices";
+import MySpinner from "@/components/UI/MySpinner.vue";
 
 export default {
   name: "BookshelfView",
-  components: { MyDialog, BookList, BookForm },
+  components: { MySpinner, MyDialog, BookList, BookForm },
   data() {
     return {
       books: [],
