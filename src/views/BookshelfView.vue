@@ -25,15 +25,7 @@ export default {
   components: { MyDialog, BookList, BookForm },
   data() {
     return {
-      books: [
-        { id: 1, title: "The Pragmatic Programmer", author: "Andrew Hunt" },
-        { id: 2, title: "Clean Code", author: "Robert C. Martin" },
-        {
-          id: 3,
-          title: "Introduction to Algorithms",
-          author: "Thomas H. Cormen",
-        },
-      ],
+      books: [],
       dialogVisible: false,
     };
   },
@@ -54,8 +46,7 @@ export default {
       localStorage.setItem("books", JSON.stringify(this.books));
     },
     loadFromLocalStorage() {
-      const storedBooks = JSON.parse(localStorage.getItem("books") || "[]");
-      this.books = storedBooks;
+      this.books = JSON.parse(localStorage.getItem("books") || "[]");
     },
     showDialog() {
       this.dialogVisible = true;

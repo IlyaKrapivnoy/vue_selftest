@@ -23,11 +23,7 @@ export default {
   components: { MyDialog, ShopForm, ShopList },
   data() {
     return {
-      shops: [
-        { id: 1, shopName: "H&M", location: "Lisbon" },
-        { id: 2, shopName: "Adidas", location: "Berlin" },
-        { id: 3, shopName: "Under Armour", location: "Paris" },
-      ],
+      shops: [],
       dialogVisible: false,
     };
   },
@@ -48,8 +44,7 @@ export default {
       localStorage.setItem("shops", JSON.stringify(this.shops));
     },
     loadFromLocalStorage() {
-      const storedShops = JSON.parse(localStorage.getItem("shops") || "[]");
-      this.shops = storedShops;
+      this.shops = JSON.parse(localStorage.getItem("shops") || "[]");
     },
     showDialog() {
       this.dialogVisible = "true";
