@@ -3,8 +3,8 @@
     class="border-2 border-green-500 p-2 px-4 mt-5 flex justify-between items-center"
   >
     <div>
-      <p><strong>Shop Name:</strong> {{ shop.shopName }}</p>
-      <p><strong>Location:</strong> {{ shop.location }}</p>
+      <p><strong>Shop Name:</strong> {{ shop?.volumeInfo?.publisher }}</p>
+      <p><strong>Location:</strong> {{ shop?.saleInfo?.country }}</p>
     </div>
     <button @click="$emit('removeShop', shop)">x</button>
   </div>

@@ -7,7 +7,8 @@
       <shop-form @create="addShop" />
     </my-dialog>
     <!--    list-->
-    <shop-list :shops="shops" @removeShop="removeShop" />
+    <shop-list v-if="!isShopsLoading" :shops="shops" @removeShop="removeShop" />
+    <my-spinner v-else />
   </div>
 </template>
 
@@ -15,22 +16,18 @@
 import ShopList from "@/components/shop/ShopList.vue";
 import ShopForm from "@/components/shop/ShopForm.vue";
 import MyDialog from "@/components/UI/MyDialog.vue";
+import { fetchBooks } from "@/services/bookServices";
+import MySpinner from "@/components/UI/MySpinner.vue";
 
 export default {
   name: "ShopListView",
-  components: { MyDialog, ShopForm, ShopList },
+  components: { MySpinner, MyDialog, ShopForm, ShopList },
   data() {
     return {
-      shops: [
-        { id: 1, shopName: "H&M", location: "Lisbon" },
-        { id: 2, shopName: "Adidas", location: "Berlin" },
-        { id: 3, shopName: "Under Armour", location: "Paris" },
-      ],
+      shops: [],
       dialogVisible: false,
+      isShopsLoading: false,
     };
-  },
-  created() {
-    this.loadFromLocalStorage();
   },
   methods: {
     addShop(shop) {
@@ -46,12 +43,26 @@ export default {
       localStorage.setItem("shops", JSON.stringify(this.shops));
     },
     loadFromLocalStorage() {
-      const storedShops = JSON.parse(localStorage.getItem("shops") || "[]");
-      this.shops = storedShops;
+      this.shops = JSON.parse(localStorage.getItem("shops") || "[]");
     },
     showDialog() {
       this.dialogVisible = "true";
     },
+    async addShops() {
+      this.isShopsLoading = true;
+      const shopsData = await fetchBooks();
+      if (shopsData) {
+        this.shops = shopsData.items;
+        this.saveToLocalStorage();
+        this.isShopsLoading = false;
+      }
+    },
+  },
+  created() {
+    this.loadFromLocalStorage();
+  },
+  mounted() {
+    this.addShops();
   },
 };
 </script>
