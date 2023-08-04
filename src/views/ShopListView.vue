@@ -7,7 +7,8 @@
       <shop-form @create="addShop" />
     </my-dialog>
     <!--    list-->
-    <shop-list :shops="shops" @removeShop="removeShop" />
+    <shop-list v-if="!isShopsLoading" :shops="shops" @removeShop="removeShop" />
+    <div v-else>Shops are loading...</div>
   </div>
 </template>
 
@@ -24,6 +25,7 @@ export default {
     return {
       shops: [],
       dialogVisible: false,
+      isShopsLoading: false,
     };
   },
   methods: {
@@ -46,10 +48,12 @@ export default {
       this.dialogVisible = "true";
     },
     async addShops() {
+      this.isShopsLoading = true;
       const shopsData = await fetchBooks();
       if (shopsData) {
         this.shops = shopsData.items;
         this.saveToLocalStorage();
+        this.isShopsLoading = false;
       }
     },
   },

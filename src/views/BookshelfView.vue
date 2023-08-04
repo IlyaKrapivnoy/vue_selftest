@@ -8,7 +8,12 @@
         <book-form @create="createBook" />
       </my-dialog>
       <!--      list-->
-      <book-list :books="books" @removeBook="removeBook" />
+      <book-list
+        v-if="!isBooksLoading"
+        :books="books"
+        @removeBook="removeBook"
+      />
+      <div v-else>Books are loading...</div>
     </div>
   </div>
 </template>
@@ -26,6 +31,7 @@ export default {
     return {
       books: [],
       dialogVisible: false,
+      isBooksLoading: false,
     };
   },
   methods: {
@@ -48,10 +54,12 @@ export default {
       this.dialogVisible = true;
     },
     async addBooks() {
+      this.isBooksLoading = true;
       const booksData = await fetchBooks();
       if (booksData) {
         this.books = booksData.items;
         this.saveToLocalStorage();
+        this.isBooksLoading = false;
       }
     },
   },
