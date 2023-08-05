@@ -16,6 +16,12 @@
       @removeShop="removeShop"
     />
     <my-spinner v-else />
+    <my-pagination
+      v-if="!isShopsLoading && totalPages > 1"
+      :page="page"
+      :totalPages="totalPages"
+      @page-change="changePage"
+    />
   </div>
 </template>
 
@@ -26,16 +32,27 @@ import MyDialog from "@/components/UI/MyDialog.vue";
 import { fetchBooks } from "@/services/bookServices";
 import MySpinner from "@/components/UI/MySpinner.vue";
 import MyInput from "@/components/UI/MyInput.vue";
+import MyPagination from "@/components/UI/MyPagination.vue";
 
 export default {
   name: "ShopListView",
-  components: { MyInput, MySpinner, MyDialog, ShopForm, ShopList },
+  components: {
+    MyPagination,
+    MyInput,
+    MySpinner,
+    MyDialog,
+    ShopForm,
+    ShopList,
+  },
   data() {
     return {
       shops: [],
       dialogVisible: false,
       isShopsLoading: false,
       searchedQuery: "",
+      page: 1,
+      limit: 10,
+      totalPages: 0,
     };
   },
   methods: {
@@ -57,12 +74,24 @@ export default {
     showDialog() {
       this.dialogVisible = "true";
     },
+    changePage(changePage) {
+      this.page = changePage;
+      this.addShops();
+    },
     async addShops() {
       this.isShopsLoading = true;
-      const shopsData = await fetchBooks();
-      if (shopsData) {
-        this.shops = shopsData.items;
-        this.saveToLocalStorage();
+      try {
+        const shopsData = await fetchBooks(this.page, this.limit);
+        if (shopsData) {
+          this.shops = shopsData.items;
+          this.totalPages = Math.ceil(
+            (shopsData.totalItems = 100 / this.limit)
+          );
+          this.saveToLocalStorage();
+        }
+      } catch (error) {
+        console.warn("Error fetching data:", error);
+      } finally {
         this.isShopsLoading = false;
       }
     },

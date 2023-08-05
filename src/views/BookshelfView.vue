@@ -20,6 +20,12 @@
         @removeBook="removeBook"
       />
       <my-spinner v-else />
+      <my-pagination
+        v-if="!isBooksLoading && totalPages > 1"
+        :page="page"
+        :totalPages="totalPages"
+        @page-change="changePage"
+      />
     </div>
   </div>
 </template>
@@ -31,16 +37,27 @@ import MyDialog from "@/components/UI/MyDialog.vue";
 import { fetchBooks } from "@/services/bookServices";
 import MySpinner from "@/components/UI/MySpinner.vue";
 import MyInput from "@/components/UI/MyInput.vue";
+import MyPagination from "@/components/UI/MyPagination.vue";
 
 export default {
   name: "BookshelfView",
-  components: { MyInput, MySpinner, MyDialog, BookList, BookForm },
+  components: {
+    MyPagination,
+    MyInput,
+    MySpinner,
+    MyDialog,
+    BookList,
+    BookForm,
+  },
   data() {
     return {
       books: [],
       dialogVisible: false,
       isBooksLoading: false,
       searchedQuery: "",
+      page: 1,
+      limit: 10,
+      totalPages: 0,
     };
   },
   methods: {
@@ -57,17 +74,36 @@ export default {
       localStorage.setItem("books", JSON.stringify(this.books));
     },
     loadFromLocalStorage() {
-      this.books = JSON.parse(localStorage.getItem("books") || "[]");
+      try {
+        const data = localStorage.getItem("books");
+        this.books = JSON.parse(data) || [];
+      } catch (error) {
+        console.warn("Error parsing data from localStorage:", error);
+        this.books = [];
+      }
     },
+
     showDialog() {
       this.dialogVisible = true;
     },
+    changePage(changePage) {
+      this.page = changePage;
+      this.addBooks();
+    },
     async addBooks() {
       this.isBooksLoading = true;
-      const booksData = await fetchBooks();
-      if (booksData) {
-        this.books = booksData.items;
-        this.saveToLocalStorage();
+      try {
+        const booksData = await fetchBooks(this.page, this.limit);
+        if (booksData) {
+          this.books = booksData.items;
+          this.totalPages = Math.ceil(
+            (booksData.totalItems = 100 / this.limit)
+          );
+          this.saveToLocalStorage();
+        }
+      } catch (error) {
+        console.warn("Error fetching data:", error);
+      } finally {
         this.isBooksLoading = false;
       }
     },
