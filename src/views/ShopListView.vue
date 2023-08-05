@@ -2,7 +2,11 @@
   <div class="container mx-auto px-4">
     <h1>Shop List</h1>
     <div class="flex flex-col">
-      <my-input v-model="searchedQuery" placeholder="Search by shop name..." />
+      <my-input
+        v-focus
+        v-model="searchedQuery"
+        placeholder="Search by shop name..."
+      />
       <button class="mt-6" @click="showDialog">Add Shop</button>
     </div>
     <!--   form-->
