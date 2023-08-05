@@ -20,18 +20,12 @@
         @removeBook="removeBook"
       />
       <my-spinner v-else />
-      <!--      pagination-->
-      <div class="flex justify-center my-10">
-        <div
-          v-for="pageNumber in totalPages"
-          :key="pageNumber"
-          class="border border-black px-4 py-2 rounded-lg cursor-pointer mx-1"
-          :class="{ 'current-page': page === pageNumber }"
-          @click="changePage(pageNumber)"
-        >
-          {{ pageNumber }}
-        </div>
-      </div>
+      <my-pagination
+        v-if="!isBooksLoading && totalPages > 1"
+        :page="page"
+        :totalPages="totalPages"
+        @page-change="changePage"
+      />
     </div>
   </div>
 </template>
@@ -43,10 +37,18 @@ import MyDialog from "@/components/UI/MyDialog.vue";
 import { fetchBooks } from "@/services/bookServices";
 import MySpinner from "@/components/UI/MySpinner.vue";
 import MyInput from "@/components/UI/MyInput.vue";
+import MyPagination from "@/components/UI/MyPagination.vue";
 
 export default {
   name: "BookshelfView",
-  components: { MyInput, MySpinner, MyDialog, BookList, BookForm },
+  components: {
+    MyPagination,
+    MyInput,
+    MySpinner,
+    MyDialog,
+    BookList,
+    BookForm,
+  },
   data() {
     return {
       books: [],
@@ -128,9 +130,3 @@ export default {
   emits: ["removeBook"],
 };
 </script>
-
-<style>
-.current-page {
-  border: 2px solid teal;
-}
-</style>
