@@ -20,6 +20,17 @@
         @removeBook="removeBook"
       />
       <my-spinner v-else />
+      <div class="flex justify-center">
+        <div
+          v-for="pageNumber in totalPages"
+          :key="pageNumber"
+          class="border border-black p-5 rounded-lg cursor-pointer"
+          :class="{ 'current-page': page === pageNumber }"
+          @click="changePage(pageNumber)"
+        >
+          {{ pageNumber }}
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -41,6 +52,9 @@ export default {
       dialogVisible: false,
       isBooksLoading: false,
       searchedQuery: "",
+      page: 1,
+      limit: 10,
+      totalPages: 0,
     };
   },
   methods: {
@@ -57,17 +71,36 @@ export default {
       localStorage.setItem("books", JSON.stringify(this.books));
     },
     loadFromLocalStorage() {
-      this.books = JSON.parse(localStorage.getItem("books") || "[]");
+      try {
+        const data = localStorage.getItem("books");
+        this.books = JSON.parse(data) || [];
+      } catch (error) {
+        console.warn("Error parsing data from localStorage:", error);
+        this.books = [];
+      }
     },
+
     showDialog() {
       this.dialogVisible = true;
     },
+    changePage(changePage) {
+      this.page = changePage;
+      this.addBooks();
+    },
     async addBooks() {
       this.isBooksLoading = true;
-      const booksData = await fetchBooks();
-      if (booksData) {
-        this.books = booksData.items;
-        this.saveToLocalStorage();
+      try {
+        const booksData = await fetchBooks(this.page, this.limit);
+        if (booksData) {
+          this.books = booksData.items;
+          this.totalPages = Math.ceil(
+            (booksData.totalItems = 100 / this.limit)
+          );
+          this.saveToLocalStorage();
+        }
+      } catch (error) {
+        console.warn("Error fetching data:", error);
+      } finally {
         this.isBooksLoading = false;
       }
     },
@@ -94,3 +127,9 @@ export default {
   emits: ["removeBook"],
 };
 </script>
+
+<style>
+.current-page {
+  border: 2px solid teal;
+}
+</style>
