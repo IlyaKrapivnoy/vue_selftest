@@ -12,7 +12,10 @@
         {{ shop?.saleInfo?.country || shop?.location || "No Location" }}
       </p>
     </div>
-    <button @click="$emit('removeShop', shop)">x</button>
+    <div class="flex flex-col">
+      <button @click="$emit('removeShop', shop)">x</button>
+      <button @click="handleOpenSignShopPage">Open</button>
+    </div>
   </div>
 </template>
 
@@ -22,6 +25,15 @@ export default {
     shop: {
       type: Object,
       required: true,
+    },
+  },
+  methods: {
+    handleOpenSignShopPage() {
+      this.$router.push(
+        this.shop?.shopName
+          ? `/shoplist/${this.shop.shopName}`
+          : `/shoplist/${this.shop?.volumeInfo?.publisher}`
+      );
     },
   },
 };

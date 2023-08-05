@@ -14,17 +14,7 @@
     </div>
     <div class="flex flex-col">
       <button @click="$emit('removeBook', book)">x</button>
-      <button
-        @click="
-          $router.push(
-            book?.title
-              ? `/bookshelf/${book.title}`
-              : `/bookshelf/${book?.volumeInfo?.title}`
-          )
-        "
-      >
-        Open
-      </button>
+      <button @click="handleOpenSingleBookPage">Open</button>
     </div>
   </div>
 </template>
@@ -40,6 +30,15 @@ export default {
     book: {
       type: Object,
       required: true,
+    },
+  },
+  methods: {
+    handleOpenSingleBookPage() {
+      this.$router.push(
+        this.book?.title
+          ? `/bookshelf/${this.book.title}`
+          : `/bookshelf/${this.book?.volumeInfo?.title}`
+      );
     },
   },
 };
