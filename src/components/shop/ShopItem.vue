@@ -5,11 +5,11 @@
     <div>
       <p>
         <strong>Shop Name:</strong>
-        {{ shop?.volumeInfo?.publisher || shop?.shopName || "No Shop Name" }}
+        {{ displayShopName }}
       </p>
       <p>
         <strong>Location:</strong>
-        {{ shop?.saleInfo?.country || shop?.location || "No Location" }}
+        {{ displayShopLocation }}
       </p>
     </div>
     <div class="flex flex-col">
@@ -25,6 +25,20 @@ export default {
     shop: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    displayShopName() {
+      return (
+        this.shop?.volumeInfo?.publisher ||
+        this.shop?.shopName ||
+        "No Shop Name"
+      );
+    },
+    displayShopLocation() {
+      return (
+        this.shop?.saleInfo?.country || this.shop?.location || "No Location"
+      );
     },
   },
   methods: {

@@ -5,11 +5,11 @@
     <div>
       <p>
         <strong>Book Title:</strong>
-        {{ book?.volumeInfo?.title || book?.title || "No title" }}
+        {{ displayBookTitle }}
       </p>
       <p>
         <strong>Author:</strong>
-        {{ allAuthors || book?.author || "Unknown Author" }}
+        {{ allAuthors }}
       </p>
     </div>
     <div class="flex flex-col">
@@ -21,15 +21,22 @@
 
 <script>
 export default {
-  computed: {
-    allAuthors() {
-      return this.book?.volumeInfo?.authors?.join(", ") || "Unknown Author";
-    },
-  },
   props: {
     book: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    displayBookTitle() {
+      return this.book?.volumeInfo?.title || this.book?.title || "No title";
+    },
+    allAuthors() {
+      return (
+        this.book?.volumeInfo?.authors?.join(", ") ||
+        this.book?.author ||
+        "Unknown Author"
+      );
     },
   },
   methods: {
