@@ -3,7 +3,7 @@
     <div
       v-for="pageNumber in totalPages"
       :key="pageNumber"
-      class="border border-black px-4 py-2 rounded-lg cursor-pointer mx-1"
+      class="page-item"
       :class="{ 'current-page': page === pageNumber }"
       @click="changePage(pageNumber)"
     >
@@ -34,7 +34,15 @@ export default {
 </script>
 
 <style>
-.current-page {
+.page-item {
+  border: 1px solid black;
+  padding: 2px 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 0 1px;
+}
+
+.page-item.current-page {
   border: 2px solid teal;
 }
 </style>
