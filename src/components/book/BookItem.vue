@@ -12,8 +12,20 @@
         {{ allAuthors || book?.author || "Unknown Author" }}
       </p>
     </div>
-
-    <button @click="$emit('removeBook', book)">x</button>
+    <div class="flex flex-col">
+      <button @click="$emit('removeBook', book)">x</button>
+      <button
+        @click="
+          $router.push(
+            book?.title
+              ? `/bookshelf/${book.title}`
+              : `/bookshelf/${book?.volumeInfo?.title}`
+          )
+        "
+      >
+        Open
+      </button>
+    </div>
   </div>
 </template>
 

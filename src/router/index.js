@@ -1,21 +1,25 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
+import BookshelfView from "@/views/BookshelfView.vue";
+import ShopListView from "@/views/ShopListView.vue";
+import SingleBook from "@/views/SingleBook.vue";
 
 const routes = [
   {
     path: "/",
-    name: "home",
     component: HomeView,
   },
   {
     path: "/bookshelf",
-    name: "bookshelf",
-    component: () => import("../views/BookshelfView.vue"),
+    component: BookshelfView,
+  },
+  {
+    path: "/bookshelf/:title",
+    component: SingleBook,
   },
   {
     path: "/shoplist",
-    name: "shoplist",
-    component: () => import("../views/ShopListView.vue"),
+    component: ShopListView,
   },
 ];
 

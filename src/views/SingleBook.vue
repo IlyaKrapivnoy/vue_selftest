@@ -1,0 +1,20 @@
+<template>
+  <div class="container mx-auto px-4">
+    <h1>Book: {{ bookTitle }}</h1>
+    <p>Book description will be here...</p>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "SingleBook",
+  data() {
+    return {
+      bookTitle: "",
+    };
+  },
+  created() {
+    this.bookTitle = this.$route.params.title;
+  },
+};
+</script>
