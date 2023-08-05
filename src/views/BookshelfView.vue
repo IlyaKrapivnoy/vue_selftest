@@ -20,11 +20,12 @@
         @removeBook="removeBook"
       />
       <my-spinner v-else />
-      <div class="flex justify-center">
+      <!--      pagination-->
+      <div class="flex justify-center my-10">
         <div
           v-for="pageNumber in totalPages"
           :key="pageNumber"
-          class="border border-black p-5 rounded-lg cursor-pointer"
+          class="border border-black px-4 py-2 rounded-lg cursor-pointer mx-1"
           :class="{ 'current-page': page === pageNumber }"
           @click="changePage(pageNumber)"
         >
