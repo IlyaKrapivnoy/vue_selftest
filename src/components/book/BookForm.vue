@@ -1,7 +1,7 @@
 <template>
   <h2>Add a new book</h2>
   <form @submit.prevent class="flex flex-col w-full">
-    <my-input placeholder="Add title" v-model="book.title" />
+    <my-input placeholder="Add title" v-focus v-model="book.title" />
     <my-input placeholder="Add author" v-model="book.author" />
     <button class="mt-6" @click="createBook">Add</button>
   </form>

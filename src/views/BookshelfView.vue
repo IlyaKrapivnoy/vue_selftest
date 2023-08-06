@@ -4,6 +4,7 @@
       <h1>Your Books</h1>
       <div class="flex flex-col">
         <my-input
+          v-focus
           v-model="searchedQuery"
           placeholder="Search book by title..."
         />
