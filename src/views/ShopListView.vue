@@ -9,11 +9,16 @@
       />
       <button class="mt-6" @click="showDialog">Add Shop</button>
     </div>
-    <!--   form-->
+    <!-- form -->
     <my-dialog v-model:show="dialogVisible">
-      <shop-form @create="addShop" />
+      <my-form
+        :formTitle="formTitle"
+        :formFields="formFields"
+        @form-submitted="addShop"
+      />
     </my-dialog>
-    <!--    list-->
+
+    <!-- list -->
     <shop-list
       v-if="!isShopsLoading"
       :shops="searchedShops"
@@ -31,21 +36,21 @@
 
 <script>
 import ShopList from "@/components/shop/ShopList.vue";
-import ShopForm from "@/components/shop/ShopForm.vue";
 import MyDialog from "@/components/UI/MyDialog.vue";
 import { fetchBooks } from "@/services/bookServices";
 import MySpinner from "@/components/UI/MySpinner.vue";
 import MyInput from "@/components/UI/MyInput.vue";
 import MyPagination from "@/components/UI/MyPagination.vue";
+import MyForm from "@/components/UI/MyForm.vue";
 
 export default {
   name: "ShopListView",
   components: {
+    MyForm,
     MyPagination,
     MyInput,
     MySpinner,
     MyDialog,
-    ShopForm,
     ShopList,
   },
   data() {
@@ -57,6 +62,11 @@ export default {
       page: 1,
       limit: 10,
       totalPages: 0,
+      formTitle: "Add a new shop",
+      formFields: [
+        { name: "shopName", placeholder: "Shop name" },
+        { name: "location", placeholder: "Location" },
+      ],
     };
   },
   methods: {
@@ -76,7 +86,7 @@ export default {
       this.shops = JSON.parse(localStorage.getItem("shops") || "[]");
     },
     showDialog() {
-      this.dialogVisible = "true";
+      this.dialogVisible = true;
     },
     changePage(changePage) {
       this.page = changePage;

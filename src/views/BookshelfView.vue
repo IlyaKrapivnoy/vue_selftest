@@ -12,10 +12,9 @@
       </div>
       <!--      form-->
       <my-dialog v-model:show="dialogVisible">
-        <book-form
-          formTitle="Add a new book"
-          :titlePlaceholder="titlePlaceholder"
-          :authorPlaceholder="authorPlaceholder"
+        <my-form
+          :formTitle="formTitle"
+          :formFields="bookFormFields"
           @form-submitted="createBook"
         />
       </my-dialog>
@@ -37,30 +36,32 @@
 </template>
 
 <script>
-import BookForm from "@/components/UI/MyForm.vue";
 import BookList from "@/components/book/BookList.vue";
 import MyDialog from "@/components/UI/MyDialog.vue";
 import { fetchBooks } from "@/services/bookServices";
 import MySpinner from "@/components/UI/MySpinner.vue";
 import MyInput from "@/components/UI/MyInput.vue";
 import MyPagination from "@/components/UI/MyPagination.vue";
+import MyForm from "@/components/UI/MyForm.vue";
 
 export default {
   name: "BookshelfView",
   components: {
+    MyForm,
     MyPagination,
     MyInput,
     MySpinner,
     MyDialog,
     BookList,
-    BookForm,
   },
   data() {
     return {
       books: [],
       dialogVisible: false,
-      titlePlaceholder: "Add title",
-      authorPlaceholder: "Add author",
+      bookFormFields: [
+        { name: "title", placeholder: "Add title" },
+        { name: "author", placeholder: "Add author" },
+      ],
       isBooksLoading: false,
       searchedQuery: "",
       page: 1,

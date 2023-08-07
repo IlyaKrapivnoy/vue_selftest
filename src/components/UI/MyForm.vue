@@ -1,14 +1,16 @@
 <template>
-  <h2>{{ formTitle }}</h2>
-  <form @submit.prevent class="flex flex-col w-full">
-    <my-input
-      :placeholder="titlePlaceholder"
-      v-focus
-      v-model="formData.title"
-    />
-    <my-input :placeholder="authorPlaceholder" v-model="formData.author" />
-    <button class="mt-6" @click="submitForm">Add</button>
-  </form>
+  <div>
+    <h2>{{ formTitle }}</h2>
+    <form @submit.prevent class="flex flex-col w-full">
+      <div v-for="(field, index) in formFields" :key="index">
+        <my-input
+          :placeholder="field.placeholder"
+          v-model="formData[field.name]"
+        />
+      </div>
+      <button class="mt-6" @click="submitForm">Add</button>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -21,33 +23,25 @@ export default {
       type: String,
       required: true,
     },
-    titlePlaceholder: {
-      type: String,
-      required: true,
-    },
-    authorPlaceholder: {
-      type: String,
+    formFields: {
+      type: Array,
       required: true,
     },
   },
   data() {
     return {
-      formData: {
-        title: "",
-        author: "",
-      },
+      formData: {},
     };
   },
   methods: {
     submitForm() {
-      this.formData.id = Date.now();
-      this.$emit("form-submitted", this.formData);
-      this.formData = {
-        title: "",
-        author: "",
-      };
+      const formValues = { ...this.formData };
+      this.$emit("form-submitted", formValues);
+      this.resetForm();
+    },
+    resetForm() {
+      this.formData = {};
     },
   },
-  emits: ["form-submitted"],
 };
 </script>
