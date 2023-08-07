@@ -12,7 +12,12 @@
       </div>
       <!--      form-->
       <my-dialog v-model:show="dialogVisible">
-        <book-form @create="createBook" />
+        <book-form
+          formTitle="Add a new book"
+          :titlePlaceholder="titlePlaceholder"
+          :authorPlaceholder="authorPlaceholder"
+          @form-submitted="createBook"
+        />
       </my-dialog>
       <!--      list-->
       <book-list
@@ -32,7 +37,7 @@
 </template>
 
 <script>
-import BookForm from "@/components/book/BookForm.vue";
+import BookForm from "@/components/UI/MyForm.vue";
 import BookList from "@/components/book/BookList.vue";
 import MyDialog from "@/components/UI/MyDialog.vue";
 import { fetchBooks } from "@/services/bookServices";
@@ -54,6 +59,8 @@ export default {
     return {
       books: [],
       dialogVisible: false,
+      titlePlaceholder: "Add title",
+      authorPlaceholder: "Add author",
       isBooksLoading: false,
       searchedQuery: "",
       page: 1,
