@@ -15,8 +15,9 @@
 
 <script>
 import MyInput from "@/components/UI/MyInput.vue";
+import { reactive, defineComponent } from "vue";
 
-export default {
+export default defineComponent({
   components: { MyInput },
   props: {
     formTitle: {
@@ -28,20 +29,25 @@ export default {
       required: true,
     },
   },
-  data() {
+  setup(props, { emit }) {
+    const formData = reactive({});
+
+    const submitForm = () => {
+      const formValues = { ...formData };
+      emit("form-submitted", formValues);
+      resetForm();
+    };
+
+    const resetForm = () => {
+      for (const field of props.formFields) {
+        formData[field.name] = "";
+      }
+    };
+
     return {
-      formData: {},
+      formData,
+      submitForm,
     };
   },
-  methods: {
-    submitForm() {
-      const formValues = { ...this.formData };
-      this.$emit("form-submitted", formValues);
-      this.resetForm();
-    },
-    resetForm() {
-      this.formData = {};
-    },
-  },
-};
+});
 </script>

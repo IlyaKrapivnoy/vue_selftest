@@ -13,40 +13,51 @@
       </p>
     </div>
     <div class="flex flex-col">
-      <button @click="$emit('removeBook', book)">x</button>
+      <button @click="removeBook">x</button>
       <button @click="handleOpenSingleBookPage">Open</button>
     </div>
   </div>
 </template>
 
 <script>
-export default {
+import { computed, defineComponent } from "vue";
+
+export default defineComponent({
   props: {
     book: {
       type: Object,
       required: true,
     },
   },
-  computed: {
-    displayBookTitle() {
-      return this.book?.volumeInfo?.title || this.book?.title || "No title";
-    },
-    allAuthors() {
-      return (
-        this.book?.volumeInfo?.authors?.join(", ") ||
-        this.book?.author ||
+  setup(props, { emit, router }) {
+    const displayBookTitle = computed(
+      () => props.book?.volumeInfo?.title || props.book?.title || "No title"
+    );
+
+    const allAuthors = computed(
+      () =>
+        props.book?.volumeInfo?.authors?.join(", ") ||
+        props.book?.author ||
         "Unknown Author"
-      );
-    },
+    );
+
+    const removeBook = () => {
+      emit("removeBook", props.book);
+    };
+
+    const handleOpenSingleBookPage = () => {
+      const bookTitle = props.book?.title || props.book?.volumeInfo?.title;
+      if (bookTitle) {
+        router.push(`/bookshelf/${bookTitle}`);
+      }
+    };
+
+    return {
+      displayBookTitle,
+      allAuthors,
+      removeBook,
+      handleOpenSingleBookPage,
+    };
   },
-  methods: {
-    handleOpenSingleBookPage() {
-      this.$router.push(
-        this.book?.title
-          ? `/bookshelf/${this.book.title}`
-          : `/bookshelf/${this.book?.volumeInfo?.title}`
-      );
-    },
-  },
-};
+});
 </script>

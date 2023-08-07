@@ -13,42 +13,53 @@
       </p>
     </div>
     <div class="flex flex-col">
-      <button @click="$emit('removeShop', shop)">x</button>
+      <button @click="removeShop">x</button>
       <button @click="handleOpenSignShopPage">Open</button>
     </div>
   </div>
 </template>
 
 <script>
-export default {
+import { computed, defineComponent } from "vue";
+
+export default defineComponent({
   props: {
     shop: {
       type: Object,
       required: true,
     },
   },
-  computed: {
-    displayShopName() {
-      return (
-        this.shop?.volumeInfo?.publisher ||
-        this.shop?.shopName ||
+  setup(props, { emit, router }) {
+    const displayShopName = computed(
+      () =>
+        props.shop?.volumeInfo?.publisher ||
+        props.shop?.shopName ||
         "No Shop Name"
-      );
-    },
-    displayShopLocation() {
-      return (
-        this.shop?.saleInfo?.country || this.shop?.location || "No Location"
-      );
-    },
+    );
+
+    const displayShopLocation = computed(
+      () =>
+        props.shop?.saleInfo?.country || props.shop?.location || "No Location"
+    );
+
+    const removeShop = () => {
+      emit("removeShop", props.shop);
+    };
+
+    const handleOpenSignShopPage = () => {
+      const shopName =
+        props.shop?.shopName || props.shop?.volumeInfo?.publisher;
+      if (shopName) {
+        router.push(`/shoplist/${shopName}`);
+      }
+    };
+
+    return {
+      displayShopName,
+      displayShopLocation,
+      removeShop,
+      handleOpenSignShopPage,
+    };
   },
-  methods: {
-    handleOpenSignShopPage() {
-      this.$router.push(
-        this.shop?.shopName
-          ? `/shoplist/${this.shop.shopName}`
-          : `/shoplist/${this.shop?.volumeInfo?.publisher}`
-      );
-    },
-  },
-};
+});
 </script>
