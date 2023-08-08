@@ -1,10 +1,5 @@
 <template>
-  <input
-    :value="modelValue"
-    @input="updateInput"
-    type="text"
-    class="min-w-full"
-  />
+  <el-input v-model="input" clearable @input="updateInput" class="mt-3" />
 </template>
 
 <script>
@@ -13,9 +8,14 @@ export default {
   props: {
     modelValue: [String, Number],
   },
+  data() {
+    return {
+      input: this.modelValue,
+    };
+  },
   methods: {
-    updateInput(event) {
-      this.$emit("update:modelValue", event.target.value);
+    updateInput() {
+      this.$emit("update:modelValue", this.input);
     },
   },
 };
