@@ -22,7 +22,6 @@
 </template>
 
 <script>
-// import BookItem from "@/components/book/BookItem.vue";
 import MyItem from "@/components/UI/MyItem.vue";
 
 export default {

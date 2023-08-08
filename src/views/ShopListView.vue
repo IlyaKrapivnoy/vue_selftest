@@ -19,10 +19,16 @@
     </my-dialog>
 
     <!-- list -->
-    <shop-list
+    <my-item-list
       v-if="!isShopsLoading"
-      :shops="searchedShops"
-      @removeShop="removeShop"
+      :items="searchedShops"
+      listTitle="Shop List"
+      label1="Shop Name"
+      label2="Location"
+      containerClass="border-2 border-green-500 p-2 px-4 mt-5 flex justify-between items-center"
+      routePath="shoplist"
+      noItemsMessage="There are no shops."
+      @removeItem="removeShop"
     />
     <my-spinner v-else />
     <my-pagination
@@ -35,23 +41,23 @@
 </template>
 
 <script>
-import ShopList from "@/components/shop/ShopList.vue";
 import MyDialog from "@/components/UI/MyDialog.vue";
 import { fetchBooks } from "@/services/bookServices";
 import MySpinner from "@/components/UI/MySpinner.vue";
 import MyInput from "@/components/UI/MyInput.vue";
 import MyPagination from "@/components/UI/MyPagination.vue";
 import MyForm from "@/components/UI/MyForm.vue";
+import MyItemList from "@/components/UI/MyItemList.vue";
 
 export default {
   name: "ShopListView",
   components: {
+    MyItemList,
     MyForm,
     MyPagination,
     MyInput,
     MySpinner,
     MyDialog,
-    ShopList,
   },
   data() {
     return {
