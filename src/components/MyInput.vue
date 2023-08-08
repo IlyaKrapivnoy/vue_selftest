@@ -1,5 +1,11 @@
 <template>
-  <el-input v-model="input" clearable @input="updateInput" class="mt-3" />
+  <el-input
+    v-model="input"
+    clearable
+    size="small"
+    @input="updateInput"
+    class="mt-3"
+  />
 </template>
 
 <script>

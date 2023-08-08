@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-10">
+  <div class="mt-14">
     <h2>{{ listTitle }}</h2>
 
     <transition-group :name="transitionName">
