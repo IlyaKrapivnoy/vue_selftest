@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto px-4 mt-20">
+  <main class="container mx-auto px-4 mt-20">
     <h1>Your Books</h1>
     <div class="flex flex-col">
       <my-input
@@ -36,7 +36,7 @@
       :totalPages="totalPages"
       @page-change="changePage"
     />
-  </div>
+  </main>
 </template>
 
 <script>

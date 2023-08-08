@@ -1,24 +1,17 @@
 <template>
-  <el-menu
-    :default-active="activeIndex"
-    class="el-menu-demo flex justify-center uppercase"
-    mode="horizontal"
-    @select="handleSelect"
-  >
-    <router-link to="/">
-      <el-menu-item index="1">Home</el-menu-item>
-    </router-link>
-
-    <router-link to="/bookshelf">
-      <el-menu-item index="2">Bookshelf</el-menu-item>
-    </router-link>
-  </el-menu>
-
-  <router-view />
+  <div class="min-h-[calc(100vh-106px)]">
+    <my-navigation />
+    <router-view />
+  </div>
+  <my-footer />
 </template>
 
 <script>
+import MyFooter from "@/components/MyFooter.vue";
+import MyNavigation from "@/components/MyNavigation.vue";
+
 export default {
+  components: { MyNavigation, MyFooter },
   data() {
     return {
       activeIndex: "1",

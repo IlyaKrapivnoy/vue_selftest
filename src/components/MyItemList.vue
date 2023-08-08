@@ -3,7 +3,7 @@
     <h2>{{ listTitle }}</h2>
 
     <transition-group :name="transitionName">
-      <MyItem
+      <my-item
         v-for="item in items"
         :key="item.id"
         :item="item"
