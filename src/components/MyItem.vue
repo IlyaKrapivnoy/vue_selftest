@@ -10,9 +10,11 @@
         {{ displayValue2 }}
       </p>
     </div>
-    <div class="flex flex-col">
-      <button @click="removeItem">x</button>
-      <button @click="handleOpenPage">Open</button>
+    <div class="flex">
+      <el-button plain class="w-[70px]" @click="handleOpenPage">Open</el-button>
+      <el-button plain type="danger" class="w-[70px]" @click="removeItem"
+        >x</el-button
+      >
     </div>
   </div>
 </template>

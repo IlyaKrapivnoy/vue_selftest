@@ -3,7 +3,7 @@
     <h1>Book: {{ bookTitle }}</h1>
     <p>Book description will be here...</p>
 
-    <button @click="handleBackButton">Back</button>
+    <el-button plain @click="handleBackButton">Back</el-button>
   </div>
 </template>
 

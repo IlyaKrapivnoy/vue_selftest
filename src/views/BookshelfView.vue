@@ -8,9 +8,7 @@
           v-model="searchedQuery"
           placeholder="Search book by title..."
         />
-        <el-button type="primary" @click="showDialog" class="mt-6"
-          >Add Book</el-button
-        >
+        <el-button plain class="mt-6" @click="showDialog">Add Book</el-button>
       </div>
       <!--      form-->
       <my-dialog v-model:show="dialogVisible">

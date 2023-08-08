@@ -8,7 +8,9 @@
           v-model="formData[field.name]"
         />
       </div>
-      <button class="mt-6" @click="submitForm">Add</button>
+      <el-button type="success" plain class="mt-6" @click="submitForm"
+        >Add</el-button
+      >
     </form>
   </div>
 </template>
