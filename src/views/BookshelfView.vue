@@ -12,13 +12,23 @@
       </div>
       <!--      form-->
       <my-dialog v-model:show="dialogVisible">
-        <book-form @create="createBook" />
+        <my-form
+          :formTitle="formTitle"
+          :formFields="bookFormFields"
+          @form-submitted="createBook"
+        />
       </my-dialog>
       <!--      list-->
-      <book-list
+      <my-item-list
         v-if="!isBooksLoading"
-        :books="searchedBooks"
-        @removeBook="removeBook"
+        :items="searchedBooks"
+        listTitle="Book List"
+        label1="Book Title"
+        label2="Author"
+        containerClass="border-2 border-orange-500 p-2 px-4 mt-5 flex justify-between items-center"
+        routePath="bookshelf"
+        noItemsMessage="There are no books."
+        @removeItem="removeBook"
       />
       <my-spinner v-else />
       <my-pagination
@@ -32,28 +42,33 @@
 </template>
 
 <script>
-import BookForm from "@/components/book/BookForm.vue";
-import BookList from "@/components/book/BookList.vue";
-import MyDialog from "@/components/UI/MyDialog.vue";
+import MyDialog from "@/components/MyDialog.vue";
 import { fetchBooks } from "@/services/bookServices";
-import MySpinner from "@/components/UI/MySpinner.vue";
-import MyInput from "@/components/UI/MyInput.vue";
-import MyPagination from "@/components/UI/MyPagination.vue";
+import MySpinner from "@/components/MySpinner.vue";
+import MyInput from "@/components/MyInput.vue";
+import MyPagination from "@/components/MyPagination.vue";
+import MyForm from "@/components/MyForm.vue";
+import MyItemList from "@/components/MyItemList.vue";
 
 export default {
   name: "BookshelfView",
   components: {
+    MyItemList,
+    MyForm,
     MyPagination,
     MyInput,
     MySpinner,
     MyDialog,
-    BookList,
-    BookForm,
   },
+
   data() {
     return {
       books: [],
       dialogVisible: false,
+      bookFormFields: [
+        { name: "title", placeholder: "Add title" },
+        { name: "author", placeholder: "Add author" },
+      ],
       isBooksLoading: false,
       searchedQuery: "",
       page: 1,

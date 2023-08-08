@@ -8,6 +8,7 @@
       @click.stop
       class="m-auto bg-white min-w-[300px] min-h-[50px] rounded-lg p-6"
     >
+      <h2>Add new book</h2>
       <slot />
     </div>
   </div>
