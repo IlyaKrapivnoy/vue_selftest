@@ -1,22 +1,26 @@
 <template>
-  <div :class="containerClass">
-    <div>
-      <p>
-        <strong>{{ label1 }}:</strong>
-        {{ displayValue1 }}
-      </p>
-      <p>
-        <strong>{{ label2 }}:</strong>
-        {{ displayValue2 }}
-      </p>
+  <el-card class="box-card my-5">
+    <div class="flex justify-between items-center">
+      <div>
+        <p>
+          <strong>{{ label1 }}:</strong>
+          {{ displayValue1 }}
+        </p>
+        <p>
+          <strong>{{ label2 }}:</strong>
+          {{ displayValue2 }}
+        </p>
+      </div>
+      <div class="flex">
+        <el-button plain class="w-[70px]" @click="handleOpenPage"
+          >Open</el-button
+        >
+        <el-button plain type="danger" class="w-[70px]" @click="removeItem"
+          >x</el-button
+        >
+      </div>
     </div>
-    <div class="flex">
-      <el-button plain class="w-[70px]" @click="handleOpenPage">Open</el-button>
-      <el-button plain type="danger" class="w-[70px]" @click="removeItem"
-        >x</el-button
-      >
-    </div>
-  </div>
+  </el-card>
 </template>
 
 <script>
