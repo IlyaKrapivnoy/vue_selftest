@@ -2,11 +2,15 @@
   <div class="mt-10">
     <h2>Shop List</h2>
     <transition-group name="shop-list">
-      <shop-item
-        :shop="shop"
+      <MyItem
         v-for="shop in shops"
         :key="shop.id"
-        @removeShop="$emit('removeShop', shop)"
+        :item="shop"
+        label1="Shop Name"
+        label2="Location"
+        containerClass="border-2 border-green-500 p-2 px-4 mt-5 flex justify-between items-center"
+        routePath="shoplist"
+        @removeItem="$emit('removeShop', shop)"
       />
     </transition-group>
   </div>
@@ -15,10 +19,10 @@
 </template>
 
 <script>
-import ShopItem from "@/components/shop/ShopItem.vue";
+import MyItem from "@/components/UI/MyItem.vue";
 
 export default {
-  components: { ShopItem },
+  components: { MyItem },
   props: {
     shops: {
       type: Array,

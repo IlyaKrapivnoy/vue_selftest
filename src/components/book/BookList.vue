@@ -3,11 +3,15 @@
     <h2>Book List</h2>
 
     <transition-group name="book-list">
-      <book-item
-        :book="book"
+      <MyItem
         v-for="book in books"
         :key="book.id"
-        @removeBook="$emit('removeBook', book)"
+        :item="book"
+        label1="Book Title"
+        label2="Author"
+        containerClass="border-2 border-orange-500 p-2 px-4 mt-5 flex justify-between items-center"
+        routePath="bookshelf"
+        @removeItem="$emit('removeBook', book)"
       />
     </transition-group>
   </div>
@@ -18,10 +22,11 @@
 </template>
 
 <script>
-import BookItem from "@/components/book/BookItem.vue";
+// import BookItem from "@/components/book/BookItem.vue";
+import MyItem from "@/components/UI/MyItem.vue";
 
 export default {
-  components: { BookItem },
+  components: { MyItem },
   props: {
     books: {
       type: Array,
