@@ -39,7 +39,7 @@ export default {
   padding: 2px 8px;
   border-radius: 5px;
   cursor: pointer;
-  margin: 0 1px;
+  margin: 0 3px;
 }
 
 .page-item.current-page {
