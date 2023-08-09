@@ -1,9 +1,27 @@
 <template>
-  <nav class="my-4">
-    <router-link to="/" class="mr-2">Home</router-link> |
-    <router-link to="/bookshelf" class="mx-2">Bookshelf</router-link>
-  </nav>
-  <router-view />
+  <div class="min-h-[calc(100vh-106px)]">
+    <my-navigation />
+    <router-view />
+  </div>
+  <my-footer />
 </template>
 
-<style></style>
+<script>
+import MyFooter from "@/components/MyFooter.vue";
+import MyNavigation from "@/components/MyNavigation.vue";
+
+export default {
+  components: { MyNavigation, MyFooter },
+  data() {
+    return {
+      activeIndex: "1",
+      activeIndex2: "1",
+    };
+  },
+  methods: {
+    handleSelect(key, keyPath) {
+      console.log(key, keyPath);
+    },
+  },
+};
+</script>

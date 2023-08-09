@@ -1,44 +1,42 @@
 <template>
-  <div class="bookshelf">
-    <div class="container mx-auto px-4">
-      <h1>Your Books</h1>
-      <div class="flex flex-col">
-        <my-input
-          v-focus
-          v-model="searchedQuery"
-          placeholder="Search book by title..."
-        />
-        <button @click="showDialog" class="mt-6">Add Book</button>
-      </div>
-      <!--      form-->
-      <my-dialog v-model:show="dialogVisible">
-        <my-form
-          :formTitle="formTitle"
-          :formFields="bookFormFields"
-          @form-submitted="createBook"
-        />
-      </my-dialog>
-      <!--      list-->
-      <my-item-list
-        v-if="!isBooksLoading"
-        :items="searchedBooks"
-        listTitle="Book List"
-        label1="Book Title"
-        label2="Author"
-        containerClass="border-2 border-orange-500 p-2 px-4 mt-5 flex justify-between items-center"
-        routePath="bookshelf"
-        noItemsMessage="There are no books."
-        @removeItem="removeBook"
+  <main class="container mx-auto px-4 mt-20">
+    <h1>Your Books</h1>
+    <div class="flex flex-col">
+      <my-input
+        v-focus
+        v-model="searchedQuery"
+        placeholder="Search book by title..."
       />
-      <my-spinner v-else />
-      <my-pagination
-        v-if="!isBooksLoading && totalPages > 1"
-        :page="page"
-        :totalPages="totalPages"
-        @page-change="changePage"
-      />
+      <el-button plain class="mt-6" @click="showDialog">Add Book</el-button>
     </div>
-  </div>
+    <!--      form-->
+    <my-dialog v-model:show="dialogVisible">
+      <my-form
+        :formTitle="formTitle"
+        :formFields="bookFormFields"
+        @form-submitted="createBook"
+      />
+    </my-dialog>
+    <!--      list-->
+    <my-item-list
+      v-if="!isBooksLoading"
+      :items="searchedBooks"
+      listTitle="Book List"
+      label1="Book Title"
+      label2="Author"
+      containerClass="border-2 border-orange-500 p-2 px-4 mt-5 flex justify-between items-center"
+      routePath="bookshelf"
+      noItemsMessage="There are no books."
+      @removeItem="removeBook"
+    />
+    <my-spinner v-else />
+    <my-pagination
+      v-if="!isBooksLoading && totalPages > 1"
+      :page="page"
+      :totalPages="totalPages"
+      @page-change="changePage"
+    />
+  </main>
 </template>
 
 <script>
