@@ -40,13 +40,13 @@
 </template>
 
 <script>
-import MyDialog from "@/components/MyDialog.vue";
+import MyDialog from "@/components/utils/MyDialog.vue";
 import { fetchBooks } from "@/services/bookServices";
-import MySpinner from "@/components/MySpinner.vue";
-import MyInput from "@/components/MyInput.vue";
-import MyPagination from "@/components/MyPagination.vue";
-import MyForm from "@/components/MyForm.vue";
-import MyItemList from "@/components/MyItemList.vue";
+import MySpinner from "@/components/common/MySpinner.vue";
+import MyInput from "@/components/utils/MyInput.vue";
+import MyPagination from "@/components/common/MyPagination.vue";
+import MyForm from "@/components/utils/MyForm.vue";
+import MyItemList from "@/components/utils/MyItemList.vue";
 
 export default {
   name: "BookshelfView",
