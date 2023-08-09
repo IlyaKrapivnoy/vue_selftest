@@ -4,15 +4,15 @@
       :default-active="activeIndex"
       class="el-menu-demo flex justify-between uppercase"
       mode="horizontal"
-      @select="handleSelect"
     >
-      <div
-        class="flex flex-col items-center cursor-pointer ml-4"
-        @click="navigateToHome"
-      >
-        <div class="text-3xl font-bold text-indigo-300">Logo</div>
-        <div class="text-xs text-gray-500">practice inc.</div>
-      </div>
+      <router-link to="/">
+        <el-menu-item index="1">
+          <div class="flex flex-col items-center cursor-pointer ml-4">
+            <div class="text-3xl font-bold text-indigo-300">Logo</div>
+            <div class="text-xs text-gray-500">practice inc.</div>
+          </div>
+        </el-menu-item>
+      </router-link>
 
       <div class="flex">
         <router-link to="/">
@@ -28,11 +28,7 @@
 </template>
 
 <script setup>
-import { useRouter } from "vue-router";
+import { ref } from "vue";
 
-const router = useRouter();
-
-const navigateToHome = () => {
-  router.push("/");
-};
+const activeIndex = ref("1");
 </script>
