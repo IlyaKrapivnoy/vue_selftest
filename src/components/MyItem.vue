@@ -15,7 +15,7 @@
         <el-button plain class="w-[70px]" @click="handleOpenPage"
           >Open</el-button
         >
-        <el-button plain type="danger" class="w-[70px]" @click="removeItem"
+        <el-button plain type="danger" class="w-[30px]" @click="removeItem"
           >x</el-button
         >
       </div>

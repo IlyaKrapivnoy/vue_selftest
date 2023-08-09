@@ -1,7 +1,9 @@
 <template>
-  <footer class="flex justify-center border-t-[1px]">
-    <div class="my-8">&copy; By Ilya Krapivnoy {{ currentYear }}</div>
-  </footer>
+  <div class="container mx-auto">
+    <footer class="flex justify-center border-t-[1px]">
+      <div class="my-8">&copy; By Ilya Krapivnoy {{ currentYear }}</div>
+    </footer>
+  </div>
 </template>
 
 <script>
