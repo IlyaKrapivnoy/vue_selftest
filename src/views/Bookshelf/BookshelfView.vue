@@ -107,10 +107,12 @@ export default {
     async addBooks() {
       this.isBooksLoading = true;
       try {
-        const postsData = await fetchPosts(this.page, this.limit);
-        if (postsData) {
-          this.books = postsData;
-          this.totalPages = Math.ceil(postsData.length / this.limit);
+        const response = await fetchPosts(this.page, this.limit);
+
+        if (response) {
+          this.books = response.data;
+          const totalCountHeader = response.headers["x-total-count"];
+          this.totalPages = Math.ceil(totalCountHeader / this.limit);
           this.saveToLocalStorage();
         }
       } catch (error) {
