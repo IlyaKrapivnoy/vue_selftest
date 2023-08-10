@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import MyItem from "@/components/MyItem.vue";
+import MyItem from "@/components/utils/MyItem.vue";
 
 export default {
   components: { MyItem },

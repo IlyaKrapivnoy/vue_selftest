@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import MyInput from "@/components/MyInput.vue";
+import MyInput from "@/components/utils/MyInput.vue";
 import { reactive, defineComponent } from "vue";
 
 export default defineComponent({

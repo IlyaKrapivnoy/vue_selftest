@@ -3,3 +3,9 @@
     <h1>HOME PAGE</h1>
   </main>
 </template>
+
+<script>
+export default {
+  name: "HomeView",
+};
+</script>
