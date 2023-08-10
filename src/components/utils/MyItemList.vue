@@ -6,7 +6,7 @@
       <my-item
         v-for="item in items"
         :key="item.id"
-        :item="item"
+        :item="item.body"
         :label1="label1"
         :label2="label2"
         :containerClass="containerClass"
@@ -15,7 +15,7 @@
       />
     </transition-group>
 
-    <div v-if="items.length === 0" class="text-center mt-5">
+    <div v-if="items?.length === 0" class="text-center mt-5">
       {{ noItemsMessage }}
     </div>
   </div>

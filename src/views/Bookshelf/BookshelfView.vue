@@ -41,7 +41,7 @@
 
 <script>
 import MyDialog from "@/components/utils/MyDialog.vue";
-import { fetchBooks } from "@/services/bookServices";
+import { fetchPosts } from "@/services/bookServices";
 import MySpinner from "@/components/common/MySpinner.vue";
 import MyInput from "@/components/utils/MyInput.vue";
 import MyPagination from "@/components/common/MyPagination.vue";
@@ -107,12 +107,10 @@ export default {
     async addBooks() {
       this.isBooksLoading = true;
       try {
-        const booksData = await fetchBooks(this.page, this.limit);
-        if (booksData) {
-          this.books = booksData.items;
-          this.totalPages = Math.ceil(
-            (booksData.totalItems = 100 / this.limit)
-          );
+        const postsData = await fetchPosts(this.page, this.limit);
+        if (postsData) {
+          this.books = postsData;
+          this.totalPages = Math.ceil(postsData.length / this.limit);
           this.saveToLocalStorage();
         }
       } catch (error) {
