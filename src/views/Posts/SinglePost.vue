@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto px-4">
-    <h1>Book: {{ bookTitle }}</h1>
-    <p>Book description will be here...</p>
+    <h1>Post: {{ postTitle }}</h1>
+    <p>Post text will be here...</p>
 
     <el-button plain @click="handleBackButton">Back</el-button>
   </div>
@@ -9,18 +9,18 @@
 
 <script>
 export default {
-  name: "SingleBook",
+  name: "SinglePost",
   data() {
     return {
-      bookTitle: "",
+      postTitle: "",
     };
   },
   created() {
-    this.bookTitle = this.$route.params.title;
+    this.postTitle = this.$route.params.title;
   },
   methods: {
     handleBackButton() {
-      this.$router.push("/bookshelf");
+      this.$router.push("/posts");
     },
   },
 };

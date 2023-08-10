@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/Home/HomeView.vue";
-import BookshelfView from "@/views/Bookshelf/BookshelfView.vue";
-import SingleBook from "@/views/Bookshelf/SingleBook.vue";
+import MyPosts from "@/views/Posts/MyPosts.vue";
+import SinglePost from "@/views/Posts/SinglePost.vue";
 
 const routes = [
   {
@@ -9,12 +9,12 @@ const routes = [
     component: HomeView,
   },
   {
-    path: "/bookshelf",
-    component: BookshelfView,
+    path: "/posts",
+    component: MyPosts,
   },
   {
-    path: "/bookshelf/:title",
-    component: SingleBook,
+    path: "/posts/:title",
+    component: SinglePost,
   },
 ];
 

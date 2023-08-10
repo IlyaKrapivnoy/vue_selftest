@@ -1,37 +1,37 @@
 <template>
   <main class="container mx-auto px-4 mt-20">
-    <h1>Your Books</h1>
+    <h1>Your Posts</h1>
     <div class="flex flex-col">
       <my-input
         v-focus
         v-model="searchedQuery"
-        placeholder="Search book by title..."
+        placeholder="Search post by title..."
       />
-      <el-button plain class="mt-6" @click="showDialog">Add Book</el-button>
+      <el-button plain class="mt-6" @click="showDialog">Add Post</el-button>
     </div>
     <!--      form-->
     <my-dialog v-model:show="dialogVisible">
       <my-form
         :formTitle="formTitle"
-        :formFields="bookFormFields"
-        @form-submitted="createBook"
+        :formFields="postFormFields"
+        @form-submitted="createPost"
       />
     </my-dialog>
     <!--      list-->
     <my-item-list
-      v-if="!isBooksLoading"
-      :items="searchedBooks"
-      listTitle="Book List"
-      label1="Book Title"
+      v-if="!isPostsLoading"
+      :items="searchedPosts"
+      listTitle="Post List"
+      label1="Post Title"
       label2="Author"
       containerClass="border-2 border-orange-500 p-2 px-4 mt-5 flex justify-between items-center"
-      routePath="bookshelf"
-      noItemsMessage="There are no books."
-      @removeItem="removeBook"
+      routePath="posts"
+      noItemsMessage="There are no posts."
+      @removeItem="removePost"
     />
     <my-spinner v-else />
     <my-pagination
-      v-if="!isBooksLoading && totalPages > 1"
+      v-if="!isPostsLoading && totalPages > 1"
       :page="page"
       :totalPages="totalPages"
       @page-change="changePage"
@@ -41,15 +41,15 @@
 
 <script>
 import MyDialog from "@/components/utils/MyDialog.vue";
-import { fetchPosts } from "@/services/bookServices";
 import MySpinner from "@/components/common/MySpinner.vue";
 import MyInput from "@/components/utils/MyInput.vue";
 import MyPagination from "@/components/common/MyPagination.vue";
 import MyForm from "@/components/utils/MyForm.vue";
 import MyItemList from "@/components/utils/MyItemList.vue";
+import { fetchPosts } from "@/services/bookServices";
 
 export default {
-  name: "BookshelfView",
+  name: "MyPosts",
   components: {
     MyItemList,
     MyForm,
@@ -61,13 +61,13 @@ export default {
 
   data() {
     return {
-      books: [],
+      posts: [],
       dialogVisible: false,
-      bookFormFields: [
+      postFormFields: [
         { name: "title", placeholder: "Add title" },
-        { name: "author", placeholder: "Add author" },
+        { name: "post text", placeholder: "Add post text" },
       ],
-      isBooksLoading: false,
+      isPostsLoading: false,
       searchedQuery: "",
       page: 1,
       limit: 10,
@@ -75,25 +75,25 @@ export default {
     };
   },
   methods: {
-    createBook(book) {
-      this.books.push(book);
+    createPost(post) {
+      this.post.push(post);
       this.dialogVisible = false;
       this.saveToLocalStorage();
     },
-    removeBook(book) {
-      this.books = this.books.filter((item) => item.id !== book.id);
+    removePost(post) {
+      this.posts = this.posts.filter((item) => item.id !== post.id);
       this.saveToLocalStorage();
     },
     saveToLocalStorage() {
-      localStorage.setItem("books", JSON.stringify(this.books));
+      localStorage.setItem("posts", JSON.stringify(this.posts));
     },
     loadFromLocalStorage() {
       try {
-        const data = localStorage.getItem("books");
-        this.books = JSON.parse(data) || [];
+        const data = localStorage.getItem("posts");
+        this.posts = JSON.parse(data) || [];
       } catch (error) {
         console.warn("Error parsing data from localStorage:", error);
-        this.books = [];
+        this.posts = [];
       }
     },
 
@@ -102,15 +102,15 @@ export default {
     },
     changePage(changePage) {
       this.page = changePage;
-      this.addBooks();
+      this.addPosts();
     },
-    async addBooks() {
-      this.isBooksLoading = true;
+    async addPosts() {
+      this.isPostsLoading = true;
       try {
         const response = await fetchPosts(this.page, this.limit);
 
         if (response) {
-          this.books = response.data;
+          this.posts = response.data;
           const totalCountHeader = response.headers["x-total-count"];
           this.totalPages = Math.ceil(totalCountHeader / this.limit);
           this.saveToLocalStorage();
@@ -118,19 +118,18 @@ export default {
       } catch (error) {
         console.warn("Error fetching data:", error);
       } finally {
-        this.isBooksLoading = false;
+        this.isPostsLoading = false;
       }
     },
   },
   computed: {
-    searchedBooks() {
+    searchedPosts() {
       if (!this.searchedQuery) {
-        return this.books;
+        return this.posts;
       }
       const query = this.searchedQuery.toLowerCase().trim();
-      return this.books.filter((book) => {
-        const title =
-          (book.title || book.volumeInfo.title)?.toLowerCase() || "";
+      return this.posts.filter((post) => {
+        const title = post.title?.toLowerCase() || "";
         return title.includes(query);
       });
     },
@@ -139,8 +138,8 @@ export default {
     this.loadFromLocalStorage();
   },
   mounted() {
-    this.addBooks();
+    this.addPosts();
   },
-  emits: ["removeBook"],
+  emits: ["removePost"],
 };
 </script>
