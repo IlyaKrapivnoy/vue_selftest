@@ -6,7 +6,7 @@
       <my-item
         v-for="item in items"
         :key="item.id"
-        :item="item.body"
+        :item="item"
         :label1="label1"
         :label2="label2"
         :containerClass="containerClass"

@@ -1,7 +1,7 @@
 <template>
   <el-card class="box-card my-5">
     <div class="flex justify-between items-center">
-      <div>
+      <div class="pr-10">
         <p>
           <strong>{{ label1 }}:</strong>
           {{ displayValue1 }}
