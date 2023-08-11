@@ -137,7 +137,7 @@ export default {
       axios
         .get("https://jsonplaceholder.typicode.com/todos")
         .then((response) => {
-          todos.value = response.data;
+          todos.value = response.data.reverse();
           console.log("response.data", response.data);
         })
         .catch((error) => {
@@ -157,7 +157,7 @@ export default {
         .then((response) => {
           console.log("Todo added:", response.data);
           // Update your todos array with the newly added todo
-          todos.value.push(response.data);
+          todos.value.unshift(response.data);
         })
         .catch((error) => {
           console.error("Error adding todo:", error);
