@@ -54,7 +54,7 @@
             >
               TODO: {{ todo.title }}
             </h3>
-            <el-button type="danger" @click.stop="deleteRequestItem(todo)"
+            <el-button type="danger" @click.stop="deleteItem(todo)"
               >x</el-button
             >
           </div>
@@ -76,7 +76,6 @@
 
 <script>
 import { computed, onMounted, ref } from "vue";
-import { nanoid } from "nanoid";
 import axios from "axios";
 
 export default {
@@ -88,14 +87,8 @@ export default {
 
     const handleSubmit = () => {
       if (newTodo.value) {
-        todos.value.push({
-          id: nanoid(),
-          completed: false,
-          title: newTodo.value,
-        });
+        requestAddTodo(newTodo.value);
         newTodo.value = "";
-        console.log("todos", todos);
-
         showAlert.value = false;
       } else {
         showAlert.value = true;
@@ -120,11 +113,11 @@ export default {
       }
     };
 
-    const removeItem = (todo) => {
+    const removeMockedItem = (todo) => {
       todos.value = todos.value.filter((el) => el.id !== todo.id);
     };
 
-    const deleteRequestItem = (todo) => {
+    const deleteItem = (todo) => {
       requestDeleteTodo(todo);
     };
 
@@ -152,6 +145,25 @@ export default {
         });
     };
 
+    const requestAddTodo = (title) => {
+      const newTodo = {
+        title: title,
+        completed: false,
+        userId: 1,
+      };
+
+      axios
+        .post("https://jsonplaceholder.typicode.com/todos", newTodo)
+        .then((response) => {
+          console.log("Todo added:", response.data);
+          // Update your todos array with the newly added todo
+          todos.value.push(response.data);
+        })
+        .catch((error) => {
+          console.error("Error adding todo:", error);
+        });
+    };
+
     const requestDeleteTodo = (todo) => {
       axios
         .delete(`https://jsonplaceholder.typicode.com/todos/${todo.id}`)
@@ -172,10 +184,11 @@ export default {
       handleSubmit,
       toggleDone,
       toggleMarkAll,
-      deleteRequestItem,
-      removeItem,
+      deleteItem,
+      removeMockedItem,
       removeAllTodos,
       requestFetchTodos,
+      requestAddTodo,
       getStatusButtonText,
       showAlert,
       todos,
