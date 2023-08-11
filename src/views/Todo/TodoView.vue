@@ -2,41 +2,89 @@
   <main class="container mx-auto px-4 mt-20">
     <h1>TODO PAGE</h1>
     <form @submit.prevent="handleSubmit" class="flex flex-col">
-      <reusable-input
-        label="Add new todo"
+      <label for="todoInput" class="text-lg font-bold">Add new todo</label>
+      <el-input
         placeholder="Enter your task..."
-        inputId="todoInput"
-        @update:inputValue="input = $event"
-        class="mt-6"
+        v-model="newTodo"
+        id="todoInput"
+        clearable
       />
 
-      <el-button
-        native-type="submit"
-        type="primary"
-        class="self-end w-1/5 mt-3"
-      >
-        Add
-      </el-button>
+      <div class="self-end mt-3">
+        <el-button @click="markAllDone" class="w-[140px]">
+          Mark all done
+        </el-button>
+        <el-button @click="removeAllTodos" class="w-[140px]">
+          Remove all todos
+        </el-button>
+        <el-button native-type="submit" type="primary" class="w-[140px]">
+          Add
+        </el-button>
+      </div>
     </form>
+
+    <ul class="mt-8">
+      <li v-for="todo in todos" :key="todo.id">
+        <el-card class="box-card">
+          <div class="flex justify-between items-center">
+            <h3
+              @click="toggleDone(todo)"
+              :class="{ 'line-through': todo.done }"
+              class="cursor-pointer"
+            >
+              TODO: {{ todo.content }}
+            </h3>
+            <el-button type="danger" @click="removeItem(todo)">x</el-button>
+          </div>
+        </el-card>
+      </li>
+    </ul>
   </main>
 </template>
 
 <script>
 import { ref } from "vue";
-import ReusableInput from "@/components/partials/ReusableInput.vue";
+import { nanoid } from "nanoid";
 
 export default {
-  components: { ReusableInput },
   setup() {
-    const input = ref("");
+    const newTodo = ref("");
+    const todos = ref([]);
 
     const handleSubmit = () => {
-      console.log(input.value);
+      todos.value.push({
+        id: nanoid(),
+        done: false,
+        content: newTodo.value,
+      });
+      newTodo.value = "";
+      console.log({ todos });
+    };
+
+    const toggleDone = (todo) => {
+      todo.done = !todo.done;
+    };
+
+    const markAllDone = () => {
+      todos.value.forEach((todo) => (todo.done = true));
+    };
+
+    const removeItem = (todo) => {
+      todos.value = todos.value.filter((el) => el.id !== todo.id);
+    };
+
+    const removeAllTodos = () => {
+      todos.value = [];
     };
 
     return {
-      input,
+      newTodo,
       handleSubmit,
+      toggleDone,
+      markAllDone,
+      removeItem,
+      removeAllTodos,
+      todos,
     };
   },
 };
