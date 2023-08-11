@@ -11,10 +11,18 @@
       />
 
       <div class="self-end mt-3">
-        <el-button @click="toggleMarkAll" class="w-[140px]">
-          {{ getButtonText() }}
+        <el-button
+          @click="toggleMarkAll"
+          :disabled="todos.length === 0"
+          class="w-[140px]"
+        >
+          {{ getStatusButtonText() }}
         </el-button>
-        <el-button @click="removeAllTodos" class="w-[140px]">
+        <el-button
+          @click="removeAllTodos"
+          :disabled="todos.length === 0"
+          class="w-[140px]"
+        >
           Remove all todos
         </el-button>
         <el-button native-type="submit" type="primary" class="w-[140px]">
@@ -45,8 +53,11 @@
       v-if="showAlert"
       title="Add some text to create a todo"
       type="error"
-    >
-    </el-alert>
+    />
+
+    <div v-show="todos.length === 0" class="mt-4 text-center text-gray-500">
+      No todos to display.
+    </div>
   </main>
 </template>
 
@@ -97,7 +108,7 @@ export default {
 
     const isAllDone = computed(() => todos.value.every((todo) => todo.done));
 
-    const getButtonText = () => {
+    const getStatusButtonText = () => {
       return isAllDone.value ? "Unmark all done" : "Mark all done";
     };
 
@@ -108,7 +119,7 @@ export default {
       toggleMarkAll,
       removeItem,
       removeAllTodos,
-      getButtonText,
+      getStatusButtonText,
       showAlert,
       todos,
     };
