@@ -24,7 +24,7 @@
     </form>
 
     <ul class="mt-8">
-      <li v-for="todo in todos" :key="todo.id">
+      <li v-for="todo in todos" :key="todo.id" class="my-5">
         <el-card class="box-card">
           <div class="flex justify-between items-center">
             <h3
@@ -39,6 +39,13 @@
         </el-card>
       </li>
     </ul>
+
+    <el-alert
+      v-if="showAlert"
+      title="Add some text to create a todo"
+      type="error"
+    >
+    </el-alert>
   </main>
 </template>
 
@@ -50,15 +57,21 @@ export default {
   setup() {
     const newTodo = ref("");
     const todos = ref([]);
+    const showAlert = ref(false);
 
     const handleSubmit = () => {
-      todos.value.push({
-        id: nanoid(),
-        done: false,
-        content: newTodo.value,
-      });
-      newTodo.value = "";
-      console.log({ todos });
+      if (newTodo.value) {
+        todos.value.push({
+          id: nanoid(),
+          done: false,
+          content: newTodo.value,
+        });
+        newTodo.value = "";
+        console.log("todos", todos);
+        showAlert.value = false;
+      } else {
+        showAlert.value = true;
+      }
     };
 
     const toggleDone = (todo) => {
@@ -84,6 +97,7 @@ export default {
       markAllDone,
       removeItem,
       removeAllTodos,
+      showAlert,
       todos,
     };
   },
