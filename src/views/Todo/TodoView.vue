@@ -53,7 +53,9 @@
             >
               TODO: {{ todo.title }}
             </h3>
-            <el-button type="danger" @click="removeItem(todo)">x</el-button>
+            <el-button type="danger" @click.stop="deleteRequestItem(todo)"
+              >x</el-button
+            >
           </div>
         </el-card>
       </li>
@@ -121,6 +123,10 @@ export default {
       todos.value = todos.value.filter((el) => el.id !== todo.id);
     };
 
+    const deleteRequestItem = (todo) => {
+      deleteTodo(todo);
+    };
+
     const removeAllTodos = () => {
       todos.value = [];
     };
@@ -145,6 +151,17 @@ export default {
         });
     };
 
+    const deleteTodo = (todo) => {
+      axios
+        .delete(`https://jsonplaceholder.typicode.com/todos/${todo.id}`)
+        .then(() => {
+          todos.value = todos.value.filter((t) => t.id !== todo.id);
+        })
+        .catch((error) => {
+          console.error("Error deleting todo:", error);
+        });
+    };
+
     onMounted(() => {
       fetchTodos();
     });
@@ -154,6 +171,7 @@ export default {
       handleSubmit,
       toggleDone,
       toggleMarkAll,
+      deleteRequestItem,
       removeItem,
       removeAllTodos,
       fetchTodos,
