@@ -5,7 +5,7 @@ import MyPagination from "@/components/common/MyPagination.vue";
 import MyItem from "@/components/utils/MyItem.vue";
 import MyItemList from "@/components/utils/MyItemList.vue";
 import MyForm from "@/components/utils/MyForm.vue";
-import MyNavigation from "@/components/layout/MyNavigation.vue";
+import MyNavigation from "@/components/layout/MainHeader.vue";
 
 export default [
   MyInput,

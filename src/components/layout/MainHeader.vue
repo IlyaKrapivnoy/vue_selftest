@@ -22,6 +22,10 @@
         <router-link to="/posts">
           <el-menu-item index="2">Posts</el-menu-item>
         </router-link>
+
+        <router-link to="/todo">
+          <el-menu-item index="2">Todos</el-menu-item>
+        </router-link>
       </div>
     </el-menu>
   </main>
