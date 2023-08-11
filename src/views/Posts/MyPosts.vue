@@ -64,8 +64,8 @@ export default {
       posts: [],
       dialogVisible: false,
       postFormFields: [
-        { name: "title", placeholder: "Add title" },
-        { name: "post text", placeholder: "Add post text" },
+        { name: "title", placeholder: "Add title", useTextarea: false },
+        { name: "post text", placeholder: "Add post text", useTextarea: true },
       ],
       isPostsLoading: false,
       searchedQuery: "",

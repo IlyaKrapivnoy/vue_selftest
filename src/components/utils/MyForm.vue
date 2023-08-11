@@ -6,6 +6,7 @@
         <my-input
           :placeholder="field.placeholder"
           v-model="formData[field.name]"
+          :useTextarea="field.useTextarea"
         />
       </div>
       <el-button type="success" plain class="mt-6" @click="submitForm"
