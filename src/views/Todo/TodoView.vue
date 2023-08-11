@@ -24,14 +24,15 @@
     </form>
 
     <ul class="mt-8">
-      <li v-for="todo in todos" :key="todo.id" class="my-5">
-        <el-card class="box-card">
+      <li
+        v-for="todo in todos"
+        :key="todo.id"
+        class="my-5 cursor-pointer"
+        @click="toggleDone(todo)"
+      >
+        <el-card :class="['box-card', { 'bg-slate-400-card': todo.done }]">
           <div class="flex justify-between items-center">
-            <h3
-              @click="toggleDone(todo)"
-              :class="{ 'line-through': todo.done }"
-              class="cursor-pointer"
-            >
+            <h3 :class="{ 'line-through': todo.done }" class="cursor-pointer">
               TODO: {{ todo.content }}
             </h3>
             <el-button type="danger" @click="removeItem(todo)">x</el-button>
@@ -103,3 +104,9 @@ export default {
   },
 };
 </script>
+
+<style>
+.bg-slate-400-card {
+  background-color: #cbd5e0;
+}
+</style>
