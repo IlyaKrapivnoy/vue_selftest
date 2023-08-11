@@ -11,8 +11,8 @@
       />
 
       <div class="self-end mt-3">
-        <el-button @click="markAllDone" class="w-[140px]">
-          Mark all done
+        <el-button @click="toggleMarkAll" class="w-[140px]">
+          {{ getButtonText() }}
         </el-button>
         <el-button @click="removeAllTodos" class="w-[140px]">
           Remove all todos
@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { nanoid } from "nanoid";
 
 export default {
@@ -79,8 +79,12 @@ export default {
       todo.done = !todo.done;
     };
 
-    const markAllDone = () => {
-      todos.value.forEach((todo) => (todo.done = true));
+    const toggleMarkAll = () => {
+      if (isAllDone.value) {
+        todos.value.forEach((todo) => (todo.done = false));
+      } else {
+        todos.value.forEach((todo) => (todo.done = true));
+      }
     };
 
     const removeItem = (todo) => {
@@ -91,13 +95,20 @@ export default {
       todos.value = [];
     };
 
+    const isAllDone = computed(() => todos.value.every((todo) => todo.done));
+
+    const getButtonText = () => {
+      return isAllDone.value ? "Unmark all done" : "Mark all done";
+    };
+
     return {
       newTodo,
       handleSubmit,
       toggleDone,
-      markAllDone,
+      toggleMarkAll,
       removeItem,
       removeAllTodos,
+      getButtonText,
       showAlert,
       todos,
     };
@@ -107,6 +118,6 @@ export default {
 
 <style>
 .bg-slate-400-card {
-  background-color: #cbd5e0;
+  background-color: #cbd5e0 !important;
 }
 </style>
