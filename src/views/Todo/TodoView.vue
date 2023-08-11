@@ -71,19 +71,24 @@
     <div v-show="todos.length === 0" class="mt-4 text-center text-gray-500">
       No todos to display.
     </div>
+
+    <my-spinner v-show="isLoading" />
   </main>
 </template>
 
 <script>
 import { computed, onMounted, ref } from "vue";
 import axios from "axios";
+import MySpinner from "@/components/common/MySpinner.vue";
 
 export default {
+  components: { MySpinner },
   setup() {
     const newTodo = ref("");
     const todos = ref([]);
     const showAlert = ref(false);
     const alertTimeout = ref(null);
+    const isLoading = ref(true);
 
     const handleSubmit = () => {
       if (newTodo.value) {
@@ -138,6 +143,7 @@ export default {
         .get("https://jsonplaceholder.typicode.com/todos")
         .then((response) => {
           todos.value = response.data.reverse();
+          isLoading.value = false;
           console.log("response.data", response.data);
         })
         .catch((error) => {
@@ -192,6 +198,7 @@ export default {
       getStatusButtonText,
       showAlert,
       todos,
+      isLoading,
     };
   },
 };
