@@ -25,8 +25,15 @@
         >
           Remove all todos
         </el-button>
+        <el-button
+          @click="fetchTodos"
+          :disabled="todos.length"
+          class="w-[140px]"
+        >
+          Get todos
+        </el-button>
         <el-button native-type="submit" type="primary" class="w-[140px]">
-          Add
+          Add todo
         </el-button>
       </div>
     </form>
@@ -126,7 +133,7 @@ export default {
       return isAllDone.value ? "Unmark all done" : "Mark all done";
     };
 
-    onMounted(() => {
+    const fetchTodos = () => {
       axios
         .get("https://jsonplaceholder.typicode.com/todos")
         .then((response) => {
@@ -136,6 +143,10 @@ export default {
         .catch((error) => {
           console.error("Error fetching todos:", error);
         });
+    };
+
+    onMounted(() => {
+      fetchTodos();
     });
 
     return {
@@ -145,6 +156,7 @@ export default {
       toggleMarkAll,
       removeItem,
       removeAllTodos,
+      fetchTodos,
       getStatusButtonText,
       showAlert,
       todos,
