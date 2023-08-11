@@ -38,10 +38,13 @@
         class="my-5 cursor-pointer"
         @click="toggleDone(todo)"
       >
-        <el-card :class="['box-card', { 'bg-slate-400-card': todo.done }]">
+        <el-card :class="['box-card', { 'bg-slate-400-card': todo.completed }]">
           <div class="flex justify-between items-center">
-            <h3 :class="{ 'line-through': todo.done }" class="cursor-pointer">
-              TODO: {{ todo.content }}
+            <h3
+              :class="{ 'line-through': todo.completed }"
+              class="cursor-pointer pr-[50px]"
+            >
+              TODO: {{ todo.title }}
             </h3>
             <el-button type="danger" @click="removeItem(todo)">x</el-button>
           </div>
@@ -62,8 +65,9 @@
 </template>
 
 <script>
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { nanoid } from "nanoid";
+import axios from "axios";
 
 export default {
   setup() {
@@ -76,8 +80,8 @@ export default {
       if (newTodo.value) {
         todos.value.push({
           id: nanoid(),
-          done: false,
-          content: newTodo.value,
+          completed: false,
+          title: newTodo.value,
         });
         newTodo.value = "";
         console.log("todos", todos);
@@ -95,14 +99,14 @@ export default {
     };
 
     const toggleDone = (todo) => {
-      todo.done = !todo.done;
+      todo.completed = !todo.completed;
     };
 
     const toggleMarkAll = () => {
       if (isAllDone.value) {
-        todos.value.forEach((todo) => (todo.done = false));
+        todos.value.forEach((todo) => (todo.completed = false));
       } else {
-        todos.value.forEach((todo) => (todo.done = true));
+        todos.value.forEach((todo) => (todo.completed = true));
       }
     };
 
@@ -114,11 +118,25 @@ export default {
       todos.value = [];
     };
 
-    const isAllDone = computed(() => todos.value.every((todo) => todo.done));
+    const isAllDone = computed(() =>
+      todos.value.every((todo) => todo.completed)
+    );
 
     const getStatusButtonText = () => {
       return isAllDone.value ? "Unmark all done" : "Mark all done";
     };
+
+    onMounted(() => {
+      axios
+        .get("https://jsonplaceholder.typicode.com/todos")
+        .then((response) => {
+          todos.value = response.data;
+          console.log("response.data", response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching todos:", error);
+        });
+    });
 
     return {
       newTodo,
