@@ -1,12 +1,13 @@
 <template>
   <main class="container mx-auto px-4 mt-20">
     <h1>TODO PAGE</h1>
-    <form @submit.prevent="handleSubmit" class="flex flex-col">
+    <form @submit.prevent="handleSubmit" class="flex flex-col mt-8">
       <label for="todoInput" class="text-lg font-bold">Add new todo</label>
       <el-input
         placeholder="Enter your task..."
         v-model="newTodo"
         id="todoInput"
+        class="mt-3"
         clearable
       />
 
@@ -26,7 +27,7 @@
           Remove all todos
         </el-button>
         <el-button
-          @click="fetchTodos"
+          @click="requestFetchTodos"
           :disabled="todos.length"
           class="w-[140px]"
         >
@@ -38,7 +39,7 @@
       </div>
     </form>
 
-    <ul class="mt-8">
+    <ul class="mt-10">
       <li
         v-for="todo in todos"
         :key="todo.id"
@@ -124,7 +125,7 @@ export default {
     };
 
     const deleteRequestItem = (todo) => {
-      deleteTodo(todo);
+      requestDeleteTodo(todo);
     };
 
     const removeAllTodos = () => {
@@ -139,7 +140,7 @@ export default {
       return isAllDone.value ? "Unmark all done" : "Mark all done";
     };
 
-    const fetchTodos = () => {
+    const requestFetchTodos = () => {
       axios
         .get("https://jsonplaceholder.typicode.com/todos")
         .then((response) => {
@@ -151,7 +152,7 @@ export default {
         });
     };
 
-    const deleteTodo = (todo) => {
+    const requestDeleteTodo = (todo) => {
       axios
         .delete(`https://jsonplaceholder.typicode.com/todos/${todo.id}`)
         .then(() => {
@@ -163,7 +164,7 @@ export default {
     };
 
     onMounted(() => {
-      fetchTodos();
+      requestFetchTodos();
     });
 
     return {
@@ -174,7 +175,7 @@ export default {
       deleteRequestItem,
       removeItem,
       removeAllTodos,
-      fetchTodos,
+      requestFetchTodos,
       getStatusButtonText,
       showAlert,
       todos,
