@@ -50,7 +50,7 @@
     </ul>
 
     <el-alert
-      v-if="showAlert"
+      v-show="showAlert"
       title="Add some text to create a todo"
       type="error"
     />
@@ -70,6 +70,7 @@ export default {
     const newTodo = ref("");
     const todos = ref([]);
     const showAlert = ref(false);
+    const alertTimeout = ref(null);
 
     const handleSubmit = () => {
       if (newTodo.value) {
@@ -80,9 +81,16 @@ export default {
         });
         newTodo.value = "";
         console.log("todos", todos);
+
         showAlert.value = false;
       } else {
         showAlert.value = true;
+
+        clearTimeout(alertTimeout.value);
+
+        alertTimeout.value = setTimeout(() => {
+          showAlert.value = false;
+        }, 3000);
       }
     };
 
