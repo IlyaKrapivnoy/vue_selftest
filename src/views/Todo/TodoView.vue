@@ -39,6 +39,14 @@
       </div>
     </form>
 
+    <div class="mt-6">
+      <el-alert
+        v-show="showAlert"
+        title="Add some text to create a todo"
+        type="error"
+      />
+    </div>
+
     <ul class="mt-10">
       <li
         v-for="todo in todos"
@@ -72,12 +80,6 @@
         v-show="todos.length"
       />
     </div>
-
-    <el-alert
-      v-show="showAlert"
-      title="Add some text to create a todo"
-      type="error"
-    />
 
     <div v-show="todos.length === 0" class="mt-4 text-center text-gray-500">
       No todos to display.
