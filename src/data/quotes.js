@@ -1,6 +1,34 @@
 const camusQuotes = [
   {
     quote:
+      "Do not worry about your difficulties in mathematics; I can assure you that mine are still greater.",
+    author: "Albert Einstein",
+    category: "math",
+  },
+  {
+    quote: "Pure mathematics is, in its way, the poetry of logical ideas.",
+    author: "Albert Einstein",
+    category: "math",
+  },
+  {
+    quote: "Mathematics is the music of reason.",
+    author: "James Joseph Sylvester",
+    category: "math",
+  },
+  {
+    quote:
+      "In mathematics, the art of proposing a question must be held of higher value than solving it.",
+    author: "Georg Cantor",
+    category: "math",
+  },
+  {
+    quote:
+      "Mathematics may not teach us how to add love or subtract hate, but it gives us hope that every problem has a solution.",
+    author: "Anonymous",
+    category: "math",
+  },
+  {
+    quote:
       "Don't walk in front of me; I may not follow. Don't walk behind me; I may not lead. Just walk beside me and be my friend.",
     author: "A. Camus",
     category: "philosophy",
@@ -111,34 +139,6 @@ const camusQuotes = [
     quote: "A book is a dream that you hold in your hand.",
     author: "Neil Gaiman",
     category: "literature",
-  },
-  {
-    quote:
-      "Do not worry about your difficulties in mathematics; I can assure you that mine are still greater.",
-    author: "Albert Einstein",
-    category: "math",
-  },
-  {
-    quote: "Pure mathematics is, in its way, the poetry of logical ideas.",
-    author: "Albert Einstein",
-    category: "math",
-  },
-  {
-    quote: "Mathematics is the music of reason.",
-    author: "James Joseph Sylvester",
-    category: "math",
-  },
-  {
-    quote:
-      "In mathematics, the art of proposing a question must be held of higher value than solving it.",
-    author: "Georg Cantor",
-    category: "math",
-  },
-  {
-    quote:
-      "Mathematics may not teach us how to add love or subtract hate, but it gives us hope that every problem has a solution.",
-    author: "Anonymous",
-    category: "math",
   },
 ];
 
