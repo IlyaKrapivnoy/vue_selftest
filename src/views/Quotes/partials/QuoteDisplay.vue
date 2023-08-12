@@ -8,7 +8,7 @@
 <script>
 export default {
   props: {
-    quote: String,
+    quote: Object,
   },
 };
 </script>

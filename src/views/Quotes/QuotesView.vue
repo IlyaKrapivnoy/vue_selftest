@@ -2,18 +2,20 @@
   <main class="container mx-auto px-4 mt-20">
     <h1>Quotes Page</h1>
     <div class="mt-10">
-      <el-button @click="generateQuote" type="primary">
-        Generate Quote
-      </el-button>
+      <div class="flex justify-between">
+        <el-select v-model="selectedCategory" placeholder="Select a category">
+          <el-option
+            v-for="category in categories"
+            :key="category"
+            :label="category"
+            :value="category"
+          />
+        </el-select>
 
-      <el-select v-model="selectedCategory" placeholder="Select a category">
-        <el-option
-          v-for="category in categories"
-          :key="category"
-          :label="category"
-          :value="category"
-        />
-      </el-select>
+        <el-button @click="generateQuote" type="primary" class="w-[240px]">
+          Generate Quote
+        </el-button>
+      </div>
 
       <QuoteDisplay :quote="currentQuote" />
     </div>
@@ -21,7 +23,7 @@
 </template>
 
 <script>
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import QuoteDisplay from "@/views/Quotes/partials/QuoteDisplay.vue";
 import camusQuotes from "@/data/quotes";
 
@@ -31,7 +33,7 @@ export default {
   },
   setup() {
     const quotes = camusQuotes;
-    const selectedCategory = ref("");
+    const selectedCategory = ref("math");
     const currentQuote = ref("");
 
     const generateQuote = () => {
@@ -53,6 +55,10 @@ export default {
     const categories = computed(() => [
       ...new Set(quotes.map((q) => q.category)),
     ]);
+
+    onMounted(() => {
+      generateQuote();
+    });
 
     return {
       currentQuote,
