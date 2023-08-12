@@ -9,7 +9,7 @@
         :class="{
           capitalize: i !== appList().length - 1,
         }"
-        class="pl-5 list-none text-indigo-300 font-bold text-xl"
+        class="pl-5 mt-3 list-none text-indigo-300 font-bold text-xl"
       >
         <span class="ordinal">{{ getOrdinal(i + 1) }}</span> App:
         <span class="text-gray-600">{{ app }}</span>

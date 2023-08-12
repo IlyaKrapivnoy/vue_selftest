@@ -2,7 +2,7 @@
   <main class="container mx-auto px-4 mt-20">
     <h1>Quotes Page</h1>
     <div class="mt-10">
-      <div class="flex justify-between">
+      <div class="flex justify-between items-center">
         <div class="flex gap-5">
           <div class="flex flex-col">
             <label for="categorySelect" class="text-gray-600 text-sm"
