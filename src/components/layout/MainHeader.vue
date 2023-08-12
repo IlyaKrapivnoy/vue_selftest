@@ -19,10 +19,6 @@
           <el-menu-item index="1">Home</el-menu-item>
         </router-link>
 
-        <router-link to="/posts" @click="setActiveIndex('2')">
-          <el-menu-item index="2">Posts</el-menu-item>
-        </router-link>
-
         <router-link to="/todo" @click="setActiveIndex('3')">
           <el-menu-item index="3">Todos</el-menu-item>
         </router-link>
