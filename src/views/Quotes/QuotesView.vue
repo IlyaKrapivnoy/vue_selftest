@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import QuoteDisplay from "@/views/Quotes/partials/QuoteDisplay.vue";
 import camusQuotes from "@/data/quotes";
 
@@ -57,6 +57,10 @@ export default {
     ]);
 
     onMounted(() => {
+      generateQuote();
+    });
+
+    watch(selectedCategory, () => {
       generateQuote();
     });
 
