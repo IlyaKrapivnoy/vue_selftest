@@ -148,6 +148,7 @@ export default {
 
     const removeAllTodos = () => {
       todos.value = [];
+      saveTodosToLocalStorage();
     };
 
     const isAllDone = computed(() =>
@@ -168,6 +169,8 @@ export default {
         .then((response) => {
           todos.value = response.data.slice(startIndex, endIndex).reverse();
           totalTodos.value = response.data.length;
+
+          saveTodosToLocalStorage();
         })
         .catch((error) => {
           console.error("Error fetching todos:", error);
@@ -188,8 +191,9 @@ export default {
         .post("https://jsonplaceholder.typicode.com/todos", newTodo)
         .then((response) => {
           console.log("Todo added:", response.data);
-          // Update your todos array with the newly added todo
           todos.value.unshift(response.data);
+
+          saveTodosToLocalStorage();
         })
         .catch((error) => {
           console.error("Error adding todo:", error);
@@ -201,14 +205,27 @@ export default {
         .delete(`https://jsonplaceholder.typicode.com/todos/${todo.id}`)
         .then(() => {
           todos.value = todos.value.filter((t) => t.id !== todo.id);
+
+          saveTodosToLocalStorage();
         })
         .catch((error) => {
           console.error("Error deleting todo:", error);
         });
     };
 
+    const saveTodosToLocalStorage = () => {
+      localStorage.setItem("todos", JSON.stringify(todos.value));
+    };
+
+    const loadTodosFromLocalStorage = () => {
+      const savedTodos = localStorage.getItem("todos");
+      if (savedTodos) {
+        todos.value = JSON.parse(savedTodos);
+      }
+    };
+
     onMounted(() => {
-      requestFetchTodos();
+      loadTodosFromLocalStorage();
     });
 
     return {
