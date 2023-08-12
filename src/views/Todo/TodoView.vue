@@ -69,6 +69,7 @@
         :current-page="currentPage"
         :page-size="pageSize"
         @current-change="handlePageChange"
+        v-show="todos.length"
       />
     </div>
 
@@ -226,6 +227,7 @@ export default {
 
     onMounted(() => {
       loadTodosFromLocalStorage();
+      isLoading.value = false;
     });
 
     return {
