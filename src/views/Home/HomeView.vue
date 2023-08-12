@@ -9,9 +9,10 @@
         :class="{
           capitalize: i !== appList().length - 1,
         }"
-        class="pl-5 list-none custom-list-disc text-indigo-300 font-bold"
+        class="pl-5 list-none text-indigo-300 font-bold text-xl"
       >
-        {{ app }}
+        <span class="ordinal">{{ getOrdinal(i + 1) }}</span> App:
+        <span class="text-gray-600">{{ app }}</span>
       </li>
     </ul>
   </main>
@@ -26,16 +27,13 @@ export default {
     appList() {
       return appList;
     },
+
+    getOrdinal(number) {
+      const suffixes = ["st", "nd", "rd"];
+      const suffix =
+        number > 10 && number < 20 ? "th" : suffixes[(number - 1) % 10] || "th";
+      return `${number}${suffix}`;
+    },
   },
 };
 </script>
-
-<style scoped>
-.custom-list-disc::before {
-  content: "\2022";
-  color: #2a2a2a;
-  display: inline-block;
-  width: 20px;
-  margin-left: -20px;
-}
-</style>
