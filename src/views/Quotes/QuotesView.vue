@@ -6,13 +6,22 @@
         Generate Quote
       </el-button>
 
+      <el-select v-model="selectedCategory" placeholder="Select a category">
+        <el-option
+          v-for="category in categories"
+          :key="category"
+          :label="category"
+          :value="category"
+        />
+      </el-select>
+
       <QuoteDisplay :quote="currentQuote" />
     </div>
   </main>
 </template>
 
 <script>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import QuoteDisplay from "@/views/Quotes/partials/QuoteDisplay.vue";
 import camusQuotes from "@/data/quotes";
 
@@ -22,16 +31,34 @@ export default {
   },
   setup() {
     const quotes = camusQuotes;
-
+    const selectedCategory = ref("");
     const currentQuote = ref("");
+
     const generateQuote = () => {
-      const randomIndex = Math.floor(Math.random() * quotes.length);
-      currentQuote.value = quotes[randomIndex];
+      let filteredQuotes = quotes;
+      if (selectedCategory.value) {
+        filteredQuotes = quotes.filter(
+          (quote) => quote.category === selectedCategory.value
+        );
+      }
+
+      if (filteredQuotes.length > 0) {
+        const randomIndex = Math.floor(Math.random() * filteredQuotes.length);
+        currentQuote.value = filteredQuotes[randomIndex];
+      } else {
+        currentQuote.value = "";
+      }
     };
+
+    const categories = computed(() => [
+      ...new Set(quotes.map((q) => q.category)),
+    ]);
 
     return {
       currentQuote,
       generateQuote,
+      selectedCategory,
+      categories,
     };
   },
 };
