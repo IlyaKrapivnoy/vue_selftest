@@ -3,37 +3,39 @@
     <h1>Quotes Page</h1>
     <div class="mt-10">
       <div class="flex justify-between">
-        <div class="flex flex-col">
-          <label for="categorySelect" class="text-gray-600 text-sm"
-            >Select a category:</label
-          >
-          <el-select
-            v-model="selectedCategory"
-            id="categorySelect"
-            placeholder="Select a category"
-          >
-            <el-option
-              v-for="category in categories"
-              :key="category"
-              :label="category"
-              :value="category"
-            />
-          </el-select>
-        </div>
+        <div class="flex gap-5">
+          <div class="flex flex-col">
+            <label for="categorySelect" class="text-gray-600 text-sm"
+              >Select a category:</label
+            >
+            <el-select
+              v-model="selectedCategory"
+              id="categorySelect"
+              placeholder="Select a category"
+            >
+              <el-option
+                v-for="category in categories"
+                :key="category"
+                :label="category"
+                :value="category"
+              />
+            </el-select>
+          </div>
 
-        <!-- Language Selector -->
-        <div class="flex flex-col">
-          <label for="langSelect" class="text-gray-600 text-sm"
-            >Select a language:</label
-          >
-          <el-select
-            v-model="selectedLang"
-            id="langSelect"
-            placeholder="Select a language"
-          >
-            <el-option label="English" value="en" />
-            <el-option label="German" value="de" />
-          </el-select>
+          <!-- Language Selector -->
+          <div class="flex flex-col">
+            <label for="langSelect" class="text-gray-600 text-sm"
+              >Select a language:</label
+            >
+            <el-select
+              v-model="selectedLang"
+              id="langSelect"
+              placeholder="Select a language"
+            >
+              <el-option label="🇺🇸 English" value="en" />
+              <el-option label="🇩🇪 German" value="de" />
+            </el-select>
+          </div>
         </div>
 
         <el-button @click="generateQuote" type="primary" class="w-[240px]">
