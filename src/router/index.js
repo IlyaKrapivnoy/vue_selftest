@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/Home/HomeView.vue";
-import BookshelfView from "@/views/Bookshelf/BookshelfView.vue";
-import SingleBook from "@/views/Bookshelf/SingleBook.vue";
+import TodoView from "@/views/Todo/TodoView.vue";
 
 const routes = [
   {
@@ -9,12 +8,8 @@ const routes = [
     component: HomeView,
   },
   {
-    path: "/bookshelf",
-    component: BookshelfView,
-  },
-  {
-    path: "/bookshelf/:title",
-    component: SingleBook,
+    path: "/todo",
+    component: TodoView,
   },
 ];
 

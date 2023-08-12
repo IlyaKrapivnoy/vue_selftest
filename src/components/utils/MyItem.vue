@@ -1,7 +1,7 @@
 <template>
   <el-card class="box-card my-5">
     <div class="flex justify-between items-center">
-      <div>
+      <div class="pr-10">
         <p>
           <strong>{{ label1 }}:</strong>
           {{ displayValue1 }}
@@ -50,23 +50,16 @@ export default defineComponent({
     },
   },
   setup(props, { emit, router }) {
-    const displayValue1 = computed(
-      () => props.item?.volumeInfo?.title || props.item?.title || "No title"
-    );
+    const displayValue1 = computed(() => props.item?.body || "No title");
 
-    const displayValue2 = computed(
-      () =>
-        props.item?.volumeInfo?.authors?.join(", ") ||
-        props.item?.author ||
-        "Unknown Author"
-    );
+    const displayValue2 = computed(() => props.item?.title || "No post text");
 
     const removeItem = () => {
       emit("removeItem", props.item);
     };
 
     const handleOpenPage = () => {
-      const itemTitle = props.item?.title || props.item?.volumeInfo?.title;
+      const itemTitle = props.item?.body;
       if (itemTitle) {
         router.push(`/${props.routePath}/${itemTitle}`);
       }

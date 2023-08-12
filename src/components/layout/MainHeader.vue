@@ -15,12 +15,12 @@
       </router-link>
 
       <div class="flex">
-        <router-link to="/">
+        <router-link to="/" @click="setActiveIndex('1')">
           <el-menu-item index="1">Home</el-menu-item>
         </router-link>
 
-        <router-link to="/bookshelf">
-          <el-menu-item index="2">Bookshelf</el-menu-item>
+        <router-link to="/todo" @click="setActiveIndex('3')">
+          <el-menu-item index="3">Todos</el-menu-item>
         </router-link>
       </div>
     </el-menu>
@@ -28,9 +28,18 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
-const activeIndex = ref("1");
+const activeIndex = ref(localStorage.getItem("activeIndex") || "1");
+
+const setActiveIndex = (index) => {
+  activeIndex.value = index;
+  localStorage.setItem("activeIndex", index);
+};
+
+onMounted(() => {
+  localStorage.setItem("activeIndex", activeIndex.value);
+});
 </script>
 
 <style>

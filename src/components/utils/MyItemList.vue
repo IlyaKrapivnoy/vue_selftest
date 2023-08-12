@@ -15,7 +15,7 @@
       />
     </transition-group>
 
-    <div v-if="items.length === 0" class="text-center mt-5">
+    <div v-if="items?.length === 0" class="text-center mt-5">
       {{ noItemsMessage }}
     </div>
   </div>

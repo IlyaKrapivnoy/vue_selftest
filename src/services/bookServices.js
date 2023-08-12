@@ -1,15 +1,13 @@
 import axios from "axios";
 
-export async function fetchBooks(page, limit) {
+export async function fetchPosts(page, limit) {
   try {
     const response = await axios.get(
-      `https://www.googleapis.com/books/v1/volumes?q=programming&startIndex=${
-        (page - 1) * limit
-      }&maxResults=${limit}`
+      `https://jsonplaceholder.typicode.com/posts?_page=${page}&_limit=${limit}`,
+      { responseType: "json", headers: { Accept: "application/json" } }
     );
-    console.log(response.data.items);
 
-    return response.data;
+    return response;
   } catch (err) {
     console.warn("Error fetching data:", err);
     return null;
