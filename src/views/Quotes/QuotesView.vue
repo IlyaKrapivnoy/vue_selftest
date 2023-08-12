@@ -1,8 +1,11 @@
 <template>
   <main class="container mx-auto px-4 mt-20">
     <h1>Quotes Page</h1>
-    <div>
-      <button @click="generateQuote">Generate Quote</button>
+    <div class="mt-10">
+      <el-button @click="generateQuote" type="primary">
+        Generate Quote
+      </el-button>
+
       <QuoteDisplay :quote="currentQuote" />
     </div>
   </main>

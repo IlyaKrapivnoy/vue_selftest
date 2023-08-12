@@ -1,7 +1,7 @@
 <template>
-  <div v-if="quote">
-    <p>{{ quote }}</p>
-  </div>
+  <el-card v-if="quote" class="box-card mt-6">
+    <p class="italic">{{ quote }}</p>
+  </el-card>
 </template>
 
 <script>
