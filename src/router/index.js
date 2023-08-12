@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/Home/HomeView.vue";
 import TodoView from "@/views/Todo/TodoView.vue";
+import QuotesView from "@/views/Quotes/QuotesView.vue";
 
 const routes = [
   {
@@ -10,6 +11,10 @@ const routes = [
   {
     path: "/todo",
     component: TodoView,
+  },
+  {
+    path: "/quotes",
+    component: QuotesView,
   },
 ];
 

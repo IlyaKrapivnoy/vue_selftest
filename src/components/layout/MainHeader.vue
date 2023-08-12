@@ -19,8 +19,12 @@
           <el-menu-item index="1">Home</el-menu-item>
         </router-link>
 
-        <router-link to="/todo" @click="setActiveIndex('3')">
-          <el-menu-item index="3">Todos</el-menu-item>
+        <router-link to="/todo" @click="setActiveIndex('2')">
+          <el-menu-item index="2">Todos</el-menu-item>
+        </router-link>
+
+        <router-link to="/quotes" @click="setActiveIndex('3')">
+          <el-menu-item index="3">Quotes</el-menu-item>
         </router-link>
       </div>
     </el-menu>
