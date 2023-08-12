@@ -62,6 +62,16 @@
       </li>
     </ul>
 
+    <div class="flex justify-center my-5">
+      <el-pagination
+        layout="prev, pager, next"
+        :total="totalTodos"
+        :current-page="currentPage"
+        :page-size="pageSize"
+        @current-change="handlePageChange"
+      />
+    </div>
+
     <el-alert
       v-show="showAlert"
       title="Add some text to create a todo"
@@ -90,6 +100,11 @@ export default {
     const alertTimeout = ref(null);
     const isLoading = ref(true);
 
+    // pagination
+    const totalTodos = ref(0);
+    const currentPage = ref(1);
+    const pageSize = ref(10);
+
     const handleSubmit = () => {
       if (newTodo.value) {
         requestAddTodo(newTodo.value);
@@ -104,6 +119,11 @@ export default {
           showAlert.value = false;
         }, 3000);
       }
+    };
+
+    const handlePageChange = (newPage) => {
+      currentPage.value = newPage;
+      requestFetchTodos();
     };
 
     const toggleDone = (todo) => {
@@ -139,15 +159,21 @@ export default {
     };
 
     const requestFetchTodos = () => {
+      isLoading.value = true;
+      const startIndex = (currentPage.value - 1) * pageSize.value;
+      const endIndex = startIndex + pageSize.value;
+
       axios
         .get("https://jsonplaceholder.typicode.com/todos")
         .then((response) => {
-          todos.value = response.data.reverse();
-          isLoading.value = false;
-          console.log("response.data", response.data);
+          todos.value = response.data.slice(startIndex, endIndex).reverse();
+          totalTodos.value = response.data.length;
         })
         .catch((error) => {
           console.error("Error fetching todos:", error);
+        })
+        .finally(() => {
+          isLoading.value = false;
         });
     };
 
@@ -199,6 +225,10 @@ export default {
       showAlert,
       todos,
       isLoading,
+      handlePageChange,
+      totalTodos,
+      currentPage,
+      pageSize,
     };
   },
 };
