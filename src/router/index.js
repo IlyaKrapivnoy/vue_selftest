@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/Home/HomeView.vue";
 import TodoView from "@/views/Todo/TodoView.vue";
 import QuotesView from "@/views/Quotes/QuotesView.vue";
+import QuizView from "@/views/Quiz/QuizView.vue";
 
 const routes = [
   {
@@ -15,6 +16,10 @@ const routes = [
   {
     path: "/quotes",
     component: QuotesView,
+  },
+  {
+    path: "/quiz",
+    component: QuizView,
   },
 ];
 
