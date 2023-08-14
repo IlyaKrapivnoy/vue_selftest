@@ -57,6 +57,9 @@
     <section v-else class="finish">
       <h2>You have finished the quiz!</h2>
       <p>Your score is {{ score }}/{{ questions.length }}</p>
+      <el-button type="warning" plain @click="startOver" class="mt-6">
+        Start Over
+      </el-button>
     </section>
   </main>
 </template>
@@ -98,6 +101,14 @@ const NextQuestion = () => {
   }
 
   quizCompleted.value = true;
+};
+
+const startOver = () => {
+  quizCompleted.value = false;
+  currentQuestion.value = 0;
+  questions.value.forEach((q) => {
+    q.selected = null;
+  });
 };
 </script>
 
