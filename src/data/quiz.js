@@ -1,4 +1,4 @@
-const quizQuestions = ref([
+const quizQuestions = [
   {
     question: "What is Vue?",
     answer: 0,
@@ -21,6 +21,6 @@ const quizQuestions = ref([
     ],
     selected: null,
   },
-]);
+];
 
 export default quizQuestions;
