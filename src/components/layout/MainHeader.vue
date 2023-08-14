@@ -30,6 +30,10 @@
         <router-link to="/quiz" @click="setActiveIndex('4')">
           <el-menu-item index="4">Quiz</el-menu-item>
         </router-link>
+
+        <router-link to="/band-names" @click="setActiveIndex('5')">
+          <el-menu-item index="5">Band Names</el-menu-item>
+        </router-link>
       </div>
     </el-menu>
   </main>
