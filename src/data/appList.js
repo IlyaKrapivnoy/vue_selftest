@@ -1,6 +1,7 @@
 const appList = [
   {
     id: 1,
+    path: "todo",
     title: "Task Tracker",
     description: [
       "you can fetch todos",
@@ -14,6 +15,7 @@ const appList = [
   },
   {
     id: 2,
+    path: "quotes",
     title: "Quote Generator",
     description: [
       "you can generate random quote",
@@ -23,6 +25,7 @@ const appList = [
   },
   {
     id: 3,
+    path: "quiz",
     title: "Quiz",
     description: ["coming soon..."],
   },

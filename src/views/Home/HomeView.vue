@@ -10,17 +10,22 @@
         :title="getTitle(app, i)"
         :name="i.toString()"
       >
-        <ul
-          class="mt-3"
-          :class="{ 'list-disc ml-6': app.description.length > 1 }"
-        >
+        <ul class="mt-3" :class="{ 'list-disc': app.description.length > 1 }">
           <li
             v-for="(description, index) in app.description"
             :key="index"
-            class="mt-2"
+            class="mt-2 ml-6"
           >
             {{ description }}
           </li>
+          <el-button
+            @click="goToApp(app.path)"
+            type="primary"
+            plain
+            class="w-[180px] mt-6"
+          >
+            See the app
+          </el-button>
         </ul>
       </el-collapse-item>
     </el-collapse>
@@ -29,10 +34,14 @@
 
 <script>
 import appList from "@/data/appList";
+import router from "@/router";
 
 export default {
   name: "HomeView",
   methods: {
+    router() {
+      return router;
+    },
     appList() {
       return appList;
     },
@@ -46,6 +55,10 @@ export default {
 
     getTitle(app, i) {
       return `${this.getOrdinal(i + 1)} App: ${app.title}`;
+    },
+
+    goToApp(path) {
+      router.push(`/${path}`);
     },
   },
 };
