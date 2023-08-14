@@ -35,9 +35,9 @@ const appList = [
   },
   {
     id: 4,
-    path: "/",
-    title: "Coming...",
-    description: ["coming soon..."],
+    path: "band-names",
+    title: "Sad Band Names",
+    description: ["get your sad band name by clicking on a button"],
   },
 ];
 export default appList;
