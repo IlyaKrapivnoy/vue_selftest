@@ -2,19 +2,19 @@
   <main class="container mx-auto px-4 mt-20">
     <h1>HOME PAGE</h1>
     <h2 class="mt-6">List of Apps</h2>
-    <ul class="pl-10 mt-4">
-      <li
+
+    <el-collapse v-model="activeName" accordion class="mt-10">
+      <el-collapse-item
         v-for="(app, i) in appList()"
         :key="i"
-        :class="{
-          capitalize: i !== appList().length - 1,
-        }"
-        class="pl-5 mt-3 list-none text-indigo-300 font-bold text-xl"
+        :title="getTitle(app, i)"
+        :name="i.toString()"
       >
-        <span class="ordinal">{{ getOrdinal(i + 1) }}</span> App:
-        <span class="text-gray-600">{{ app }}</span>
-      </li>
-    </ul>
+        <div class="mt-3">
+          <p>Coming soon...</p>
+        </div>
+      </el-collapse-item>
+    </el-collapse>
   </main>
 </template>
 
@@ -33,6 +33,10 @@ export default {
       const suffix =
         number > 10 && number < 20 ? "th" : suffixes[(number - 1) % 10] || "th";
       return `${number}${suffix}`;
+    },
+
+    getTitle(app, i) {
+      return `${this.getOrdinal(i + 1)} App: ${app}`;
     },
   },
 };
