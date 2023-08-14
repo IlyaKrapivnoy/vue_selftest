@@ -6,13 +6,22 @@
     <el-collapse v-model="activeName" accordion class="mt-10">
       <el-collapse-item
         v-for="(app, i) in appList()"
-        :key="i"
+        :key="app.id"
         :title="getTitle(app, i)"
         :name="i.toString()"
       >
-        <div class="mt-3">
-          <p>Coming soon...</p>
-        </div>
+        <ul
+          class="mt-3"
+          :class="{ 'list-disc ml-6': app.description.length > 1 }"
+        >
+          <li
+            v-for="(description, index) in app.description"
+            :key="index"
+            class="mt-2"
+          >
+            {{ description }}
+          </li>
+        </ul>
       </el-collapse-item>
     </el-collapse>
   </main>
@@ -36,7 +45,7 @@ export default {
     },
 
     getTitle(app, i) {
-      return `${this.getOrdinal(i + 1)} App: ${app}`;
+      return `${this.getOrdinal(i + 1)} App: ${app.title}`;
     },
   },
 };
