@@ -1,13 +1,13 @@
 <template>
   <main class="container mx-auto px-4 mt-20">
     <h1>Quiz Page</h1>
-    <section v-if="!quizCompleted">
-      <div class="flex justify-between mb-4 text-indigo-300">
+    <section v-if="!quizCompleted" class="flex flex-col">
+      <div class="flex justify-between text-indigo-300">
         <span>{{ getCurrentQuestion.question }}</span>
         <span>Score {{ score }}/{{ questions.length }}</span>
       </div>
 
-      <div>
+      <div class="mt-6">
         <label
           v-for="(option, index) in getCurrentQuestion.options"
           :key="index"
@@ -42,7 +42,7 @@
         type="primary"
         @click="NextQuestion"
         :disabled="!getCurrentQuestion.selected"
-        class="mt-4"
+        class="self-end mt-6"
       >
         {{
           getCurrentQuestion.index == questions.length - 1
