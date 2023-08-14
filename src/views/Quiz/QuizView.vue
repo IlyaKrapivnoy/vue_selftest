@@ -5,5 +5,19 @@
 </template>
 
 <script>
-export default {};
+import { ref, computed } from "vue";
+import quizQuestions from "@/data/quiz";
+
+const questions = ref(quizQuestions);
+const quizCompleted = ref(false);
+const currentQuestion = ref(0);
+const score = computed(() => {
+  let value = 0;
+  questions.value.map((q) => {
+    if ((q.selected = q.answer)) {
+      value++;
+    }
+  });
+  return value;
+});
 </script>
