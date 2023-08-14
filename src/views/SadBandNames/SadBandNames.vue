@@ -17,31 +17,25 @@
 </template>
 
 <script>
+import { adjectives, nouns, suffixes } from "@/data/band";
+import { ref } from "vue";
+
 export default {
-  data() {
-    return {
-      adjectives: ["Mournful", "Melancholic", "Gloomy", "Sorrowful", "Dreary"],
-      nouns: ["Shadows", "Tears", "Whispers", "Echoes", "Solitude"],
-      suffixes: [
-        "of Despair",
-        "of Regret",
-        "of Sorrow",
-        "from the Abyss",
-        "of Longing",
-      ],
-      bandName: "",
+  setup() {
+    const bandName = ref("");
+
+    const generateName = () => {
+      const adjective = getRandomItem(adjectives);
+      const noun = getRandomItem(nouns);
+      const suffix = getRandomItem(suffixes);
+      bandName.value = `${adjective} ${noun} ${suffix}`;
     };
-  },
-  methods: {
-    generateName() {
-      const adjective = this.getRandomItem(this.adjectives);
-      const noun = this.getRandomItem(this.nouns);
-      const suffix = this.getRandomItem(this.suffixes);
-      this.bandName = `${adjective} ${noun} ${suffix}`;
-    },
-    getRandomItem(array) {
+
+    const getRandomItem = (array) => {
       return array[Math.floor(Math.random() * array.length)];
-    },
+    };
+
+    return { generateName, bandName };
   },
 };
 </script>
