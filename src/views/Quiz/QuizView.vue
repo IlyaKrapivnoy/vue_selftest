@@ -66,9 +66,7 @@
         >
           NOT BAD
         </p>
-        <p v-else class="text-red-500 font-bold">
-          YOU! YES, YOU... YOU CAN DO BETTER!
-        </p>
+        <p v-else class="text-red-500 font-bold">YOU CAN DO BETTER!</p>
       </div>
 
       <el-button type="warning" plain @click="startOver" class="mt-6">

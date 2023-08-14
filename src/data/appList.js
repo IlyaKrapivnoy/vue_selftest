@@ -27,6 +27,16 @@ const appList = [
     id: 3,
     path: "quiz",
     title: "Quiz",
+    description: [
+      "I've used mocked data",
+      "it counts score",
+      "it can show different result message related on your score",
+    ],
+  },
+  {
+    id: 4,
+    path: "/",
+    title: "Coming...",
     description: ["coming soon..."],
   },
 ];
