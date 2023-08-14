@@ -22,9 +22,9 @@
             @click="goToApp(app.path)"
             type="primary"
             plain
-            class="w-[180px] mt-6"
+            class="w-[180px] mt-6 capitalize"
           >
-            See the app
+            See {{ app.path }} app
           </el-button>
         </ul>
       </el-collapse-item>
