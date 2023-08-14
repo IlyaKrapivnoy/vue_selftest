@@ -57,6 +57,20 @@
     <section v-else class="finish">
       <h2>You have finished the quiz!</h2>
       <p>Your score is {{ score }}/{{ questions.length }}</p>
+
+      <div class="mt-4">
+        <p v-if="score > 3" class="text-green-500 font-bold">AWESOME RESULT!</p>
+        <p
+          v-else-if="score >= 2 && score <= 3"
+          class="text-yellow-500 font-bold"
+        >
+          NOT BAD
+        </p>
+        <p v-else class="text-red-500 font-bold">
+          YOU! YES, YOU... YOU CAN DO BETTER!
+        </p>
+      </div>
+
       <el-button type="warning" plain @click="startOver" class="mt-6">
         Start Over
       </el-button>
