@@ -49,7 +49,11 @@ const navData = [
     id: 5,
     path: "counter",
     title: "Counter",
-    description: ["increase / decrease counter", "save data to Vuex store"],
+    description: [
+      "increase / decrease counter",
+      "prevent manipulations with negative numbers",
+      "save data to Vuex store",
+    ],
   },
 ];
 export default navData;
