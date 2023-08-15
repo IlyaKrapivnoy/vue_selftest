@@ -69,13 +69,12 @@ import { useStore } from "vuex";
 export default {
   setup() {
     const store = useStore();
+    const counterModule = store.state.counter;
 
-    console.log("store", store.state);
-
-    const counter = computed(() => store.state.counter.counter);
-    const number = computed(() => store.state.counter.number);
-    const operations = computed(() => store.state.counter.operations);
-    const isAlert = computed(() => store.state.counter.isAlert);
+    const counter = computed(() => counterModule.counter);
+    const number = computed(() => counterModule.number);
+    const operations = computed(() => counterModule.operations);
+    const isAlert = computed(() => counterModule.isAlert);
 
     let inputNumber = ref(1);
 
@@ -84,24 +83,17 @@ export default {
     const reset = () => store.commit("reset");
 
     const applyChange = () => {
-      if (!isNaN(inputNumber.value)) {
-        const newValue = Number(inputNumber.value);
-        if (newValue > 0) {
-          number.value = newValue;
-          isAlert.value = false;
-        } else {
-          isAlert.value = true;
-        }
-      }
+      const newValue = Number(inputNumber.value);
+      store.commit("applyChange", newValue);
     };
 
     onMounted(() => {
-      store.state.counter.operations =
+      counterModule.operations =
         Number(sessionStorage.getItem("operations")) || 0;
     });
 
     const saveOperationsToSessionStorage = () => {
-      sessionStorage.setItem("operations", operations.value.toString());
+      sessionStorage.setItem("operations", counterModule.operations.toString());
     };
 
     const onInputChange = (value) => {

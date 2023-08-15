@@ -25,5 +25,16 @@ export const counterModule = {
       state.counter = 0;
       state.isAlert = false;
     },
+    applyChange(state, newVal) {
+      if (!isNaN(newVal)) {
+        const newNumber = Number(newVal);
+        if (newNumber > 0) {
+          state.number = newNumber;
+          state.isAlert = false;
+        } else {
+          state.isAlert = true;
+        }
+      }
+    },
   },
 };
