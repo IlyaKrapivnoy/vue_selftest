@@ -42,7 +42,6 @@ export default {
     let isAlert = ref(false);
 
     const decrease = () => {
-      console.log("isAlert:", isAlert);
       if (counter.value > 0) {
         counter.value--;
       } else {

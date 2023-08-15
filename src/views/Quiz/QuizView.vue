@@ -88,7 +88,6 @@ const score = computed(() => {
   let value = 0;
   questions.value.map((q) => {
     if (q.selected != null && q.answer == q.selected) {
-      console.log("correct");
       value++;
     }
   });

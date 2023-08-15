@@ -1,7 +1,7 @@
 <template>
   <main class="container mx-auto">
     <el-menu
-      :default-active="activeIndex"
+      :default-active="activeIndex.toString()"
       class="el-menu-demo flex justify-between uppercase"
       mode="horizontal"
     >
@@ -21,7 +21,9 @@
           :to="link.path"
           @click="setActiveIndex(link.id)"
         >
-          <el-menu-item :index="link.id">{{ link.title }}</el-menu-item>
+          <el-menu-item :index="link.id.toString()">{{
+            link.title
+          }}</el-menu-item>
         </router-link>
       </div>
     </el-menu>
