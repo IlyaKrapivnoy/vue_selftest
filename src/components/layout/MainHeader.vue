@@ -5,7 +5,7 @@
       class="el-menu-demo flex justify-between uppercase"
       mode="horizontal"
     >
-      <router-link to="/">
+      <router-link to="/" @click="setActiveIndex(0)">
         <el-menu-item index="1" class="logo-nav-item">
           <div class="flex flex-col items-center cursor-pointer ml-4">
             <div class="text-3xl font-bold text-indigo-300">Logo</div>

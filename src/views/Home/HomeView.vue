@@ -49,9 +49,7 @@ const getOrdinal = (number) => {
   return `${number}${suffix}`;
 };
 
-const getTitle = (app, i) => {
-  return `${getOrdinal(i)} App: ${app.title}`;
-};
+const getTitle = (app, i) => `${getOrdinal(i)} App: ${app.title}`;
 
 const goToApp = (app) => {
   router.push(`/${app.path}`);
