@@ -72,32 +72,16 @@ export default {
 
     console.log("store", store.state);
 
-    let counter = computed(() => store.state.counter.counter);
-    let number = computed(() => store.state.counter.number);
-    let operations = computed(() => store.state.counter.operations);
+    const counter = computed(() => store.state.counter.counter);
+    const number = computed(() => store.state.counter.number);
+    const operations = computed(() => store.state.counter.operations);
+    const isAlert = computed(() => store.state.counter.isAlert);
 
-    let isAlert = ref(false);
     let inputNumber = ref(1);
 
-    const decrease = () => {
-      if (counter.value > 0) {
-        counter.value -= number.value;
-        operations.value++;
-      } else {
-        isAlert.value = true;
-      }
-    };
-
-    const increase = () => {
-      counter.value += number.value;
-      operations.value++;
-      isAlert.value = false;
-    };
-
-    const reset = () => {
-      counter.value = 0;
-      isAlert.value = false;
-    };
+    const decrease = () => store.commit("decrease");
+    const increase = () => store.commit("increase");
+    const reset = () => store.commit("reset");
 
     const applyChange = () => {
       if (!isNaN(inputNumber.value)) {
@@ -112,7 +96,8 @@ export default {
     };
 
     onMounted(() => {
-      operations.value = Number(sessionStorage.getItem("operations")) || 0;
+      store.state.counter.operations =
+        Number(sessionStorage.getItem("operations")) || 0;
     });
 
     const saveOperationsToSessionStorage = () => {
