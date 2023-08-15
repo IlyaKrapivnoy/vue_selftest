@@ -2,9 +2,12 @@
   <main class="container mx-auto px-4 mt-20">
     <h1>Sad Rock Band Name Generator</h1>
 
-    <el-button type="primary" @click="generateName" class="mt-10"
-      >Generate Band Name</el-button
-    >
+    <div class="flex flex-col mt-10">
+      <span class="text-gray-500">Click Me:</span>
+      <el-button type="warning" plain @click="generateName" class="self-start"
+        >Generate Band Name</el-button
+      >
+    </div>
     <div class="mt-10 text-2xl">
       <p>
         Your Sad Rock Band Name:
