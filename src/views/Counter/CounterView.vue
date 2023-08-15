@@ -32,6 +32,8 @@
         <div class="w-full mt-4">
           <el-input
             v-model.number="inputNumber"
+            @input="onInputChange"
+            @keydown.enter="applyChange"
             type="number"
             size="small"
             placeholder="Increase / decrease by..."
@@ -105,6 +107,10 @@ export default {
       sessionStorage.setItem("operations", operations.value.toString());
     };
 
+    const onInputChange = (value) => {
+      inputNumber.value = value.replace(/\D/g, "");
+    };
+
     watch(operations, () => {
       saveOperationsToSessionStorage();
     });
@@ -119,6 +125,7 @@ export default {
       inputNumber,
       number,
       operations,
+      onInputChange,
     };
   },
 };
