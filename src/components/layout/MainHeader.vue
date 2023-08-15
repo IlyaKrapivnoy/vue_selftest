@@ -29,16 +29,9 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
-import appList from "@/data/navData";
+import { onMounted } from "vue";
 import navData from "@/data/navData";
-
-const activeIndex = ref(localStorage.getItem("activeIndex") || "1");
-
-const setActiveIndex = (index) => {
-  activeIndex.value = index;
-  localStorage.setItem("activeIndex", index);
-};
+import { activeIndex, setActiveIndex } from "@/common/activeIndexNav";
 
 onMounted(() => {
   localStorage.setItem("activeIndex", activeIndex.value);

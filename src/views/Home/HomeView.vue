@@ -20,7 +20,7 @@
             {{ description }}
           </li>
           <el-button
-            @click="goToApp(app.path)"
+            @click="goToApp(app)"
             type="primary"
             plain
             class="w-[180px] mt-6 capitalize"
@@ -36,6 +36,7 @@
 <script>
 import appList from "@/data/navData";
 import router from "@/router";
+import { setActiveIndex } from "@/common/activeIndexNav";
 
 export default {
   name: "HomeView",
@@ -59,8 +60,9 @@ export default {
       return `${this.getOrdinal(i)} App: ${app.title}`;
     },
 
-    goToApp(path) {
-      router.push(`/${path}`);
+    goToApp(app) {
+      router.push(`/${app.path}`);
+      setActiveIndex(app.id);
     },
   },
 };
