@@ -5,7 +5,7 @@
 
     <el-collapse v-model="activeName" accordion class="my-6">
       <el-collapse-item
-        v-for="(app, i) in appList()"
+        v-for="(app, i) in appList"
         :key="app.id"
         :title="getTitle(app, i)"
         :name="i.toString()"
@@ -33,37 +33,37 @@
   </main>
 </template>
 
-<script>
+<script setup>
+import { ref, onMounted } from "vue";
 import appList from "@/data/navData";
 import router from "@/router";
 import { setActiveIndex } from "@/common/activeIndexNav";
 
-export default {
-  name: "HomeView",
+const activeName = ref([]);
+const appListData = appList;
 
-  methods: {
-    router() {
-      return router;
-    },
-    appList() {
-      return appList;
-    },
-
-    getOrdinal(number) {
-      const suffixes = ["st", "nd", "rd"];
-      const suffix =
-        number > 10 && number < 20 ? "th" : suffixes[(number - 1) % 10] || "th";
-      return `${number}${suffix}`;
-    },
-
-    getTitle(app, i) {
-      return `${this.getOrdinal(i)} App: ${app.title}`;
-    },
-
-    goToApp(app) {
-      router.push(`/${app.path}`);
-      setActiveIndex(app.id);
-    },
-  },
+const getOrdinal = (number) => {
+  const suffixes = ["st", "nd", "rd"];
+  const suffix =
+    number > 10 && number < 20 ? "th" : suffixes[(number - 1) % 10] || "th";
+  return `${number}${suffix}`;
 };
+
+const getTitle = (app, i) => {
+  return `${getOrdinal(i)} App: ${app.title}`;
+};
+
+const goToApp = (app) => {
+  router.push(`/${app.path}`);
+  setActiveIndex(app.id);
+};
+onMounted(() => {
+  appListData.forEach((app) => {
+    if (app.title === "Home") {
+      activeName.value.push("0");
+    } else {
+      activeName.value.push("");
+    }
+  });
+});
 </script>
