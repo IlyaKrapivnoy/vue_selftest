@@ -9,6 +9,7 @@
         :key="app.id"
         :title="getTitle(app, i)"
         :name="i.toString()"
+        v-show="app.title !== 'Home'"
       >
         <ul class="mt-3" :class="{ 'list-disc': app.description.length > 1 }">
           <li
@@ -55,7 +56,7 @@ export default {
     },
 
     getTitle(app, i) {
-      return `${this.getOrdinal(i + 1)} App: ${app.title}`;
+      return `${this.getOrdinal(i)} App: ${app.title}`;
     },
 
     goToApp(path) {
