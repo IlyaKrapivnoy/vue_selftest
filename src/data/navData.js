@@ -53,6 +53,7 @@ const navData = [
       "increase / decrease counter",
       "prevent manipulations with negative numbers",
       "save data to Vuex store",
+      "save amount of total operations to sessionStorage",
     ],
   },
 ];

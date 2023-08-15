@@ -1,13 +1,17 @@
 <template>
   <main class="container mx-auto px-4 mt-20">
     <h1>Counter Page</h1>
-    <div>
+    <div class="mt-6">
       <p class="text-gray-400 font-bold">
         Increase / Decrease by: <span class="text-gray-600">{{ number }}</span>
       </p>
+      <p class="text-gray-400 font-bold">
+        Total amount of operations by browser session:
+        <span class="text-gray-600">{{ operations }}</span>
+      </p>
     </div>
     <div
-      class="flex flex-col justify-center items-center h-[calc(100vh-300px)]"
+      class="flex flex-col justify-center items-center h-[calc(100vh-400px)]"
     >
       <div class="text-[100px] font-bold text-gray-600">
         {{ counter }}
@@ -58,17 +62,19 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 export default {
   setup() {
     const counter = ref(100);
     let isAlert = ref(false);
     let number = ref(1);
     let inputNumber = ref(1);
+    let operations = ref(0);
 
     const decrease = () => {
       if (counter.value > 0) {
         counter.value -= number.value;
+        operations.value++;
       } else {
         isAlert.value = true;
       }
@@ -76,6 +82,7 @@ export default {
 
     const increase = () => {
       counter.value += number.value;
+      operations.value++;
       isAlert.value = false;
     };
 
@@ -90,6 +97,18 @@ export default {
       }
     };
 
+    onMounted(() => {
+      operations.value = Number(sessionStorage.getItem("operations")) || 0;
+    });
+
+    const saveOperationsToSessionStorage = () => {
+      sessionStorage.setItem("operations", operations.value.toString());
+    };
+
+    watch(operations, () => {
+      saveOperationsToSessionStorage();
+    });
+
     return {
       counter,
       isAlert,
@@ -99,6 +118,7 @@ export default {
       applyChange,
       inputNumber,
       number,
+      operations,
     };
   },
 };
