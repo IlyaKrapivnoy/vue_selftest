@@ -193,7 +193,6 @@ export default {
       axios
         .post("https://jsonplaceholder.typicode.com/todos", newTodo)
         .then((response) => {
-          console.log("Todo added:", response.data);
           todos.value.unshift(response.data);
 
           saveTodosToLocalStorage();

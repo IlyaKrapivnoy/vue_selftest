@@ -1,14 +1,11 @@
-import { createStore } from 'vuex'
+import { createStore } from "vuex";
+import { counterModule } from "@/store/counterModule";
 
 export default createStore({
   state: {
-  },
-  getters: {
-  },
-  mutations: {
-  },
-  actions: {
+    isAuth: false,
   },
   modules: {
-  }
-})
+    counter: counterModule,
+  },
+});
