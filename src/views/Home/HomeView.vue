@@ -3,12 +3,13 @@
     <h1>HOME PAGE</h1>
     <h2 class="mt-6">List of Apps</h2>
 
-    <el-collapse v-model="activeName" accordion class="mt-10">
+    <el-collapse v-model="activeName" accordion class="my-6">
       <el-collapse-item
-        v-for="(app, i) in appList()"
+        v-for="(app, i) in appList"
         :key="app.id"
         :title="getTitle(app, i)"
         :name="i.toString()"
+        v-show="app.title !== 'Home'"
       >
         <ul class="mt-3" :class="{ 'list-disc': app.description.length > 1 }">
           <li
@@ -19,7 +20,7 @@
             {{ description }}
           </li>
           <el-button
-            @click="goToApp(app.path)"
+            @click="goToApp(app)"
             type="primary"
             plain
             class="w-[180px] mt-6 capitalize"
@@ -32,34 +33,35 @@
   </main>
 </template>
 
-<script>
-import appList from "@/data/appList";
+<script setup>
+import { ref, onMounted } from "vue";
+import appList from "@/data/navData";
 import router from "@/router";
+import { setActiveIndex } from "@/common/activeIndexNav";
 
-export default {
-  name: "HomeView",
-  methods: {
-    router() {
-      return router;
-    },
-    appList() {
-      return appList;
-    },
+const activeName = ref([]);
+const appListData = appList;
 
-    getOrdinal(number) {
-      const suffixes = ["st", "nd", "rd"];
-      const suffix =
-        number > 10 && number < 20 ? "th" : suffixes[(number - 1) % 10] || "th";
-      return `${number}${suffix}`;
-    },
-
-    getTitle(app, i) {
-      return `${this.getOrdinal(i + 1)} App: ${app.title}`;
-    },
-
-    goToApp(path) {
-      router.push(`/${path}`);
-    },
-  },
+const getOrdinal = (number) => {
+  const suffixes = ["st", "nd", "rd"];
+  const suffix =
+    number > 10 && number < 20 ? "th" : suffixes[(number - 1) % 10] || "th";
+  return `${number}${suffix}`;
 };
+
+const getTitle = (app, i) => `${getOrdinal(i)} App: ${app.title}`;
+
+const goToApp = (app) => {
+  router.push(`/${app.path}`);
+  setActiveIndex(app.id);
+};
+onMounted(() => {
+  appListData.forEach((app) => {
+    if (app.title === "Home") {
+      activeName.value.push("0");
+    } else {
+      activeName.value.push("");
+    }
+  });
+});
 </script>

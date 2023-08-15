@@ -3,6 +3,7 @@ import HomeView from "@/views/Home/HomeView.vue";
 import TodoView from "@/views/Todo/TodoView.vue";
 import QuotesView from "@/views/Quotes/QuotesView.vue";
 import QuizView from "@/views/Quiz/QuizView.vue";
+import SadBandNames from "@/views/SadBandNames/SadBandNames.vue";
 
 const routes = [
   {
@@ -20,6 +21,10 @@ const routes = [
   {
     path: "/quiz",
     component: QuizView,
+  },
+  {
+    path: "/band-names",
+    component: SadBandNames,
   },
 ];
 
