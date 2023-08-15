@@ -45,5 +45,11 @@ const navData = [
     title: "Sad Band Names",
     description: ["get your sad band name by clicking on a button"],
   },
+  {
+    id: 5,
+    path: "counter",
+    title: "Counter",
+    description: ["increase / decrease counter", "save data to Vuex store"],
+  },
 ];
 export default navData;

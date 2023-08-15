@@ -4,6 +4,7 @@ import TodoView from "@/views/Todo/TodoView.vue";
 import QuotesView from "@/views/Quotes/QuotesView.vue";
 import QuizView from "@/views/Quiz/QuizView.vue";
 import SadBandNames from "@/views/SadBandNames/SadBandNames.vue";
+import CounterView from "@/views/Counter/CounterView.vue";
 
 const routes = [
   {
@@ -25,6 +26,10 @@ const routes = [
   {
     path: "/band-names",
     component: SadBandNames,
+  },
+  {
+    path: "/counter",
+    component: CounterView,
   },
 ];
 
