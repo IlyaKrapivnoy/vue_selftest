@@ -51,19 +51,24 @@
 <script>
 import { computed, onMounted, ref, watch } from "vue";
 import QuoteDisplay from "@/views/Quotes/partials/QuoteDisplay.vue";
-import quotes from "@/data/quotes";
+import { useStore } from "vuex";
 
 export default {
   components: {
     QuoteDisplay,
   },
   setup() {
+    const store = useStore();
+    const quoteModule = store.state.quotes;
+
+    const quotes = computed(() => quoteModule.quotes);
+
     const selectedLang = ref("en");
     const selectedCategory = ref("math");
     const currentQuote = ref("");
 
     const generateQuote = () => {
-      let filteredQuotes = quotes.filter(
+      let filteredQuotes = quotes.value.filter(
         (quote) =>
           quote.lang === selectedLang.value &&
           quote.category === selectedCategory.value
@@ -78,7 +83,7 @@ export default {
     };
 
     const categories = computed(() => [
-      ...new Set(quotes.map((q) => q.category)),
+      ...new Set(quotes.value.map((q) => q.category)),
     ]);
 
     onMounted(() => {
