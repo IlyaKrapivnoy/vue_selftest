@@ -3,7 +3,7 @@
     <h1>HOME PAGE</h1>
     <h2 class="mt-6">List of Apps</h2>
 
-    <el-collapse v-model="activeName" accordion class="mt-10">
+    <el-collapse v-model="activeName" accordion class="my-6">
       <el-collapse-item
         v-for="(app, i) in appList()"
         :key="app.id"
@@ -33,11 +33,12 @@
 </template>
 
 <script>
-import appList from "@/data/appList";
+import appList from "@/data/navData";
 import router from "@/router";
 
 export default {
   name: "HomeView",
+
   methods: {
     router() {
       return router;

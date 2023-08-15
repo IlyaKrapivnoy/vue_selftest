@@ -15,24 +15,13 @@
       </router-link>
 
       <div class="flex">
-        <router-link to="/" @click="setActiveIndex('1')">
-          <el-menu-item index="1">Home</el-menu-item>
-        </router-link>
-
-        <router-link to="/todo" @click="setActiveIndex('2')">
-          <el-menu-item index="2">Todos</el-menu-item>
-        </router-link>
-
-        <router-link to="/quotes" @click="setActiveIndex('3')">
-          <el-menu-item index="3">Quotes</el-menu-item>
-        </router-link>
-
-        <router-link to="/quiz" @click="setActiveIndex('4')">
-          <el-menu-item index="4">Quiz</el-menu-item>
-        </router-link>
-
-        <router-link to="/band-names" @click="setActiveIndex('5')">
-          <el-menu-item index="5">Band Names</el-menu-item>
+        <router-link
+          v-for="link in navData"
+          :key="link.id"
+          :to="link.path"
+          @click="setActiveIndex(link.id)"
+        >
+          <el-menu-item :index="link.id">{{ link.title }}</el-menu-item>
         </router-link>
       </div>
     </el-menu>
@@ -41,6 +30,8 @@
 
 <script setup>
 import { onMounted, ref } from "vue";
+import appList from "@/data/navData";
+import navData from "@/data/navData";
 
 const activeIndex = ref(localStorage.getItem("activeIndex") || "1");
 
