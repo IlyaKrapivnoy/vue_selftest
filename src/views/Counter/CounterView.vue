@@ -64,14 +64,20 @@
 </template>
 
 <script>
-import { onMounted, ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
+import { useStore } from "vuex";
 export default {
   setup() {
-    const counter = ref(100);
+    const store = useStore();
+
+    console.log("store", store.state);
+
+    let counter = computed(() => store.state.counter.counter);
+    let number = computed(() => store.state.counter.number);
+    let operations = computed(() => store.state.counter.operations);
+
     let isAlert = ref(false);
-    let number = ref(1);
     let inputNumber = ref(1);
-    let operations = ref(0);
 
     const decrease = () => {
       if (counter.value > 0) {
@@ -140,7 +146,7 @@ export default {
 <style scoped>
 .alert {
   position: fixed;
-  width: 45%;
+  width: 35%;
   bottom: 20%;
   right: 6%;
 }
