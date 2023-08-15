@@ -54,7 +54,7 @@
         <el-alert
           title="warning alert"
           type="warning"
-          description="Only positive numbers"
+          description="Only positive numbers that are bigger than zero"
           show-icon
           :closable="false"
         />
@@ -95,7 +95,13 @@ export default {
 
     const applyChange = () => {
       if (!isNaN(inputNumber.value)) {
-        number.value = Number(inputNumber.value);
+        const newValue = Number(inputNumber.value);
+        if (newValue > 0) {
+          number.value = newValue;
+          isAlert.value = false;
+        } else {
+          isAlert.value = true;
+        }
       }
     };
 
