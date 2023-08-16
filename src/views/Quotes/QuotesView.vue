@@ -57,6 +57,7 @@ import { computed, onMounted, ref, watch } from "vue";
 import QuoteDisplay from "@/views/Quotes/partials/QuoteDisplay.vue";
 import { useStore } from "vuex";
 import { useHead } from "@unhead/vue";
+import { QUOTES_HEAD } from "@/data/head";
 
 export default {
   components: {
@@ -64,11 +65,11 @@ export default {
   },
   setup() {
     useHead({
-      title: "Quotes | Vue.js",
+      title: QUOTES_HEAD.title,
       meta: [
         {
-          name: "description",
-          content: "This page can inspire you with great quotes",
+          name: QUOTES_HEAD.name,
+          content: QUOTES_HEAD.content,
         },
       ],
     });

@@ -80,13 +80,14 @@
 import { ref, computed } from "vue";
 import quizQuestions from "@/data/quiz";
 import { useHead } from "@unhead/vue";
+import { QUIZ_HEAD } from "@/data/head";
 
 useHead({
-  title: "Quiz | Vue.js",
+  title: QUIZ_HEAD.title,
   meta: [
     {
-      name: "description",
-      content: "This quiz will eat all your free time",
+      name: QUIZ_HEAD.name,
+      content: QUIZ_HEAD.content,
     },
   ],
 });

@@ -67,14 +67,15 @@
 import { computed, onMounted, ref, watch } from "vue";
 import { useStore } from "vuex";
 import { useHead } from "@unhead/vue";
+import { COUNTER_HEAD } from "@/data/head";
 export default {
   setup() {
     useHead({
-      title: "Counter | Vue.js",
+      title: COUNTER_HEAD.title,
       meta: [
         {
-          name: "description",
-          content: "This page helps you to count anything",
+          name: COUNTER_HEAD.name,
+          content: COUNTER_HEAD.content,
         },
       ],
     });

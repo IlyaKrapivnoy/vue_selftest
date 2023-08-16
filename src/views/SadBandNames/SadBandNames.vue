@@ -23,15 +23,16 @@
 import { computed, ref } from "vue";
 import { useStore } from "vuex";
 import { useHead } from "@unhead/vue";
+import { BAND_NAMES_HEAD } from "@/data/head";
 
 export default {
   setup() {
     useHead({
-      title: "Rock Band Name | Vue.js",
+      title: BAND_NAMES_HEAD.title,
       meta: [
         {
-          name: "description",
-          content: "This page helps you to create the best Sad Rock Band Name",
+          name: BAND_NAMES_HEAD.name,
+          content: BAND_NAMES_HEAD.content,
         },
       ],
     });

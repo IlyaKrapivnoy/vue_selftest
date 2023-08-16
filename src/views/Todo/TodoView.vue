@@ -94,16 +94,17 @@ import { computed, onMounted, ref } from "vue";
 import axios from "axios";
 import MySpinner from "@/components/common/MySpinner.vue";
 import { useHead } from "@unhead/vue";
+import { TODO_HEAD } from "@/data/head";
 
 export default {
   components: { MySpinner },
   setup() {
     useHead({
-      title: "Todo | Vue.js",
+      title: TODO_HEAD.title,
       meta: [
         {
-          name: "description",
-          content: "This todo app helps you to track your tasks",
+          name: TODO_HEAD.name,
+          content: TODO_HEAD.content,
         },
       ],
     });

@@ -39,13 +39,14 @@ import appList from "@/data/navData";
 import router from "@/router";
 import { setActiveIndex } from "@/common/activeIndexNav";
 import { useHead } from "@unhead/vue";
+import { HOME_HEAD } from "@/data/head";
 
 useHead({
-  title: "Home page | Vue.js",
+  title: HOME_HEAD.title,
   meta: [
     {
-      name: "description",
-      content: "There is a list of all apps you can find here",
+      name: HOME_HEAD.name,
+      content: HOME_HEAD.content,
     },
   ],
 });
