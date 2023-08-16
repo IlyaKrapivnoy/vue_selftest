@@ -20,17 +20,21 @@
 </template>
 
 <script>
-import { adjectives, nouns, suffixes } from "@/data/band";
 import { ref } from "vue";
+import { useStore } from "vuex";
 
 export default {
   setup() {
+    const store = useStore();
     const bandName = ref("");
 
+    const storedBandNames = store.state.bandNames;
+    console.log("storedBandNames", storedBandNames);
+
     const generateName = () => {
-      const adjective = getRandomItem(adjectives);
-      const noun = getRandomItem(nouns);
-      const suffix = getRandomItem(suffixes);
+      const adjective = getRandomItem(storedBandNames.bandAdjectives);
+      const noun = getRandomItem(storedBandNames.bandNouns);
+      const suffix = getRandomItem(storedBandNames.bandSuffixes);
       bandName.value = `${adjective} ${noun} ${suffix}`;
     };
 
