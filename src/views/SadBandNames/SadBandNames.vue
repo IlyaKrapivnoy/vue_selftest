@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useStore } from "vuex";
 
 export default {
@@ -28,13 +28,12 @@ export default {
     const store = useStore();
     const bandName = ref("");
 
-    const storedBandNames = store.state.bandNames;
-    console.log("storedBandNames", storedBandNames);
+    const storedBandNames = computed(() => store.state.bandNames);
 
     const generateName = () => {
-      const adjective = getRandomItem(storedBandNames.bandAdjectives);
-      const noun = getRandomItem(storedBandNames.bandNouns);
-      const suffix = getRandomItem(storedBandNames.bandSuffixes);
+      const adjective = getRandomItem(storedBandNames.value.bandAdjectives);
+      const noun = getRandomItem(storedBandNames.value.bandNouns);
+      const suffix = getRandomItem(storedBandNames.value.bandSuffixes);
       bandName.value = `${adjective} ${noun} ${suffix}`;
     };
 
