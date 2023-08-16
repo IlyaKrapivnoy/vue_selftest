@@ -82,7 +82,7 @@ export default {
         const randomIndex = Math.floor(Math.random() * filteredQuotes.length);
         currentQuote.value = filteredQuotes[randomIndex];
       } else {
-        currentQuote.value = "";
+        currentQuote.value = null;
       }
     };
 
@@ -91,13 +91,15 @@ export default {
     ]);
 
     const increaseLikes = () => {
-      store.commit("incrementLikes", currentQuote.value.id);
-      // currentQuote.value.likes++;
+      if (currentQuote.value) {
+        store.commit("incrementLikes", currentQuote.id);
+      }
     };
 
     const decreaseLikes = () => {
-      store.commit("decrementLikes", currentQuote.value.id);
-      // currentQuote.value.likes--;
+      if (currentQuote.value) {
+        store.commit("decrementLikes", currentQuote.value.id);
+      }
     };
 
     onMounted(() => {
