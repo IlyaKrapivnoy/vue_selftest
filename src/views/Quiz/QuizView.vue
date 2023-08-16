@@ -1,4 +1,9 @@
 <template>
+  <HeadSetter
+    :title="QUIZ_HEAD.title"
+    :name="QUIZ_HEAD.name"
+    :content="QUIZ_HEAD.content"
+  />
   <main class="container mx-auto px-4 mt-20">
     <h1>Quiz Page</h1>
     <section v-if="!quizCompleted" class="flex flex-col">
@@ -79,18 +84,8 @@
 <script setup>
 import { ref, computed } from "vue";
 import quizQuestions from "@/data/quiz";
-import { useHead } from "@unhead/vue";
 import { QUIZ_HEAD } from "@/data/head";
-
-useHead({
-  title: QUIZ_HEAD.title,
-  meta: [
-    {
-      name: QUIZ_HEAD.name,
-      content: QUIZ_HEAD.content,
-    },
-  ],
-});
+import HeadSetter from "@/components/utils/HeadSetter.vue";
 
 const questions = ref(quizQuestions);
 

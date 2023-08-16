@@ -1,4 +1,9 @@
 <template>
+  <HeadSetter
+    :title="BAND_NAMES_HEAD.title"
+    :name="BAND_NAMES_HEAD.name"
+    :content="BAND_NAMES_HEAD.content"
+  />
   <main class="container mx-auto px-4 mt-20">
     <h1>Sad Rock Band Name Generator</h1>
 
@@ -22,20 +27,17 @@
 <script>
 import { computed, ref } from "vue";
 import { useStore } from "vuex";
-import { useHead } from "@unhead/vue";
+import HeadSetter from "@/components/utils/HeadSetter.vue";
 import { BAND_NAMES_HEAD } from "@/data/head";
 
 export default {
+  computed: {
+    BAND_NAMES_HEAD() {
+      return BAND_NAMES_HEAD;
+    },
+  },
+  components: { HeadSetter },
   setup() {
-    useHead({
-      title: BAND_NAMES_HEAD.title,
-      meta: [
-        {
-          name: BAND_NAMES_HEAD.name,
-          content: BAND_NAMES_HEAD.content,
-        },
-      ],
-    });
     const store = useStore();
     const bandName = ref("");
 

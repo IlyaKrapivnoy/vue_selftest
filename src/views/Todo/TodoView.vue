@@ -1,4 +1,9 @@
 <template>
+  <HeadSetter
+    :title="TODO_HEAD.title"
+    :name="TODO_HEAD.name"
+    :content="TODO_HEAD.content"
+  />
   <main class="container mx-auto px-4 mt-20">
     <h1>TODO PAGE</h1>
     <form @submit.prevent="handleSubmit" class="flex flex-col mt-8">
@@ -93,21 +98,17 @@
 import { computed, onMounted, ref } from "vue";
 import axios from "axios";
 import MySpinner from "@/components/common/MySpinner.vue";
-import { useHead } from "@unhead/vue";
+import HeadSetter from "@/components/utils/HeadSetter.vue";
 import { TODO_HEAD } from "@/data/head";
 
 export default {
-  components: { MySpinner },
+  computed: {
+    TODO_HEAD() {
+      return TODO_HEAD;
+    },
+  },
+  components: { HeadSetter, MySpinner },
   setup() {
-    useHead({
-      title: TODO_HEAD.title,
-      meta: [
-        {
-          name: TODO_HEAD.name,
-          content: TODO_HEAD.content,
-        },
-      ],
-    });
     const newTodo = ref("");
     const todos = ref([]);
     const showAlert = ref(false);

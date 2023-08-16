@@ -1,4 +1,9 @@
 <template>
+  <HeadSetter
+    :title="HOME_HEAD.title"
+    :name="HOME_HEAD.name"
+    :content="HOME_HEAD.content"
+  />
   <main class="container mx-auto px-4 mt-20">
     <h1>HOME PAGE</h1>
     <h2 class="mt-6">List of Apps</h2>
@@ -38,18 +43,8 @@ import { ref, onMounted } from "vue";
 import appList from "@/data/navData";
 import router from "@/router";
 import { setActiveIndex } from "@/common/activeIndexNav";
-import { useHead } from "@unhead/vue";
 import { HOME_HEAD } from "@/data/head";
-
-useHead({
-  title: HOME_HEAD.title,
-  meta: [
-    {
-      name: HOME_HEAD.name,
-      content: HOME_HEAD.content,
-    },
-  ],
-});
+import HeadSetter from "@/components/utils/HeadSetter.vue";
 
 const activeName = ref([]);
 const appListData = appList;

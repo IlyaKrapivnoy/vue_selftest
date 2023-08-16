@@ -1,4 +1,9 @@
 <template>
+  <HeadSetter
+    :title="QUOTES_HEAD.title"
+    :name="QUOTES_HEAD.name"
+    :content="QUOTES_HEAD.content"
+  />
   <main class="container mx-auto px-4 mt-20">
     <h1>Quotes Page</h1>
     <div class="mt-10">
@@ -56,23 +61,20 @@
 import { computed, onMounted, ref, watch } from "vue";
 import QuoteDisplay from "@/views/Quotes/partials/QuoteDisplay.vue";
 import { useStore } from "vuex";
-import { useHead } from "@unhead/vue";
 import { QUOTES_HEAD } from "@/data/head";
+import HeadSetter from "@/components/utils/HeadSetter.vue";
 
 export default {
+  computed: {
+    QUOTES_HEAD() {
+      return QUOTES_HEAD;
+    },
+  },
   components: {
+    HeadSetter,
     QuoteDisplay,
   },
   setup() {
-    useHead({
-      title: QUOTES_HEAD.title,
-      meta: [
-        {
-          name: QUOTES_HEAD.name,
-          content: QUOTES_HEAD.content,
-        },
-      ],
-    });
     const store = useStore();
     const quoteModule = store.state.quotes;
 

@@ -1,4 +1,9 @@
 <template>
+  <HeadSetter
+    :title="COUNTER_HEAD.title"
+    :name="COUNTER_HEAD.name"
+    :content="COUNTER_HEAD.content"
+  />
   <main class="container mx-auto px-4 mt-20">
     <h1>Counter Page</h1>
     <div class="mt-6">
@@ -66,20 +71,16 @@
 <script>
 import { computed, onMounted, ref, watch } from "vue";
 import { useStore } from "vuex";
-import { useHead } from "@unhead/vue";
 import { COUNTER_HEAD } from "@/data/head";
+import HeadSetter from "@/components/utils/HeadSetter.vue";
 export default {
+  computed: {
+    COUNTER_HEAD() {
+      return COUNTER_HEAD;
+    },
+  },
+  components: { HeadSetter },
   setup() {
-    useHead({
-      title: COUNTER_HEAD.title,
-      meta: [
-        {
-          name: COUNTER_HEAD.name,
-          content: COUNTER_HEAD.content,
-        },
-      ],
-    });
-
     const store = useStore();
     const counterModule = store.state.counter;
 
