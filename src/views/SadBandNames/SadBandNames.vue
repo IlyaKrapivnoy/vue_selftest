@@ -22,9 +22,19 @@
 <script>
 import { computed, ref } from "vue";
 import { useStore } from "vuex";
+import { useHead } from "@unhead/vue";
 
 export default {
   setup() {
+    useHead({
+      title: "Rock Band Name | Vue.js",
+      meta: [
+        {
+          name: "description",
+          content: "This page helps you to create the best Sad Rock Band Name",
+        },
+      ],
+    });
     const store = useStore();
     const bandName = ref("");
 

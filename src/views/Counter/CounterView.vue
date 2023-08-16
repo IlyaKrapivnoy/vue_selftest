@@ -66,8 +66,19 @@
 <script>
 import { computed, onMounted, ref, watch } from "vue";
 import { useStore } from "vuex";
+import { useHead } from "@unhead/vue";
 export default {
   setup() {
+    useHead({
+      title: "Counter | Vue.js",
+      meta: [
+        {
+          name: "description",
+          content: "This page helps you to count anything",
+        },
+      ],
+    });
+
     const store = useStore();
     const counterModule = store.state.counter;
 

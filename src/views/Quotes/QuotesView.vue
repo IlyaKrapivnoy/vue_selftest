@@ -56,12 +56,22 @@
 import { computed, onMounted, ref, watch } from "vue";
 import QuoteDisplay from "@/views/Quotes/partials/QuoteDisplay.vue";
 import { useStore } from "vuex";
+import { useHead } from "@unhead/vue";
 
 export default {
   components: {
     QuoteDisplay,
   },
   setup() {
+    useHead({
+      title: "Quotes | Vue.js",
+      meta: [
+        {
+          name: "description",
+          content: "This page can inspire you with great quotes",
+        },
+      ],
+    });
     const store = useStore();
     const quoteModule = store.state.quotes;
 

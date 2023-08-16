@@ -38,6 +38,17 @@ import { ref, onMounted } from "vue";
 import appList from "@/data/navData";
 import router from "@/router";
 import { setActiveIndex } from "@/common/activeIndexNav";
+import { useHead } from "@unhead/vue";
+
+useHead({
+  title: "Home page | Vue.js",
+  meta: [
+    {
+      name: "description",
+      content: "There is a list of all apps you can find here",
+    },
+  ],
+});
 
 const activeName = ref([]);
 const appListData = appList;

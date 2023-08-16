@@ -79,6 +79,17 @@
 <script setup>
 import { ref, computed } from "vue";
 import quizQuestions from "@/data/quiz";
+import { useHead } from "@unhead/vue";
+
+useHead({
+  title: "Quiz | Vue.js",
+  meta: [
+    {
+      name: "description",
+      content: "This quiz will eat all your free time",
+    },
+  ],
+});
 
 const questions = ref(quizQuestions);
 
