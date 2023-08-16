@@ -92,7 +92,7 @@ export default {
 
     const increaseLikes = () => {
       if (currentQuote.value) {
-        store.commit("incrementLikes", currentQuote.id);
+        store.commit("incrementLikes", currentQuote.value.id);
       }
     };
 
