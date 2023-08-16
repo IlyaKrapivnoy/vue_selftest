@@ -43,7 +43,11 @@
         </el-button>
       </div>
 
-      <QuoteDisplay :quote="currentQuote" />
+      <QuoteDisplay
+        :quote="currentQuote"
+        @increaseLikes="increaseLikes"
+        @decreaseLikes="decreaseLikes"
+      />
     </div>
   </main>
 </template>
@@ -86,6 +90,16 @@ export default {
       ...new Set(quotes.value.map((q) => q.category)),
     ]);
 
+    const increaseLikes = () => {
+      store.commit("incrementLikes", currentQuote.value.id);
+      // currentQuote.value.likes++;
+    };
+
+    const decreaseLikes = () => {
+      store.commit("decrementLikes", currentQuote.value.id);
+      // currentQuote.value.likes--;
+    };
+
     onMounted(() => {
       generateQuote();
     });
@@ -104,6 +118,8 @@ export default {
       selectedLang,
       selectedCategory,
       categories,
+      decreaseLikes,
+      increaseLikes,
     };
   },
 };
