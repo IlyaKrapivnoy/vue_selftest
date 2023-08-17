@@ -6,6 +6,7 @@ const quotes = [
     author: "Albert Einstein",
     category: "math",
     likes: 80,
+    id: 1,
   },
   {
     lang: "en",
@@ -13,6 +14,7 @@ const quotes = [
     author: "Albert Einstein",
     category: "math",
     likes: 10,
+    id: 2,
   },
   {
     lang: "en",
@@ -20,6 +22,7 @@ const quotes = [
     author: "James Joseph Sylvester",
     category: "math",
     likes: 20,
+    id: 3,
   },
   {
     lang: "en",
@@ -28,6 +31,7 @@ const quotes = [
     author: "Georg Cantor",
     category: "math",
     likes: 53,
+    id: 4,
   },
   {
     lang: "en",
@@ -36,6 +40,7 @@ const quotes = [
     author: "Anonymous",
     category: "math",
     likes: 23,
+    id: 5,
   },
   {
     lang: "en",
@@ -44,6 +49,7 @@ const quotes = [
     author: "Albert Camus",
     category: "philosophy",
     likes: 54,
+    id: 6,
   },
   {
     lang: "en",
@@ -52,6 +58,7 @@ const quotes = [
     author: "Albert Camus",
     category: "philosophy",
     likes: 10,
+    id: 7,
   },
   {
     lang: "en",
@@ -59,6 +66,7 @@ const quotes = [
     author: "Albert Camus",
     category: "philosophy",
     likes: 82,
+    id: 8,
   },
   {
     lang: "en",
@@ -66,6 +74,7 @@ const quotes = [
     author: "Albert Camus",
     category: "philosophy",
     likes: 40,
+    id: 9,
   },
   {
     lang: "en",
@@ -74,6 +83,7 @@ const quotes = [
     author: "Albert Camus",
     category: "philosophy",
     likes: 50,
+    id: 10,
   },
   {
     lang: "en",
@@ -82,6 +92,7 @@ const quotes = [
     author: "Harold Abelson",
     category: "programming",
     likes: 33,
+    id: 11,
   },
   {
     lang: "en",
@@ -90,6 +101,7 @@ const quotes = [
     author: "Martin Fowler",
     category: "programming",
     likes: 87,
+    id: 12,
   },
   {
     lang: "en",
@@ -98,6 +110,7 @@ const quotes = [
     author: "Muhammad Waseem",
     category: "programming",
     likes: 14,
+    id: 13,
   },
   {
     lang: "en",
@@ -106,6 +119,7 @@ const quotes = [
     author: "Chris Pine",
     category: "programming",
     likes: 2,
+    id: 14,
   },
   {
     lang: "en",
@@ -114,6 +128,7 @@ const quotes = [
     author: "David Linthicum",
     category: "programming",
     likes: 39,
+    id: 15,
   },
   {
     lang: "en",
@@ -121,6 +136,7 @@ const quotes = [
     author: "Marcus Tullius Cicero",
     category: "literature",
     likes: 90,
+    id: 16,
   },
   {
     lang: "en",
@@ -129,6 +145,7 @@ const quotes = [
     author: "Dr. Seuss",
     category: "literature",
     likes: 80,
+    id: 17,
   },
   {
     lang: "en",
@@ -136,6 +153,7 @@ const quotes = [
     author: "Ernest Hemingway",
     category: "literature",
     likes: 130,
+    id: 18,
   },
   {
     lang: "en",
@@ -144,6 +162,7 @@ const quotes = [
     author: "William Styron",
     category: "literature",
     likes: 27,
+    id: 19,
   },
   {
     lang: "en",
@@ -151,6 +170,7 @@ const quotes = [
     author: "Neil Gaiman",
     category: "literature",
     likes: 35,
+    id: 20,
   },
   {
     lang: "de",
@@ -159,6 +179,7 @@ const quotes = [
     author: "Albert Einstein",
     category: "math",
     likes: 92,
+    id: 21,
   },
   {
     lang: "de",
@@ -166,6 +187,7 @@ const quotes = [
     author: "Albert Einstein",
     category: "math",
     likes: 26,
+    id: 22,
   },
   {
     lang: "de",
@@ -173,6 +195,7 @@ const quotes = [
     author: "James Joseph Sylvester",
     category: "math",
     likes: 1,
+    id: 23,
   },
   {
     lang: "de",
@@ -181,6 +204,7 @@ const quotes = [
     author: "Georg Cantor",
     category: "math",
     likes: 88,
+    id: 24,
   },
   {
     lang: "de",
@@ -189,6 +213,7 @@ const quotes = [
     author: "Anonym",
     category: "math",
     likes: 70,
+    id: 25,
   },
   {
     lang: "de",
@@ -197,6 +222,7 @@ const quotes = [
     author: "Albert Camus",
     category: "philosophy",
     likes: 80,
+    id: 26,
   },
   {
     lang: "de",
@@ -205,6 +231,7 @@ const quotes = [
     author: "Albert Camus",
     category: "philosophy",
     likes: 99,
+    id: 27,
   },
   {
     lang: "de",
@@ -213,6 +240,7 @@ const quotes = [
     author: "Albert Camus",
     category: "philosophy",
     likes: 46,
+    id: 28,
   },
   {
     lang: "de",
@@ -221,6 +249,7 @@ const quotes = [
     author: "Albert Camus",
     category: "philosophy",
     likes: 24,
+    id: 29,
   },
   {
     lang: "de",
@@ -229,6 +258,7 @@ const quotes = [
     author: "Albert Camus",
     category: "philosophy",
     likes: 31,
+    id: 30,
   },
   {
     lang: "de",
@@ -237,6 +267,7 @@ const quotes = [
     author: "Harold Abelson",
     category: "programming",
     likes: 97,
+    id: 31,
   },
   {
     lang: "de",
@@ -245,6 +276,7 @@ const quotes = [
     author: "Martin Fowler",
     category: "programming",
     likes: 78,
+    id: 32,
   },
   {
     lang: "de",
@@ -253,6 +285,7 @@ const quotes = [
     author: "Muhammad Waseem",
     category: "programming",
     likes: 54,
+    id: 33,
   },
   {
     lang: "de",
@@ -261,6 +294,7 @@ const quotes = [
     author: "Chris Pine",
     category: "programming",
     likes: 55,
+    id: 34,
   },
   {
     lang: "de",
@@ -269,6 +303,7 @@ const quotes = [
     author: "David Linthicum",
     category: "programming",
     likes: 30,
+    id: 35,
   },
   {
     lang: "de",
@@ -276,6 +311,7 @@ const quotes = [
     author: "Marcus Tullius Cicero",
     category: "literature",
     likes: 43,
+    id: 36,
   },
   {
     lang: "de",
@@ -284,6 +320,7 @@ const quotes = [
     author: "Dr. Seuss",
     category: "literature",
     likes: 10,
+    id: 37,
   },
   {
     lang: "de",
@@ -291,6 +328,7 @@ const quotes = [
     author: "Ernest Hemingway",
     category: "literature",
     likes: 78,
+    id: 38,
   },
   {
     lang: "de",
@@ -299,6 +337,7 @@ const quotes = [
     author: "William Styron",
     category: "literature",
     likes: 58,
+    id: 39,
   },
   {
     lang: "de",
@@ -306,6 +345,7 @@ const quotes = [
     author: "Neil Gaiman",
     category: "literature",
     likes: 98,
+    id: 40,
   },
 ];
 

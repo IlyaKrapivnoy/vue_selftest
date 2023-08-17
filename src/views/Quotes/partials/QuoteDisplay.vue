@@ -1,5 +1,5 @@
 <template>
-  <el-card v-if="quote" class="box-card mt-6">
+  <el-card v-if="props.quote" class="box-card mt-6">
     <div class="flex flex-col">
       <div>
         <p class="italic">{{ props.quote.quote }}</p>
