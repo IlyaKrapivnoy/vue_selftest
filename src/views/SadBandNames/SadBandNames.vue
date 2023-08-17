@@ -16,10 +16,26 @@
     <div class="mt-10 text-2xl">
       <p>Your Sad Rock Band Name:</p>
       <div class="flex">
-        <p v-show="bandName" class="font-bold text-indigo-600 mr-10">
-          {{ bandName }}
-        </p>
-        <el-button @click="saveName" v-show="bandName">Save Name</el-button>
+        <el-card
+          v-show="bandName"
+          class="box-card flex my-3 w-full min-h-[80px]"
+        >
+          <div class="flex items-center justify-between">
+            <p class="font-extralight text-indigo-600 mr-10">
+              {{ bandName }}
+            </p>
+            <el-button @click="saveName" v-show="bandName">Save Name</el-button>
+          </div>
+        </el-card>
+
+        <el-card
+          v-show="!bandName"
+          class="box-card flex items-center my-3 w-full min-h-[80px]"
+        >
+          <p class="font-extralight text-indigo-600 mr-10">
+            Band name will be displayed here...
+          </p>
+        </el-card>
       </div>
     </div>
     <div class="my-6">
@@ -36,7 +52,7 @@
           </span>
         </p>
         <p class="font-bold">
-          How good: <span class="font-extralight">{{ band.score }}%</span>
+          How rock it is: <span class="font-extralight">{{ band.score }}%</span>
         </p>
       </el-card>
 
