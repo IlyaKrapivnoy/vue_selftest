@@ -14,12 +14,14 @@
       >
     </div>
     <div class="mt-10 text-2xl">
-      <p>
-        Your Sad Rock Band Name:
-        <span v-if="bandName" class="font-bold text-indigo-600">
+      <p>Your Sad Rock Band Name:</p>
+      <div class="flex">
+        <p v-show="bandName" class="font-bold text-indigo-600 mr-10">
           {{ bandName }}
-        </span>
-      </p>
+        </p>
+        <el-button @click="saveName" v-show="bandName">Save Name</el-button>
+      </div>
+      {{ savedBandNames }}
     </div>
   </main>
 </template>
@@ -40,6 +42,7 @@ export default {
   setup() {
     const store = useStore();
     const bandName = ref("");
+    const savedBandNames = ref([]);
 
     const storedBandNames = computed(() => store.state.bandNames);
 
@@ -54,7 +57,12 @@ export default {
       return array[Math.floor(Math.random() * array.length)];
     };
 
-    return { generateName, bandName };
+    const saveName = () => {
+      savedBandNames.value.push(1);
+      generateName();
+    };
+
+    return { generateName, bandName, saveName, savedBandNames };
   },
 };
 </script>
