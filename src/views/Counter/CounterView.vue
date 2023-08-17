@@ -68,69 +68,46 @@
   </main>
 </template>
 
-<script>
+<script setup>
 import { computed, onMounted, ref, watch } from "vue";
 import { useStore } from "vuex";
 import { COUNTER_HEAD } from "@/data/head";
 import HeadSetter from "@/components/utils/HeadSetter.vue";
-export default {
-  computed: {
-    COUNTER_HEAD() {
-      return COUNTER_HEAD;
-    },
-  },
-  components: { HeadSetter },
-  setup() {
-    const store = useStore();
-    const counterModule = store.state.counter;
 
-    const counter = computed(() => counterModule.counter);
-    const number = computed(() => counterModule.number);
-    const operations = computed(() => counterModule.operations);
-    const isAlert = computed(() => counterModule.isAlert);
+const store = useStore();
+const counterModule = store.state.counter;
 
-    let inputNumber = ref(1);
+const counter = computed(() => counterModule.counter);
+const number = computed(() => counterModule.number);
+const operations = computed(() => counterModule.operations);
+const isAlert = computed(() => counterModule.isAlert);
 
-    const decrease = () => store.commit("decrease");
-    const increase = () => store.commit("increase");
-    const reset = () => store.commit("reset");
+let inputNumber = ref(1);
 
-    const applyChange = () => {
-      const newValue = Number(inputNumber.value);
-      store.commit("applyChange", newValue);
-    };
+const decrease = () => store.commit("decrease");
+const increase = () => store.commit("increase");
+const reset = () => store.commit("reset");
 
-    onMounted(() => {
-      counterModule.operations =
-        Number(sessionStorage.getItem("operations")) || 0;
-    });
-
-    const saveOperationsToSessionStorage = () => {
-      sessionStorage.setItem("operations", counterModule.operations.toString());
-    };
-
-    const onInputChange = (value) => {
-      inputNumber.value = value.replace(/\D/g, "");
-    };
-
-    watch(operations, () => {
-      saveOperationsToSessionStorage();
-    });
-
-    return {
-      counter,
-      isAlert,
-      decrease,
-      increase,
-      reset,
-      applyChange,
-      inputNumber,
-      number,
-      operations,
-      onInputChange,
-    };
-  },
+const applyChange = () => {
+  const newValue = Number(inputNumber.value);
+  store.commit("applyChange", newValue);
 };
+
+onMounted(() => {
+  counterModule.operations = Number(sessionStorage.getItem("operations")) || 0;
+});
+
+const saveOperationsToSessionStorage = () => {
+  sessionStorage.setItem("operations", counterModule.operations.toString());
+};
+
+const onInputChange = (value) => {
+  inputNumber.value = value.replace(/\D/g, "");
+};
+
+watch(operations, () => {
+  saveOperationsToSessionStorage();
+});
 </script>
 
 <style scoped>

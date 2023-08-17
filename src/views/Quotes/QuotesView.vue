@@ -57,85 +57,62 @@
   </main>
 </template>
 
-<script>
+<script setup>
 import { computed, onMounted, ref, watch } from "vue";
 import QuoteDisplay from "@/views/Quotes/partials/QuoteDisplay.vue";
 import { useStore } from "vuex";
 import { QUOTES_HEAD } from "@/data/head";
 import HeadSetter from "@/components/utils/HeadSetter.vue";
 
-export default {
-  computed: {
-    QUOTES_HEAD() {
-      return QUOTES_HEAD;
-    },
-  },
-  components: {
-    HeadSetter,
-    QuoteDisplay,
-  },
-  setup() {
-    const store = useStore();
-    const quoteModule = store.state.quotes;
+const store = useStore();
+const quoteModule = store.state.quotes;
 
-    const quotes = computed(() => quoteModule.quotes);
+const quotes = computed(() => quoteModule.quotes);
 
-    const selectedLang = ref("en");
-    const selectedCategory = ref("math");
-    const currentQuote = ref(null);
+const selectedLang = ref("en");
+const selectedCategory = ref("math");
+const currentQuote = ref(null);
 
-    const generateQuote = () => {
-      let filteredQuotes = quotes.value.filter(
-        (quote) =>
-          quote.lang === selectedLang.value &&
-          quote.category === selectedCategory.value
-      );
+const generateQuote = () => {
+  let filteredQuotes = quotes.value.filter(
+    (quote) =>
+      quote.lang === selectedLang.value &&
+      quote.category === selectedCategory.value
+  );
 
-      if (filteredQuotes.length > 0) {
-        const randomIndex = Math.floor(Math.random() * filteredQuotes.length);
-        currentQuote.value = filteredQuotes[randomIndex];
-      } else {
-        currentQuote.value = null;
-      }
-    };
-
-    const categories = computed(() => [
-      ...new Set(quotes.value.map((q) => q.category)),
-    ]);
-
-    const increaseLikes = () => {
-      if (currentQuote.value) {
-        store.commit("incrementLikes", currentQuote.value.id);
-      }
-    };
-
-    const decreaseLikes = () => {
-      if (currentQuote.value) {
-        store.commit("decrementLikes", currentQuote.value.id);
-      }
-    };
-
-    onMounted(() => {
-      generateQuote();
-    });
-
-    watch(selectedCategory, () => {
-      generateQuote();
-    });
-
-    watch(selectedLang, () => {
-      generateQuote();
-    });
-
-    return {
-      currentQuote,
-      generateQuote,
-      selectedLang,
-      selectedCategory,
-      categories,
-      decreaseLikes,
-      increaseLikes,
-    };
-  },
+  if (filteredQuotes.length > 0) {
+    const randomIndex = Math.floor(Math.random() * filteredQuotes.length);
+    currentQuote.value = filteredQuotes[randomIndex];
+  } else {
+    currentQuote.value = null;
+  }
 };
+
+const categories = computed(() => [
+  ...new Set(quotes.value.map((q) => q.category)),
+]);
+
+const increaseLikes = () => {
+  if (currentQuote.value) {
+    store.commit("incrementLikes", currentQuote.value.id);
+  }
+};
+
+const decreaseLikes = () => {
+  if (currentQuote.value) {
+    store.commit("decrementLikes", currentQuote.value.id);
+  }
+};
+
+onMounted(() => {
+  generateQuote();
+});
+
+watch(selectedCategory, () => {
+  generateQuote();
+});
+
+watch(selectedLang, () => {
+  generateQuote();
+});
 </script>

@@ -58,44 +58,26 @@
   </main>
 </template>
 
-<script>
+<script setup>
 import { computed } from "vue";
 import { useStore } from "vuex";
 import HeadSetter from "@/components/utils/HeadSetter.vue";
 import { BAND_NAMES_HEAD } from "@/data/head";
 import CustomCard from "@/components/utils/CustomCard.vue";
 
-export default {
-  computed: {
-    BAND_NAMES_HEAD() {
-      return BAND_NAMES_HEAD;
-    },
-  },
-  components: { CustomCard, HeadSetter },
-  setup() {
-    const store = useStore();
-    const bandName = computed(() => store.state.bandNames.bandName);
-    const savedBandNames = computed(() => store.state.bandNames.savedBandNames);
+const store = useStore();
+const bandName = computed(() => store.state.bandNames.bandName);
+const savedBandNames = computed(() => store.state.bandNames.savedBandNames);
 
-    const generateName = () => {
-      store.commit("generateBandName");
-    };
+const generateName = () => {
+  store.commit("generateBandName");
+};
 
-    const saveName = () => {
-      store.commit("saveBandName");
-    };
+const saveName = () => {
+  store.commit("saveBandName");
+};
 
-    const removeSavedBandName = (nameId) => {
-      store.commit("removeSavedBandName", nameId);
-    };
-
-    return {
-      generateName,
-      bandName,
-      saveName,
-      savedBandNames,
-      removeSavedBandName,
-    };
-  },
+const removeSavedBandName = (nameId) => {
+  store.commit("removeSavedBandName", nameId);
 };
 </script>
