@@ -9,42 +9,20 @@
 
     <div class="mt-10 text-2xl">
       <p>Your Sad Rock Band Name:</p>
-      <div class="flex">
-        <el-card
-          v-show="bandName"
-          class="box-card flex my-3 w-full min-h-[80px]"
-        >
-          <div class="flex items-center justify-between">
-            <p class="font-extralight text-indigo-600 mr-10">
-              {{ bandName }}
-            </p>
-
-            <el-button @click="saveName" v-show="bandName">
-              Save Name
-            </el-button>
-            <el-button
-              type="warning"
-              plain
-              @click="generateName"
-              class="self-start"
-            >
-              Generate New
-            </el-button>
-          </div>
-        </el-card>
-      </div>
 
       <CustomCard
         v-show="bandName"
         :cardTextLight="`${bandName}`"
-        :buttonText="`Generate New`"
-        :buttonClick="generateName"
+        :buttons="[
+          { name: 'Save Name', click: saveName },
+          { name: 'Generate New', click: generateName },
+        ]"
       />
+
       <CustomCard
         v-show="!bandName"
         :cardTextLight="`Band name will be displayed here...`"
-        :buttonText="`Generate Band Name`"
-        :buttonClick="generateName"
+        :buttons="[{ name: 'Generate Band Name', click: generateName }]"
       />
     </div>
     <div class="my-6">

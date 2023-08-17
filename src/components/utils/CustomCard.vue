@@ -7,9 +7,15 @@
           props.cardTextLight
         }}</span>
       </p>
-      <el-button @click="props.buttonClick">
-        {{ props.buttonText }}
-      </el-button>
+      <div>
+        <el-button
+          v-for="(button, index) in props.buttons"
+          :key="index"
+          @click="button.click"
+        >
+          {{ button.name }}
+        </el-button>
+      </div>
     </div>
   </el-card>
 </template>
@@ -20,7 +26,6 @@ import { defineProps } from "vue";
 const props = defineProps({
   cardTextBold: String,
   cardTextLight: String,
-  buttonText: String,
-  buttonClick: Function,
+  buttons: Array,
 });
 </script>
