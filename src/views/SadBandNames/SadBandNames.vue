@@ -29,10 +29,17 @@
     <section class="my-6">
       <h2>SAVED BAND NAMES:</h2>
       <el-card
-        v-for="(band, i) in savedBandNames"
-        :key="i"
+        v-for="band in savedBandNames"
+        :key="`${band.id}`"
         class="box-card my-3"
       >
+        <el-button
+          @click.stop="removeSavedBandName(band.id)"
+          class="float-right py-3 px-0"
+        >
+          Remove
+        </el-button>
+
         <p class="font-bold">
           Band name:
           <span class="font-extralight">
@@ -85,6 +92,7 @@ export default {
 
     const saveName = () => {
       const newBandNameData = {
+        id: Date.now(),
         name: bandName.value,
         score: Math.floor(Math.random() * 101),
       };
@@ -94,11 +102,18 @@ export default {
       console.log("savedBandNames", savedBandNames);
     };
 
+    const removeSavedBandName = (nameId) => {
+      savedBandNames.value = savedBandNames.value.filter(
+        (name) => name.id !== nameId
+      );
+    };
+
     return {
       generateName,
       bandName,
       saveName,
       savedBandNames,
+      removeSavedBandName,
     };
   },
 };
