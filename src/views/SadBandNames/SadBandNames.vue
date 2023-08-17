@@ -23,13 +23,26 @@
       </div>
     </div>
     <div class="my-6">
+      <h2>SAVED BAND NAMES:</h2>
       <el-card
-        v-for="(name, i) in savedBandNames"
+        v-for="(band, i) in savedBandNames"
         :key="i"
         class="box-card my-3"
       >
-        {{ name }}
+        <p class="font-bold">
+          Band name:
+          <span class="font-extralight">
+            {{ band.name }}
+          </span>
+        </p>
+        <p class="font-bold">
+          How good: <span class="font-extralight">{{ band.score }}%</span>
+        </p>
       </el-card>
+
+      <p v-show="savedBandNames.length <= 0" class="text-gray-600 mt-3">
+        No names have been saved...
+      </p>
     </div>
   </main>
 </template>
@@ -66,7 +79,12 @@ export default {
     };
 
     const saveName = () => {
-      savedBandNames.value.push(bandName.value);
+      const newBandNameData = {
+        name: bandName.value,
+        score: Math.floor(Math.random() * 101),
+      };
+
+      savedBandNames.value.push(newBandNameData);
       generateName();
       console.log("savedBandNames", savedBandNames);
     };
