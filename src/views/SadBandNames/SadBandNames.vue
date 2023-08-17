@@ -7,12 +7,6 @@
   <main class="container mx-auto px-4 mt-20">
     <h1>Sad Rock Band Name Generator</h1>
 
-    <div class="flex flex-col mt-10">
-      <span class="text-gray-500">Click Me:</span>
-      <el-button type="warning" plain @click="generateName" class="self-start"
-        >Generate Band Name</el-button
-      >
-    </div>
     <div class="mt-10 text-2xl">
       <p>Your Sad Rock Band Name:</p>
       <div class="flex">
@@ -24,7 +18,18 @@
             <p class="font-extralight text-indigo-600 mr-10">
               {{ bandName }}
             </p>
-            <el-button @click="saveName" v-show="bandName">Save Name</el-button>
+
+            <el-button @click="saveName" v-show="bandName">
+              Save Name
+            </el-button>
+            <el-button
+              type="warning"
+              plain
+              @click="generateName"
+              class="self-start"
+            >
+              Generate New
+            </el-button>
           </div>
         </el-card>
 
@@ -32,9 +37,20 @@
           v-show="!bandName"
           class="box-card flex items-center my-3 w-full min-h-[80px]"
         >
-          <p class="font-extralight text-indigo-600 mr-10">
-            Band name will be displayed here...
-          </p>
+          <div class="flex items-center justify-between">
+            <p class="font-extralight text-indigo-600 mr-10">
+              Band name will be displayed here...
+            </p>
+
+            <el-button
+              type="warning"
+              plain
+              @click="generateName"
+              class="self-start"
+            >
+              Generate Band Name
+            </el-button>
+          </div>
         </el-card>
       </div>
     </div>
