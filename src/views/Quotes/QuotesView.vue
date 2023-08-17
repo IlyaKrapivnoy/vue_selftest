@@ -82,7 +82,7 @@ export default {
 
     const selectedLang = ref("en");
     const selectedCategory = ref("math");
-    const currentQuote = ref("");
+    const currentQuote = ref(null);
 
     const generateQuote = () => {
       let filteredQuotes = quotes.value.filter(

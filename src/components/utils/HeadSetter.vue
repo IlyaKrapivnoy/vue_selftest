@@ -2,6 +2,9 @@
 import { useHead } from "@unhead/vue";
 
 export default {
+  render() {
+    return null;
+  },
   props: {
     title: String,
     name: String,
