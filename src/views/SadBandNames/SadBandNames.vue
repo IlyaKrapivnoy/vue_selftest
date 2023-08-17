@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import { computed, ref } from "vue";
+import { computed } from "vue";
 import { useStore } from "vuex";
 import HeadSetter from "@/components/utils/HeadSetter.vue";
 import { BAND_NAMES_HEAD } from "@/data/head";
@@ -74,38 +74,19 @@ export default {
   components: { CustomCard, HeadSetter },
   setup() {
     const store = useStore();
-    const bandName = ref("");
-    const savedBandNames = ref([]);
-
-    const storedBandNames = computed(() => store.state.bandNames);
+    const bandName = computed(() => store.state.bandNames.bandName);
+    const savedBandNames = computed(() => store.state.bandNames.savedBandNames);
 
     const generateName = () => {
-      const adjective = getRandomItem(storedBandNames.value.bandAdjectives);
-      const noun = getRandomItem(storedBandNames.value.bandNouns);
-      const suffix = getRandomItem(storedBandNames.value.bandSuffixes);
-      bandName.value = `${adjective} ${noun} ${suffix}`;
-    };
-
-    const getRandomItem = (array) => {
-      return array[Math.floor(Math.random() * array.length)];
+      store.commit("generateBandName");
     };
 
     const saveName = () => {
-      const newBandNameData = {
-        id: Date.now(),
-        name: bandName.value,
-        score: Math.floor(Math.random() * 101),
-      };
-
-      savedBandNames.value.push(newBandNameData);
-      generateName();
-      console.log("savedBandNames", savedBandNames);
+      store.commit("saveBandName");
     };
 
     const removeSavedBandName = (nameId) => {
-      savedBandNames.value = savedBandNames.value.filter(
-        (name) => name.id !== nameId
-      );
+      store.commit("removeSavedBandName", nameId);
     };
 
     return {
