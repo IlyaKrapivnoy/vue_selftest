@@ -1,4 +1,9 @@
 <template>
+  <HeadSetter
+    :title="QUOTES_HEAD.title"
+    :name="QUOTES_HEAD.name"
+    :content="QUOTES_HEAD.content"
+  />
   <main class="container mx-auto px-4 mt-20">
     <h1>Quotes Page</h1>
     <div class="mt-10">
@@ -12,6 +17,7 @@
               v-model="selectedCategory"
               id="categorySelect"
               placeholder="Select a category"
+              @change="handleCategoryChange"
             >
               <el-option
                 v-for="category in categories"
@@ -31,6 +37,7 @@
               v-model="selectedLang"
               id="langSelect"
               placeholder="Select a language"
+              @change="handleLangChange"
             >
               <el-option label="🇺🇸 English" value="en" />
               <el-option label="🇩🇪 German" value="de" />
@@ -38,68 +45,87 @@
           </div>
         </div>
 
-        <el-button @click="generateQuote" type="primary" class="w-[240px]">
-          Generate Quote
-        </el-button>
+        <el-button @click="handleGenerateQuote" type="primary" class="w-[240px]"
+          >Generate Quote</el-button
+        >
       </div>
 
-      <QuoteDisplay :quote="currentQuote" />
+      <QuoteDisplay
+        :quote="currentQuote"
+        @increaseLikes="increaseLikes"
+        @decreaseLikes="decreaseLikes"
+      />
     </div>
   </main>
 </template>
 
-<script>
-import { computed, onMounted, ref, watch } from "vue";
+<script setup>
+import { computed, onMounted, watch } from "vue";
 import QuoteDisplay from "@/views/Quotes/partials/QuoteDisplay.vue";
-import quotes from "@/data/quotes";
+import { useStore } from "vuex";
+import { QUOTES_HEAD } from "@/data/head";
+import HeadSetter from "@/components/utils/HeadSetter.vue";
 
-export default {
-  components: {
-    QuoteDisplay,
-  },
-  setup() {
-    const selectedLang = ref("en");
-    const selectedCategory = ref("math");
-    const currentQuote = ref("");
+const store = useStore();
+const quoteModule = store.state.quotes;
 
-    const generateQuote = () => {
-      let filteredQuotes = quotes.filter(
-        (quote) =>
-          quote.lang === selectedLang.value &&
-          quote.category === selectedCategory.value
-      );
+const quotes = computed(() => quoteModule.quotes);
+const selectedLang = computed(() => quoteModule.selectedLang);
+const selectedCategory = computed(() => quoteModule.selectedCategory);
+const currentQuote = computed(() => quoteModule.currentQuote);
 
-      if (filteredQuotes.length > 0) {
-        const randomIndex = Math.floor(Math.random() * filteredQuotes.length);
-        currentQuote.value = filteredQuotes[randomIndex];
-      } else {
-        currentQuote.value = "";
-      }
-    };
+const generateQuote = () => {
+  let filteredQuotes = quotes.value.filter(
+    (quote) =>
+      quote.lang === selectedLang.value &&
+      quote.category === selectedCategory.value
+  );
 
-    const categories = computed(() => [
-      ...new Set(quotes.map((q) => q.category)),
-    ]);
-
-    onMounted(() => {
-      generateQuote();
-    });
-
-    watch(selectedCategory, () => {
-      generateQuote();
-    });
-
-    watch(selectedLang, () => {
-      generateQuote();
-    });
-
-    return {
-      currentQuote,
-      generateQuote,
-      selectedLang,
-      selectedCategory,
-      categories,
-    };
-  },
+  if (filteredQuotes.length > 0) {
+    const randomIndex = Math.floor(Math.random() * filteredQuotes.length);
+    store.commit("setCurrentQuote", filteredQuotes[randomIndex]);
+  } else {
+    store.commit("setCurrentQuote", null);
+  }
 };
+
+const categories = computed(() => [
+  ...new Set(quotes.value.map((q) => q.category)),
+]);
+
+const increaseLikes = () => {
+  if (currentQuote.value) {
+    store.commit("incrementLikes", currentQuote.value.id);
+  }
+};
+
+const decreaseLikes = () => {
+  if (currentQuote.value) {
+    store.commit("decrementLikes", currentQuote.value.id);
+  }
+};
+
+const handleLangChange = (selectedLang) => {
+  store.commit("setSelectedLang", selectedLang);
+};
+
+const handleCategoryChange = (selectedCategory) => {
+  store.commit("setSelectedCategory", selectedCategory);
+};
+
+const handleGenerateQuote = () => {
+  generateQuote();
+};
+
+onMounted(() => {
+  generateQuote();
+});
+
+watch(selectedCategory, () => {
+  generateQuote();
+});
+
+watch(selectedLang, () => {
+  generateQuote();
+});
 </script>

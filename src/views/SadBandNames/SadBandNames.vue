@@ -1,44 +1,83 @@
 <template>
+  <HeadSetter
+    :title="BAND_NAMES_HEAD.title"
+    :name="BAND_NAMES_HEAD.name"
+    :content="BAND_NAMES_HEAD.content"
+  />
   <main class="container mx-auto px-4 mt-20">
     <h1>Sad Rock Band Name Generator</h1>
 
-    <div class="flex flex-col mt-10">
-      <span class="text-gray-500">Click Me:</span>
-      <el-button type="warning" plain @click="generateName" class="self-start"
-        >Generate Band Name</el-button
+    <section class="mt-10 text-2xl">
+      <h2>Your Sad Rock Band Name:</h2>
+
+      <CustomCard
+        v-show="bandName"
+        :cardTextLight="`${bandName}`"
+        :buttons="[
+          { name: 'Save Name', type: 'success', click: saveName },
+          { name: 'Generate New', click: generateName },
+        ]"
+      />
+
+      <CustomCard
+        v-show="!bandName"
+        :cardTextLight="`Band name will be displayed here...`"
+        :buttons="[{ name: 'Generate Band Name', click: generateName }]"
+      />
+    </section>
+
+    <section class="my-6">
+      <h2>SAVED BAND NAMES:</h2>
+      <el-card
+        v-for="band in savedBandNames"
+        :key="`${band.id}`"
+        class="box-card my-3"
       >
-    </div>
-    <div class="mt-10 text-2xl">
-      <p>
-        Your Sad Rock Band Name:
-        <span v-if="bandName" class="font-bold text-indigo-600">
-          {{ bandName }}
-        </span>
+        <el-button
+          @click.stop="removeSavedBandName(band.id)"
+          class="float-right py-3 px-0"
+        >
+          Remove
+        </el-button>
+
+        <p class="font-bold">
+          Band name:
+          <span class="font-extralight">
+            {{ band.name }}
+          </span>
+        </p>
+        <p class="font-bold">
+          How rock it is: <span class="font-extralight">{{ band.score }}%</span>
+        </p>
+      </el-card>
+
+      <p v-show="savedBandNames.length <= 0" class="text-gray-600 mt-3">
+        No names have been saved...
       </p>
-    </div>
+    </section>
   </main>
 </template>
 
-<script>
-import { adjectives, nouns, suffixes } from "@/data/band";
-import { ref } from "vue";
+<script setup>
+import { computed } from "vue";
+import { useStore } from "vuex";
+import HeadSetter from "@/components/utils/HeadSetter.vue";
+import { BAND_NAMES_HEAD } from "@/data/head";
+import CustomCard from "@/components/utils/CustomCard.vue";
 
-export default {
-  setup() {
-    const bandName = ref("");
+const store = useStore();
+const bandName = computed(() => store.state.bandNames.bandName);
+const savedBandNames = computed(() => store.state.bandNames.savedBandNames);
 
-    const generateName = () => {
-      const adjective = getRandomItem(adjectives);
-      const noun = getRandomItem(nouns);
-      const suffix = getRandomItem(suffixes);
-      bandName.value = `${adjective} ${noun} ${suffix}`;
-    };
+const generateName = () => {
+  store.commit("generateBandName");
+};
 
-    const getRandomItem = (array) => {
-      return array[Math.floor(Math.random() * array.length)];
-    };
+const saveName = () => {
+  store.commit("saveBandName");
+};
 
-    return { generateName, bandName };
-  },
+const removeSavedBandName = (nameId) => {
+  store.commit("removeSavedBandName", nameId);
 };
 </script>

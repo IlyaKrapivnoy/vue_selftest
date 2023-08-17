@@ -1,4 +1,9 @@
 <template>
+  <HeadSetter
+    :title="TODO_HEAD.title"
+    :name="TODO_HEAD.name"
+    :content="TODO_HEAD.content"
+  />
   <main class="container mx-auto px-4 mt-20">
     <h1>TODO PAGE</h1>
     <form @submit.prevent="handleSubmit" class="flex flex-col mt-8">
@@ -89,169 +94,140 @@
   </main>
 </template>
 
-<script>
+<script setup>
 import { computed, onMounted, ref } from "vue";
 import axios from "axios";
 import MySpinner from "@/components/common/MySpinner.vue";
+import HeadSetter from "@/components/utils/HeadSetter.vue";
+import { TODO_HEAD } from "@/data/head";
 
-export default {
-  components: { MySpinner },
-  setup() {
-    const newTodo = ref("");
-    const todos = ref([]);
-    const showAlert = ref(false);
-    const alertTimeout = ref(null);
-    const isLoading = ref(true);
+const newTodo = ref("");
+const todos = ref([]);
+const showAlert = ref(false);
+const alertTimeout = ref(null);
+const isLoading = ref(true);
 
-    // pagination
-    const totalTodos = ref(0);
-    const currentPage = ref(1);
-    const pageSize = ref(10);
+// pagination
+const totalTodos = ref(0);
+const currentPage = ref(1);
+const pageSize = ref(10);
 
-    const handleSubmit = () => {
-      if (newTodo.value) {
-        requestAddTodo(newTodo.value);
-        newTodo.value = "";
-        showAlert.value = false;
-      } else {
-        showAlert.value = true;
+const handleSubmit = () => {
+  if (newTodo.value) {
+    requestAddTodo(newTodo.value);
+    newTodo.value = "";
+    showAlert.value = false;
+  } else {
+    showAlert.value = true;
 
-        clearTimeout(alertTimeout.value);
+    clearTimeout(alertTimeout.value);
 
-        alertTimeout.value = setTimeout(() => {
-          showAlert.value = false;
-        }, 3000);
-      }
-    };
+    alertTimeout.value = setTimeout(() => {
+      showAlert.value = false;
+    }, 3000);
+  }
+};
 
-    const handlePageChange = (newPage) => {
-      currentPage.value = newPage;
-      requestFetchTodos();
-    };
+const handlePageChange = (newPage) => {
+  currentPage.value = newPage;
+  requestFetchTodos();
+};
 
-    const toggleDone = (todo) => {
-      todo.completed = !todo.completed;
-    };
+const toggleDone = (todo) => {
+  todo.completed = !todo.completed;
+};
 
-    const toggleMarkAll = () => {
-      if (isAllDone.value) {
-        todos.value.forEach((todo) => (todo.completed = false));
-      } else {
-        todos.value.forEach((todo) => (todo.completed = true));
-      }
-    };
+const toggleMarkAll = () => {
+  if (isAllDone.value) {
+    todos.value.forEach((todo) => (todo.completed = false));
+  } else {
+    todos.value.forEach((todo) => (todo.completed = true));
+  }
+};
 
-    const removeMockedItem = (todo) => {
-      todos.value = todos.value.filter((el) => el.id !== todo.id);
-    };
+const deleteItem = (todo) => {
+  requestDeleteTodo(todo);
+};
 
-    const deleteItem = (todo) => {
-      requestDeleteTodo(todo);
-    };
+const removeAllTodos = () => {
+  todos.value = [];
+  saveTodosToLocalStorage();
+};
 
-    const removeAllTodos = () => {
-      todos.value = [];
+const isAllDone = computed(() => todos.value.every((todo) => todo.completed));
+
+const getStatusButtonText = () => {
+  return isAllDone.value ? "Unmark all done" : "Mark all done";
+};
+
+const requestFetchTodos = () => {
+  isLoading.value = true;
+  const startIndex = (currentPage.value - 1) * pageSize.value;
+  const endIndex = startIndex + pageSize.value;
+
+  axios
+    .get("https://jsonplaceholder.typicode.com/todos")
+    .then((response) => {
+      todos.value = response.data.slice(startIndex, endIndex).reverse();
+      totalTodos.value = response.data.length;
+
       saveTodosToLocalStorage();
-    };
-
-    const isAllDone = computed(() =>
-      todos.value.every((todo) => todo.completed)
-    );
-
-    const getStatusButtonText = () => {
-      return isAllDone.value ? "Unmark all done" : "Mark all done";
-    };
-
-    const requestFetchTodos = () => {
-      isLoading.value = true;
-      const startIndex = (currentPage.value - 1) * pageSize.value;
-      const endIndex = startIndex + pageSize.value;
-
-      axios
-        .get("https://jsonplaceholder.typicode.com/todos")
-        .then((response) => {
-          todos.value = response.data.slice(startIndex, endIndex).reverse();
-          totalTodos.value = response.data.length;
-
-          saveTodosToLocalStorage();
-        })
-        .catch((error) => {
-          console.error("Error fetching todos:", error);
-        })
-        .finally(() => {
-          isLoading.value = false;
-        });
-    };
-
-    const requestAddTodo = (title) => {
-      const newTodo = {
-        title: title,
-        completed: false,
-        userId: 1,
-      };
-
-      axios
-        .post("https://jsonplaceholder.typicode.com/todos", newTodo)
-        .then((response) => {
-          todos.value.unshift(response.data);
-
-          saveTodosToLocalStorage();
-        })
-        .catch((error) => {
-          console.error("Error adding todo:", error);
-        });
-    };
-
-    const requestDeleteTodo = (todo) => {
-      axios
-        .delete(`https://jsonplaceholder.typicode.com/todos/${todo.id}`)
-        .then(() => {
-          todos.value = todos.value.filter((t) => t.id !== todo.id);
-
-          saveTodosToLocalStorage();
-        })
-        .catch((error) => {
-          console.error("Error deleting todo:", error);
-        });
-    };
-
-    const saveTodosToLocalStorage = () => {
-      localStorage.setItem("todos", JSON.stringify(todos.value));
-    };
-
-    const loadTodosFromLocalStorage = () => {
-      const savedTodos = localStorage.getItem("todos");
-      if (savedTodos) {
-        todos.value = JSON.parse(savedTodos);
-      }
-    };
-
-    onMounted(() => {
-      loadTodosFromLocalStorage();
+    })
+    .catch((error) => {
+      console.error("Error fetching todos:", error);
+    })
+    .finally(() => {
       isLoading.value = false;
     });
-
-    return {
-      newTodo,
-      handleSubmit,
-      toggleDone,
-      toggleMarkAll,
-      deleteItem,
-      removeMockedItem,
-      removeAllTodos,
-      requestFetchTodos,
-      requestAddTodo,
-      getStatusButtonText,
-      showAlert,
-      todos,
-      isLoading,
-      handlePageChange,
-      totalTodos,
-      currentPage,
-      pageSize,
-    };
-  },
 };
+
+const requestAddTodo = (title) => {
+  const newTodo = {
+    title: title,
+    completed: false,
+    userId: 1,
+  };
+
+  axios
+    .post("https://jsonplaceholder.typicode.com/todos", newTodo)
+    .then((response) => {
+      todos.value.unshift(response.data);
+
+      saveTodosToLocalStorage();
+    })
+    .catch((error) => {
+      console.error("Error adding todo:", error);
+    });
+};
+
+const requestDeleteTodo = (todo) => {
+  axios
+    .delete(`https://jsonplaceholder.typicode.com/todos/${todo.id}`)
+    .then(() => {
+      todos.value = todos.value.filter((t) => t.id !== todo.id);
+
+      saveTodosToLocalStorage();
+    })
+    .catch((error) => {
+      console.error("Error deleting todo:", error);
+    });
+};
+
+const saveTodosToLocalStorage = () => {
+  localStorage.setItem("todos", JSON.stringify(todos.value));
+};
+
+const loadTodosFromLocalStorage = () => {
+  const savedTodos = localStorage.getItem("todos");
+  if (savedTodos) {
+    todos.value = JSON.parse(savedTodos);
+  }
+};
+
+onMounted(() => {
+  loadTodosFromLocalStorage();
+  isLoading.value = false;
+});
 </script>
 
 <style>
