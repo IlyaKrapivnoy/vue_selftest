@@ -17,6 +17,7 @@
               v-model="selectedCategory"
               id="categorySelect"
               placeholder="Select a category"
+              @change="handleCategoryChange"
             >
               <el-option
                 v-for="category in categories"
@@ -36,6 +37,7 @@
               v-model="selectedLang"
               id="langSelect"
               placeholder="Select a language"
+              @change="handleLangChange"
             >
               <el-option label="🇺🇸 English" value="en" />
               <el-option label="🇩🇪 German" value="de" />
@@ -43,9 +45,9 @@
           </div>
         </div>
 
-        <el-button @click="generateQuote" type="primary" class="w-[240px]">
-          Generate Quote
-        </el-button>
+        <el-button @click="handleGenerateQuote" type="primary" class="w-[240px]"
+          >Generate Quote</el-button
+        >
       </div>
 
       <QuoteDisplay
@@ -58,7 +60,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, onMounted, watch } from "vue";
 import QuoteDisplay from "@/views/Quotes/partials/QuoteDisplay.vue";
 import { useStore } from "vuex";
 import { QUOTES_HEAD } from "@/data/head";
@@ -68,10 +70,9 @@ const store = useStore();
 const quoteModule = store.state.quotes;
 
 const quotes = computed(() => quoteModule.quotes);
-
-const selectedLang = ref("en");
-const selectedCategory = ref("math");
-const currentQuote = ref(null);
+const selectedLang = computed(() => quoteModule.selectedLang);
+const selectedCategory = computed(() => quoteModule.selectedCategory);
+const currentQuote = computed(() => quoteModule.currentQuote);
 
 const generateQuote = () => {
   let filteredQuotes = quotes.value.filter(
@@ -82,9 +83,9 @@ const generateQuote = () => {
 
   if (filteredQuotes.length > 0) {
     const randomIndex = Math.floor(Math.random() * filteredQuotes.length);
-    currentQuote.value = filteredQuotes[randomIndex];
+    store.commit("setCurrentQuote", filteredQuotes[randomIndex]);
   } else {
-    currentQuote.value = null;
+    store.commit("setCurrentQuote", null);
   }
 };
 
@@ -102,6 +103,18 @@ const decreaseLikes = () => {
   if (currentQuote.value) {
     store.commit("decrementLikes", currentQuote.value.id);
   }
+};
+
+const handleLangChange = (selectedLang) => {
+  store.commit("setSelectedLang", selectedLang);
+};
+
+const handleCategoryChange = (selectedCategory) => {
+  store.commit("setSelectedCategory", selectedCategory);
+};
+
+const handleGenerateQuote = () => {
+  generateQuote();
 };
 
 onMounted(() => {
