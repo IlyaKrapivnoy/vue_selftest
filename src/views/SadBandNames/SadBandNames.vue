@@ -32,27 +32,20 @@
             </el-button>
           </div>
         </el-card>
-
-        <el-card
-          v-show="!bandName"
-          class="box-card flex items-center my-3 w-full min-h-[80px]"
-        >
-          <div class="flex items-center justify-between">
-            <p class="font-extralight text-indigo-600 mr-10">
-              Band name will be displayed here...
-            </p>
-
-            <el-button
-              type="warning"
-              plain
-              @click="generateName"
-              class="self-start"
-            >
-              Generate Band Name
-            </el-button>
-          </div>
-        </el-card>
       </div>
+
+      <CustomCard
+        v-show="bandName"
+        :cardTextLight="`${bandName}`"
+        :buttonText="`Generate New`"
+        :buttonClick="generateName"
+      />
+      <CustomCard
+        v-show="!bandName"
+        :cardTextLight="`Band name will be displayed here...`"
+        :buttonText="`Generate Band Name`"
+        :buttonClick="generateName"
+      />
     </div>
     <div class="my-6">
       <h2>SAVED BAND NAMES:</h2>
@@ -84,6 +77,7 @@ import { computed, ref } from "vue";
 import { useStore } from "vuex";
 import HeadSetter from "@/components/utils/HeadSetter.vue";
 import { BAND_NAMES_HEAD } from "@/data/head";
+import CustomCard from "@/components/utils/CustomCard.vue";
 
 export default {
   computed: {
@@ -91,7 +85,7 @@ export default {
       return BAND_NAMES_HEAD;
     },
   },
-  components: { HeadSetter },
+  components: { CustomCard, HeadSetter },
   setup() {
     const store = useStore();
     const bandName = ref("");
@@ -121,7 +115,12 @@ export default {
       console.log("savedBandNames", savedBandNames);
     };
 
-    return { generateName, bandName, saveName, savedBandNames };
+    return {
+      generateName,
+      bandName,
+      saveName,
+      savedBandNames,
+    };
   },
 };
 </script>
