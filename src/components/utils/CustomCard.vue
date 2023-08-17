@@ -11,6 +11,8 @@
         <el-button
           v-for="(button, index) in props.buttons"
           :key="index"
+          :type="button.type"
+          plain
           @click="button.click"
         >
           {{ button.name }}
