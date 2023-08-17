@@ -21,7 +21,15 @@
         </p>
         <el-button @click="saveName" v-show="bandName">Save Name</el-button>
       </div>
-      {{ savedBandNames }}
+    </div>
+    <div class="my-6">
+      <el-card
+        v-for="(name, i) in savedBandNames"
+        :key="i"
+        class="box-card my-3"
+      >
+        {{ name }}
+      </el-card>
     </div>
   </main>
 </template>
@@ -58,8 +66,9 @@ export default {
     };
 
     const saveName = () => {
-      savedBandNames.value.push(1);
+      savedBandNames.value.push(bandName.value);
       generateName();
+      console.log("savedBandNames", savedBandNames);
     };
 
     return { generateName, bandName, saveName, savedBandNames };
