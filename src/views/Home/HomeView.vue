@@ -42,7 +42,7 @@
 import { ref, onMounted } from "vue";
 import appList from "@/data/navData";
 import router from "@/router";
-import { setActiveIndex } from "@/common/activeIndexNav";
+import { setActiveIndex } from "@/helpers";
 import { HOME_HEAD } from "@/data/head";
 import HeadSetter from "@/components/utils/HeadSetter.vue";
 
