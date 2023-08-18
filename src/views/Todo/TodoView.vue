@@ -44,12 +44,8 @@
       </div>
     </form>
 
-    <div class="mt-6">
-      <el-alert
-        v-show="showAlert"
-        title="Add some text to create a todo"
-        type="error"
-      />
+    <div v-show="isAlert" class="mt-6">
+      <el-alert title="Add some text to create a todo" type="error" />
     </div>
 
     <ul class="mt-10">
@@ -98,12 +94,12 @@
 import { computed, onMounted, ref } from "vue";
 import axios from "axios";
 import MySpinner from "@/components/common/MySpinner.vue";
-import HeadSetter from "@/components/utils/HeadSetter.vue";
+import HeadSetter from "@/components/common/HeadSetter.vue";
 import { TODO_HEAD } from "@/data/head";
 
 const newTodo = ref("");
 const todos = ref([]);
-const showAlert = ref(false);
+const isAlert = ref(false);
 const alertTimeout = ref(null);
 const isLoading = ref(true);
 
@@ -116,14 +112,14 @@ const handleSubmit = () => {
   if (newTodo.value) {
     requestAddTodo(newTodo.value);
     newTodo.value = "";
-    showAlert.value = false;
+    isAlert.value = false;
   } else {
-    showAlert.value = true;
+    isAlert.value = true;
 
     clearTimeout(alertTimeout.value);
 
     alertTimeout.value = setTimeout(() => {
-      showAlert.value = false;
+      isAlert.value = false;
     }, 3000);
   }
 };

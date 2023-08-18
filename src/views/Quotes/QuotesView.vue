@@ -64,7 +64,7 @@ import { computed, onMounted, watch } from "vue";
 import QuoteDisplay from "@/views/Quotes/partials/QuoteDisplay.vue";
 import { useStore } from "vuex";
 import { QUOTES_HEAD } from "@/data/head";
-import HeadSetter from "@/components/utils/HeadSetter.vue";
+import HeadSetter from "@/components/common/HeadSetter.vue";
 
 const store = useStore();
 const quoteModule = store.state.quotes;

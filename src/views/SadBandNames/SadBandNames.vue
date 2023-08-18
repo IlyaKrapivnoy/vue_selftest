@@ -61,9 +61,9 @@
 <script setup>
 import { computed } from "vue";
 import { useStore } from "vuex";
-import HeadSetter from "@/components/utils/HeadSetter.vue";
+import HeadSetter from "@/components/common/HeadSetter.vue";
 import { BAND_NAMES_HEAD } from "@/data/head";
-import CustomCard from "@/components/utils/CustomCard.vue";
+import CustomCard from "@/components/common/CustomCard.vue";
 
 const store = useStore();
 const bandName = computed(() => store.state.bandNames.bandName);

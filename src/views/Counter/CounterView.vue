@@ -6,21 +6,17 @@
   />
   <main class="container mx-auto px-4 mt-20">
     <h1>Counter Page</h1>
-
     <InfoView :infoData="infoData" />
-
     <div
       class="flex flex-col justify-center items-center h-[calc(100vh-400px)]"
     >
       <CounterSection :counter="counter" />
-
       <div class="w-[200px] flex flex-col items-center">
         <ButtonControllerSection
           @reset="reset"
           @increase="increase"
           @decrease="decrease"
         />
-
         <div class="w-full mt-4">
           <el-input
             v-model.number="inputNumber"
@@ -59,7 +55,7 @@
 import { computed, onMounted, watch } from "vue";
 import { useStore } from "vuex";
 import { COUNTER_HEAD } from "@/data/head";
-import HeadSetter from "@/components/utils/HeadSetter.vue";
+import HeadSetter from "@/components/common/HeadSetter.vue";
 import InfoView from "@/views/Counter/partials/InfoSection.vue";
 import ButtonControllerSection from "@/views/Counter/partials/ButtonControllerSection.vue";
 import CounterSection from "@/views/Counter/partials/CounterSection.vue";

@@ -85,7 +85,7 @@
 import { ref, computed } from "vue";
 import quizQuestions from "@/data/quiz";
 import { QUIZ_HEAD } from "@/data/head";
-import HeadSetter from "@/components/utils/HeadSetter.vue";
+import HeadSetter from "@/components/common/HeadSetter.vue";
 
 const questions = ref(quizQuestions);
 
