@@ -63,7 +63,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, onMounted, watch } from "vue";
 import { useStore } from "vuex";
 import { COUNTER_HEAD } from "@/data/head";
 import HeadSetter from "@/components/utils/HeadSetter.vue";
@@ -76,6 +76,7 @@ const counter = computed(() => counterModule.counter);
 const number = computed(() => counterModule.number);
 const operations = computed(() => counterModule.operations);
 const isAlert = computed(() => counterModule.isAlert);
+const inputNumber = computed(() => counterModule.inputNumber);
 
 const infoData = [
   {
@@ -88,8 +89,6 @@ const infoData = [
   },
 ];
 
-let inputNumber = ref(1);
-
 const decrease = () => store.commit("decrease");
 const increase = () => store.commit("increase");
 const reset = () => store.commit("reset");
@@ -99,16 +98,16 @@ const applyChange = () => {
   store.commit("applyChange", newValue);
 };
 
+const onInputChange = (value) => {
+  counterModule.inputNumber = value.replace(/\D/g, "");
+};
+
 onMounted(() => {
   counterModule.operations = Number(sessionStorage.getItem("operations")) || 0;
 });
 
 const saveOperationsToSessionStorage = () => {
   sessionStorage.setItem("operations", counterModule.operations.toString());
-};
-
-const onInputChange = (value) => {
-  inputNumber.value = value.replace(/\D/g, "");
 };
 
 watch(operations, () => {

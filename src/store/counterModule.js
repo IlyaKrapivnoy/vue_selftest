@@ -4,6 +4,7 @@ export const counterModule = {
       counter: 100,
       number: 1,
       operations: 0,
+      inputNumber: 1,
       isAlert: false,
     };
   },
