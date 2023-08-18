@@ -44,9 +44,14 @@
       </div>
     </form>
 
-    <div v-show="isAlert" class="mt-6">
-      <el-alert title="Add some text to create a todo" type="error" />
-    </div>
+    <MyAlert
+      :isAlert="isAlert"
+      :wrapperClass="'mt-6'"
+      :title="'Add some text to create a todo'"
+      :type="'error'"
+      :showIcon="false"
+      :closable="false"
+    />
 
     <ul class="mt-10">
       <li
@@ -96,6 +101,7 @@ import axios from "axios";
 import MySpinner from "@/components/common/MySpinner.vue";
 import HeadSetter from "@/components/common/HeadSetter.vue";
 import { TODO_HEAD } from "@/data/head";
+import MyAlert from "@/components/common/MyAlert.vue";
 
 const newTodo = ref("");
 const todos = ref([]);

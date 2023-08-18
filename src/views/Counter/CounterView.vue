@@ -38,15 +38,15 @@
         </div>
       </div>
 
-      <div v-show="isAlert" class="alert">
-        <el-alert
-          title="warning alert"
-          type="warning"
-          description="Only positive numbers that are bigger than zero"
-          show-icon
-          :closable="false"
-        />
-      </div>
+      <MyAlert
+        :isAlert="isAlert"
+        :wrapperClass="'alert'"
+        :title="'warning alert'"
+        :type="'warning'"
+        :description="'Only positive numbers that are bigger than zero'"
+        :showIcon="true"
+        :closable="false"
+      />
     </div>
   </main>
 </template>
@@ -59,6 +59,7 @@ import HeadSetter from "@/components/common/HeadSetter.vue";
 import InfoView from "@/views/Counter/partials/InfoSection.vue";
 import ButtonControllerSection from "@/views/Counter/partials/ButtonControllerSection.vue";
 import CounterSection from "@/views/Counter/partials/CounterSection.vue";
+import MyAlert from "@/components/common/MyAlert.vue";
 
 const store = useStore();
 const counterModule = store.state.counter;
