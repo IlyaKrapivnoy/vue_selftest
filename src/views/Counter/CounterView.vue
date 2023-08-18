@@ -12,9 +12,8 @@
     <div
       class="flex flex-col justify-center items-center h-[calc(100vh-400px)]"
     >
-      <div class="text-[100px] font-bold text-gray-600">
-        {{ counter }}
-      </div>
+      <CounterSection :counter="counter" />
+
       <div class="w-[200px] flex flex-col items-center">
         <ButtonControllerSection
           @reset="reset"
@@ -63,6 +62,7 @@ import { COUNTER_HEAD } from "@/data/head";
 import HeadSetter from "@/components/utils/HeadSetter.vue";
 import InfoView from "@/views/Counter/partials/InfoSection.vue";
 import ButtonControllerSection from "@/views/Counter/partials/ButtonControllerSection.vue";
+import CounterSection from "@/views/Counter/partials/CounterSection.vue";
 
 const store = useStore();
 const counterModule = store.state.counter;
