@@ -16,17 +16,11 @@
         {{ counter }}
       </div>
       <div class="w-[200px] flex flex-col items-center">
-        <div class="w-full flex">
-          <el-button @click="decrease" type="success" plain class="w-1/2">
-            -
-          </el-button>
-          <el-button @click="increase" type="success" plain class="w-1/2">
-            +
-          </el-button>
-        </div>
-        <el-button @click="reset" type="danger" plain class="w-full mt-4">
-          reset
-        </el-button>
+        <ButtonControllerSection
+          @reset="reset"
+          @increase="increase"
+          @decrease="decrease"
+        />
 
         <div class="w-full mt-4">
           <el-input
@@ -68,6 +62,7 @@ import { useStore } from "vuex";
 import { COUNTER_HEAD } from "@/data/head";
 import HeadSetter from "@/components/utils/HeadSetter.vue";
 import InfoView from "@/views/Counter/partials/InfoSection.vue";
+import ButtonControllerSection from "@/views/Counter/partials/ButtonControllerSection.vue";
 
 const store = useStore();
 const counterModule = store.state.counter;
