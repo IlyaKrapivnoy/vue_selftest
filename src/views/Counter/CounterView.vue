@@ -6,15 +6,9 @@
   />
   <main class="container mx-auto px-4 mt-20">
     <h1>Counter Page</h1>
-    <div class="mt-6">
-      <p class="text-gray-400 font-bold">
-        Increase / Decrease by: <span class="text-gray-600">{{ number }}</span>
-      </p>
-      <p class="text-gray-400 font-bold">
-        Total amount of operations by browser session:
-        <span class="text-gray-600">{{ operations }}</span>
-      </p>
-    </div>
+
+    <InfoView :infoData="infoData" />
+
     <div
       class="flex flex-col justify-center items-center h-[calc(100vh-400px)]"
     >
@@ -73,6 +67,7 @@ import { computed, onMounted, ref, watch } from "vue";
 import { useStore } from "vuex";
 import { COUNTER_HEAD } from "@/data/head";
 import HeadSetter from "@/components/utils/HeadSetter.vue";
+import InfoView from "@/views/Counter/partials/InfoSection.vue";
 
 const store = useStore();
 const counterModule = store.state.counter;
@@ -81,6 +76,17 @@ const counter = computed(() => counterModule.counter);
 const number = computed(() => counterModule.number);
 const operations = computed(() => counterModule.operations);
 const isAlert = computed(() => counterModule.isAlert);
+
+const infoData = [
+  {
+    title: "Increase / Decrease by:",
+    data: number,
+  },
+  {
+    title: "Total amount of operations by browser session:",
+    data: operations,
+  },
+];
 
 let inputNumber = ref(1);
 
