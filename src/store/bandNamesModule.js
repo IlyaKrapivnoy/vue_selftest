@@ -1,4 +1,4 @@
-import { adjectives, nouns, suffixes } from "@/data/band";
+import { adjectives, comments, nouns, suffixes } from "@/data/band";
 import { getRandomItem } from "@/helpers";
 
 export const bandNamesModule = {
@@ -22,6 +22,7 @@ export const bandNamesModule = {
         id: Date.now(),
         name: state.bandName,
         score: Math.floor(Math.random() * 101),
+        comment: getRandomItem(comments),
       };
       state.savedBandNames.push(newBandNameData);
       state.bandName = "";

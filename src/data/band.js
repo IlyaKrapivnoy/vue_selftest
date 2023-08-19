@@ -8,4 +8,12 @@ const suffixes = [
   "of Longing",
 ];
 
-export { adjectives, nouns, suffixes };
+const comments = [
+  "Your band name is on fire!",
+  "Rock'n'roll all night with this band name!",
+  "The crowd will be chanting this name for sure.",
+  "This name has a legendary vibe.",
+  "Get ready to hit the stage with this name!",
+];
+
+export { adjectives, nouns, suffixes, comments };
