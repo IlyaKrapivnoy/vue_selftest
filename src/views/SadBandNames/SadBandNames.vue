@@ -27,12 +27,15 @@
     </section>
 
     <section class="my-6">
-      <h2>SAVED BAND NAMES:</h2>
-      <div class="flex justify-end mb-3">
-        <el-select v-model="sortBy" placeholder="Sort by">
-          <el-option label="Name" value="name" />
-          <el-option label="Score" value="score" />
-        </el-select>
+      <div class="flex justify-between items-center">
+        <h2>SAVED BAND NAMES:</h2>
+        <div class="flex justify-end mb-3">
+          <el-select v-model="sortBy" placeholder="Sort by">
+            <el-option label="Name" value="name" />
+            <el-option label="Score | from big to low" value="score from big" />
+            <el-option label="Score | from low to big" value="score from low" />
+          </el-select>
+        </div>
       </div>
       <el-card
         v-for="band in sortedSavedBandNames"
@@ -86,8 +89,10 @@ const sortedSavedBandNames = computed(() => {
   return copyOfSavedBandNames.sort((a, b) => {
     if (sortBy.value === "name") {
       return a.name.localeCompare(b.name);
-    } else if (sortBy.value === "score") {
+    } else if (sortBy.value === "score from low") {
       return b.score - a.score;
+    } else if (sortBy.value === "score from big") {
+      return a.score - b.score;
     }
   });
 });
