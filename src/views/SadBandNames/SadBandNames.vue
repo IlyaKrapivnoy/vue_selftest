@@ -69,6 +69,19 @@ const store = useStore();
 const bandName = computed(() => store.state.bandNames.bandName);
 const savedBandNames = computed(() => store.state.bandNames.savedBandNames);
 
+const comments = [
+  "Your band name is on fire!",
+  "Rock'n'roll all night with this band name!",
+  "The crowd will be chanting this name for sure.",
+  "This name has a legendary vibe.",
+  "Get ready to hit the stage with this name!",
+];
+
+const generateRandomComment = () => {
+  const randomIndex = Math.floor(Math.random() * comments.length);
+  return comments[randomIndex];
+};
+
 const generateName = () => {
   store.commit("generateBandName");
 };
