@@ -28,8 +28,14 @@
 
     <section class="my-6">
       <h2>SAVED BAND NAMES:</h2>
+      <div class="flex justify-end mb-3">
+        <el-select v-model="sortBy" placeholder="Sort by">
+          <el-option label="Name" value="name" />
+          <el-option label="Score" value="score" />
+        </el-select>
+      </div>
       <el-card
-        v-for="band in savedBandNames"
+        v-for="band in sortedSavedBandNames"
         :key="`${band.id}`"
         class="box-card my-3"
       >
@@ -55,7 +61,7 @@
         </p>
       </el-card>
 
-      <p v-show="savedBandNames.length <= 0" class="text-gray-600 mt-3">
+      <p v-show="sortedSavedBandNames.length <= 0" class="text-gray-600 mt-3">
         No names have been saved...
       </p>
     </section>
@@ -63,7 +69,7 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useStore } from "vuex";
 import HeadSetter from "@/components/common/HeadSetter.vue";
 import { BAND_NAMES_HEAD } from "@/data/head";
@@ -72,6 +78,19 @@ import CustomCard from "@/components/common/CustomCard.vue";
 const store = useStore();
 const bandName = computed(() => store.state.bandNames.bandName);
 const savedBandNames = computed(() => store.state.bandNames.savedBandNames);
+
+const sortBy = ref("name"); // Default sorting by name
+const sortedSavedBandNames = computed(() => {
+  const copyOfSavedBandNames = [...savedBandNames.value];
+
+  return copyOfSavedBandNames.sort((a, b) => {
+    if (sortBy.value === "name") {
+      return a.name.localeCompare(b.name);
+    } else if (sortBy.value === "score") {
+      return b.score - a.score;
+    }
+  });
+});
 
 const generateName = () => {
   store.commit("generateBandName");
