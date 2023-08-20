@@ -33,7 +33,7 @@
 <script setup>
 import { onMounted } from "vue";
 import navData from "@/data/navData";
-import { activeIndex, setActiveIndex } from "@/helpers";
+import { activeIndex, setActiveIndex } from "@/helpers/commonFunctions";
 
 onMounted(() => {
   localStorage.setItem("activeIndex", activeIndex.value);

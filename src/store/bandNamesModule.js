@@ -1,5 +1,5 @@
 import { adjectives, comments, nouns, suffixes } from "@/data/band";
-import { getRandomItem } from "@/helpers";
+import { getRandomItem } from "@/helpers/commonFunctions";
 
 export const bandNamesModule = {
   state() {

@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getRandomItem returns a random item from the array: randomItem 1`] = `2`;
