@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Footer.vue displays the current year 1`] = `
+"<div class="container mx-auto">
+  <footer class="flex justify-center border-t-[1px]">
+    <div class="my-8">© By Ilya Krapivnoy 2023</div>
+  </footer>
+</div>"
+`;
