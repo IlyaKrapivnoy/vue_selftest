@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NavMenu.vue matches snapshot 1`] = `
+"<main class="container mx-auto">
+  <el-menu default-active="1" class="el-menu-demo flex justify-between uppercase" mode="horizontal">
+    <router-link to="/">
+      <el-menu-item index="1" class="logo-nav-item">
+        <div class="flex flex-col items-center cursor-pointer ml-4">
+          <div class="text-3xl font-bold text-indigo-300">Logo</div>
+          <div class="text-xs text-gray-500">practice inc.</div>
+        </div>
+      </el-menu-item>
+    </router-link>
+    <div class="flex">
+      <router-link to="/">
+        <el-menu-item index="0">Home</el-menu-item>
+      </router-link>
+      <router-link to="todo">
+        <el-menu-item index="1">Task Tracker</el-menu-item>
+      </router-link>
+      <router-link to="quotes">
+        <el-menu-item index="2">Quote Generator</el-menu-item>
+      </router-link>
+      <router-link to="quiz">
+        <el-menu-item index="3">Quiz</el-menu-item>
+      </router-link>
+      <router-link to="band-names">
+        <el-menu-item index="4">Sad Band Names</el-menu-item>
+      </router-link>
+      <router-link to="counter">
+        <el-menu-item index="5">Counter</el-menu-item>
+      </router-link>
+    </div>
+  </el-menu>
+</main>"
+`;
