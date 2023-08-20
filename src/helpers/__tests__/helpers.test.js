@@ -1,4 +1,8 @@
-import { getRandomItem } from "@/helpers/commonFunctions";
+import {
+  getRandomItem,
+  activeIndex,
+  setActiveIndex,
+} from "@/helpers/commonFunctions";
 
 describe("getRandomItem", () => {
   it("returns a random item from the array", () => {
@@ -25,5 +29,19 @@ describe("getRandomItem", () => {
     expect(randomItemFromEmptyArray).toMatchSnapshot(
       "randomItemFromEmptyArray"
     );
+  });
+});
+
+describe("activeIndex and setActiveIndex", () => {
+  it("initializes activeIndex with default value", () => {
+    const defaultValue = "1"; // Assuming '1' is the default value
+    const initialActiveIndex = activeIndex.value;
+    expect(initialActiveIndex).toBe(defaultValue);
+  });
+
+  it("updates activeIndex and sets value", () => {
+    const newValue = "2";
+    setActiveIndex(newValue);
+    expect(activeIndex.value).toBe(newValue);
   });
 });
