@@ -44,7 +44,7 @@ import appList from "@/data/navData";
 import router from "@/router";
 import { setActiveIndex } from "@/helpers/commonFunctions";
 import { HOME_HEAD } from "@/data/head";
-import HeadSetter from "@/components/common/HeadSetter.vue";
+import HeadSetter from "@/components/common/HeadSetter/HeadSetter.vue";
 
 const activeName = ref([]);
 const appListData = appList;
