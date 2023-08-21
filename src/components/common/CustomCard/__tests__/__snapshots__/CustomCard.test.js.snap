@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`YourComponentName renders correctly 1`] = `
+exports[`CustomCard renders correctly 1`] = `
 "<el-card class="box-card my-3">
   <div class="flex justify-between items-center">
     <p class="font-bold">Bold Text <span class="font-extralight text-indigo-600">Light Text</span></p>

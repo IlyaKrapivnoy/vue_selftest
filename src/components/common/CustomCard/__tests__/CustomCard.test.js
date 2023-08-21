@@ -1,7 +1,7 @@
 import { shallowMount } from "@vue/test-utils";
-import YourComponentName from "@/components/common/CustomCard/CustomCard.vue";
+import CustomCard from "@/components/common/CustomCard/CustomCard.vue";
 
-describe("YourComponentName", () => {
+describe("CustomCard", () => {
   it("renders correctly", () => {
     const cardTextBold = "Bold Text";
     const cardTextLight = "Light Text";
@@ -10,7 +10,7 @@ describe("YourComponentName", () => {
       { type: "success", name: "Button 2", click: jest.fn() },
     ];
 
-    const wrapper = shallowMount(YourComponentName, {
+    const wrapper = shallowMount(CustomCard, {
       props: { cardTextBold, cardTextLight, buttons },
     });
 

@@ -101,7 +101,7 @@ import axios from "axios";
 import MySpinner from "@/components/common/MySpinner.vue";
 import HeadSetter from "@/components/common/HeadSetter/HeadSetter.vue";
 import { TODO_HEAD } from "@/data/head";
-import MyAlert from "@/components/common/MyAlert.vue";
+import MyAlert from "@/components/common/MyAlert/MyAlert.vue";
 
 const newTodo = ref("");
 const todos = ref([]);
