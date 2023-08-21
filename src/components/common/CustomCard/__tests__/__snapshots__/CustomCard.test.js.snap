@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`YourComponentName renders correctly 1`] = `
+"<el-card class="box-card my-3">
+  <div class="flex justify-between items-center">
+    <p class="font-bold">Bold Text <span class="font-extralight text-indigo-600">Light Text</span></p>
+    <div>
+      <el-button type="primary" plain="">Button 1</el-button>
+      <el-button type="success" plain="">Button 2</el-button>
+    </div>
+  </div>
+</el-card>"
+`;
