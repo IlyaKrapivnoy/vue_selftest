@@ -98,7 +98,7 @@
 <script setup>
 import { computed, onMounted, ref } from "vue";
 import axios from "axios";
-import MySpinner from "@/components/common/MySpinner.vue";
+import MySpinner from "@/components/common/MySpinner/MySpinner.vue";
 import HeadSetter from "@/components/common/HeadSetter/HeadSetter.vue";
 import { TODO_HEAD } from "@/data/head";
 import MyAlert from "@/components/common/MyAlert/MyAlert.vue";
