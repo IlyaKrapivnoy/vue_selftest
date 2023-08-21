@@ -1,5 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`getRandomItem matches snapshot for random item and undefined return: randomItemFromArray 1`] = `5`;
+exports[`getRandomItem matches snapshot for random item and undefined return: randomItemFromArray 1`] = `1`;
 
 exports[`getRandomItem matches snapshot for random item and undefined return: randomItemFromEmptyArray 1`] = `undefined`;
