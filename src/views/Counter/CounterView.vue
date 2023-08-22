@@ -55,11 +55,11 @@
 import { computed, onMounted, watch } from "vue";
 import { useStore } from "vuex";
 import { COUNTER_HEAD } from "@/data/head";
-import HeadSetter from "@/components/common/HeadSetter.vue";
+import HeadSetter from "@/components/common/HeadSetter/HeadSetter.vue";
 import InfoView from "@/views/Counter/partials/InfoSection.vue";
 import ButtonControllerSection from "@/views/Counter/partials/ButtonControllerSection.vue";
 import CounterSection from "@/views/Counter/partials/CounterSection.vue";
-import MyAlert from "@/components/common/MyAlert.vue";
+import MyAlert from "@/components/common/MyAlert/MyAlert.vue";
 
 const store = useStore();
 const counterModule = store.state.counter;
