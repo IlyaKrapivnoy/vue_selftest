@@ -12,7 +12,7 @@
 
       <CustomCard
         :cardTextLight="bandName || 'Band name will be displayed here...'"
-        :buttons="bandNameButtons"
+        :buttons="bandName ? bandNameButtons : [generateButton]"
       />
     </section>
 
@@ -100,9 +100,11 @@ const removeSavedBandName = (nameId) => {
   store.commit("removeSavedBandName", nameId);
 };
 
+const generateButton = { name: "Generate New", click: generateName };
+
 const bandNameButtons = [
   { name: "Save Name", type: "success", click: saveName },
-  { name: "Generate New", click: generateName },
+  generateButton,
 ];
 
 const sortOptions = [
