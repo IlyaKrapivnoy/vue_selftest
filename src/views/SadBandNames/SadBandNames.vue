@@ -21,9 +21,12 @@
         <h2>SAVED BAND NAMES:</h2>
         <div class="flex justify-end mb-3">
           <el-select v-model="sortBy" placeholder="Sort by">
-            <el-option label="Name" value="name" />
-            <el-option label="Score | from big to low" value="score from big" />
-            <el-option label="Score | from low to big" value="score from low" />
+            <el-option
+              v-for="option in sortOptions"
+              :key="option.value"
+              :label="option.label"
+              :value="option.value"
+            />
           </el-select>
         </div>
       </div>
@@ -70,7 +73,7 @@ const store = useStore();
 const bandName = computed(() => store.state.bandNames.bandName);
 const savedBandNames = computed(() => store.state.bandNames.savedBandNames);
 
-const sortBy = ref("name"); // Default sorting by name
+const sortBy = ref("name");
 const sortedSavedBandNames = computed(() => {
   const copyOfSavedBandNames = [...savedBandNames.value];
 
@@ -85,11 +88,6 @@ const sortedSavedBandNames = computed(() => {
   });
 });
 
-const bandNameButtons = [
-  { name: "Save Name", type: "success", click: saveName },
-  { name: "Generate New", click: generateName },
-];
-
 const generateName = () => {
   store.commit("generateBandName");
 };
@@ -101,4 +99,15 @@ const saveName = () => {
 const removeSavedBandName = (nameId) => {
   store.commit("removeSavedBandName", nameId);
 };
+
+const bandNameButtons = [
+  { name: "Save Name", type: "success", click: saveName },
+  { name: "Generate New", click: generateName },
+];
+
+const sortOptions = [
+  { label: "Name", value: "name" },
+  { label: "Score | from big to low", value: "score from big" },
+  { label: "Score | from low to big", value: "score from low" },
+];
 </script>
