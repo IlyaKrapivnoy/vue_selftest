@@ -11,18 +11,8 @@
       <h2>Your Sad Rock Band Name:</h2>
 
       <CustomCard
-        v-show="bandName"
-        :cardTextLight="`${bandName}`"
-        :buttons="[
-          { name: 'Save Name', type: 'success', click: saveName },
-          { name: 'Generate New', click: generateName },
-        ]"
-      />
-
-      <CustomCard
-        v-show="!bandName"
-        :cardTextLight="`Band name will be displayed here...`"
-        :buttons="[{ name: 'Generate Band Name', click: generateName }]"
+        :cardTextLight="bandName || 'Band name will be displayed here...'"
+        :buttons="bandNameButtons"
       />
     </section>
 
@@ -39,7 +29,7 @@
       </div>
       <el-card
         v-for="band in sortedSavedBandNames"
-        :key="`${band.id}`"
+        :key="band.id"
         class="box-card my-3"
       >
         <el-button
@@ -51,9 +41,7 @@
 
         <p class="font-bold">
           Band name:
-          <span class="font-extralight">
-            {{ band.name }}
-          </span>
+          <span class="font-extralight">{{ band.name }}</span>
         </p>
         <p class="font-bold">
           How rock it is: <span class="font-extralight">{{ band.score }}%</span>
@@ -96,6 +84,11 @@ const sortedSavedBandNames = computed(() => {
     }
   });
 });
+
+const bandNameButtons = [
+  { name: "Save Name", type: "success", click: saveName },
+  { name: "Generate New", click: generateName },
+];
 
 const generateName = () => {
   store.commit("generateBandName");
