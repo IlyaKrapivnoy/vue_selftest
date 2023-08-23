@@ -12,7 +12,7 @@
 
       <CustomCard
         :cardTextLight="bandName || 'Band name will be displayed here...'"
-        :buttons="bandName ? bandNameButtons : [generateButton]"
+        :buttons="showSaveButton ? bandNameButtons : [generateButton]"
       />
     </section>
 
@@ -72,6 +72,7 @@ import CustomCard from "@/components/common/CustomCard/CustomCard.vue";
 const store = useStore();
 const bandName = computed(() => store.state.bandNames.bandName);
 const savedBandNames = computed(() => store.state.bandNames.savedBandNames);
+const showSaveButton = ref(false);
 
 const sortBy = ref("name");
 const sortedSavedBandNames = computed(() => {
@@ -90,6 +91,7 @@ const sortedSavedBandNames = computed(() => {
 
 const generateName = () => {
   store.commit("generateBandName");
+  showSaveButton.value = true;
 };
 
 const saveName = () => {
