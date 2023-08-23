@@ -69,21 +69,30 @@ import HeadSetter from "@/components/common/HeadSetter/HeadSetter.vue";
 import { BAND_NAMES_HEAD } from "@/data/head";
 import CustomCard from "@/components/common/CustomCard/CustomCard.vue";
 
+// Store initialization
 const store = useStore();
+
+// Computed properties
 const bandName = computed(() => store.state.bandNames.bandName);
 const savedBandNames = computed(() => store.state.bandNames.savedBandNames);
 const showSaveButton = ref(false);
 
+// Watcher for bandName changes
 watch(bandName, (newBandName) => {
   if (!newBandName) {
     showSaveButton.value = false;
   }
 });
 
+// Sorting logic
+const sortOptions = [
+  { label: "Name", value: "name" },
+  { label: "Score | from big to low", value: "score from big" },
+  { label: "Score | from low to big", value: "score from low" },
+];
 const sortBy = ref("name");
 const sortedSavedBandNames = computed(() => {
   const copyOfSavedBandNames = [...savedBandNames.value];
-
   return copyOfSavedBandNames.sort((a, b) => {
     if (sortBy.value === "name") {
       return a.name.localeCompare(b.name);
@@ -95,6 +104,7 @@ const sortedSavedBandNames = computed(() => {
   });
 });
 
+// Methods
 const generateName = () => {
   store.commit("generateBandName");
   showSaveButton.value = true;
@@ -108,16 +118,10 @@ const removeSavedBandName = (nameId) => {
   store.commit("removeSavedBandName", nameId);
 };
 
+// Button definitions
 const generateButton = { name: "Generate New", click: generateName };
-
 const bandNameButtons = [
   { name: "Save Name", type: "success", click: saveName },
   generateButton,
-];
-
-const sortOptions = [
-  { label: "Name", value: "name" },
-  { label: "Score | from big to low", value: "score from big" },
-  { label: "Score | from low to big", value: "score from low" },
 ];
 </script>
