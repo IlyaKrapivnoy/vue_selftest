@@ -63,7 +63,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import { useStore } from "vuex";
 import HeadSetter from "@/components/common/HeadSetter/HeadSetter.vue";
 import { BAND_NAMES_HEAD } from "@/data/head";
@@ -73,6 +73,12 @@ const store = useStore();
 const bandName = computed(() => store.state.bandNames.bandName);
 const savedBandNames = computed(() => store.state.bandNames.savedBandNames);
 const showSaveButton = ref(false);
+
+watch(bandName, (newBandName) => {
+  if (!newBandName) {
+    showSaveButton.value = false;
+  }
+});
 
 const sortBy = ref("name");
 const sortedSavedBandNames = computed(() => {
