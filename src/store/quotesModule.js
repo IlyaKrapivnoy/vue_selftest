@@ -1,14 +1,12 @@
 import quotes from "@/data/quotes";
 
 export const quotesModule = {
-  state() {
-    return {
-      quotes: quotes,
-      selectedLang: "en",
-      selectedCategory: "math",
-      currentQuote: null,
-    };
-  },
+  state: () => ({
+    quotes: quotes,
+    selectedLang: "en",
+    selectedCategory: "math",
+    currentQuote: null,
+  }),
   mutations: {
     incrementLikes(state, quoteId) {
       const quote = state.quotes.find((quote) => quote.id === quoteId);

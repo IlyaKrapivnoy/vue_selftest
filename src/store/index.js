@@ -5,9 +5,9 @@ import { bandNamesModule } from "@/store/bandNamesModule";
 import createPersistedState from "vuex-persistedstate";
 
 export default createStore({
-  state: {
+  state: () => ({
     isAuth: false,
-  },
+  }),
   modules: {
     counter: counterModule,
     quotes: quotesModule,

@@ -1,13 +1,11 @@
 export const counterModule = {
-  state() {
-    return {
-      counter: 100,
-      number: 1,
-      operations: 0,
-      inputNumber: 1,
-      isAlert: false,
-    };
-  },
+  state: () => ({
+    counter: 100,
+    number: 1,
+    operations: 0,
+    inputNumber: 1,
+    isAlert: false,
+  }),
   mutations: {
     decrease(state) {
       if (state.counter > 0) {
