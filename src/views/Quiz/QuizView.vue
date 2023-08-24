@@ -64,14 +64,7 @@
       <p>Your score is {{ score }}/{{ questions.length }}</p>
 
       <div class="mt-4">
-        <p v-if="score > 3" class="text-green-500 font-bold">AWESOME RESULT!</p>
-        <p
-          v-else-if="score >= 2 && score <= 3"
-          class="text-yellow-500 font-bold"
-        >
-          NOT BAD
-        </p>
-        <p v-else class="text-red-500 font-bold">YOU CAN DO BETTER!</p>
+        <p :class="getResultClass">{{ getResultMessage }}</p>
       </div>
 
       <el-button type="warning" plain @click="startOver" class="mt-6">
@@ -128,6 +121,18 @@ const startOver = () => {
     q.selected = null;
   });
 };
+
+const getResultMessage = computed(() => {
+  if (score > 3) return "AWESOME RESULT!";
+  if (score >= 2 && score <= 3) return "NOT BAD";
+  return "YOU CAN DO BETTER!";
+});
+
+const getResultClass = computed(() => {
+  if (score > 3) return "text-green-500 font-bold";
+  if (score >= 2 && score <= 3) return "text-yellow-500 font-bold";
+  return "text-red-500 font-bold";
+});
 </script>
 
 <style scoped>

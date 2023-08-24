@@ -2,14 +2,12 @@ import { adjectives, comments, nouns, suffixes } from "@/data/band";
 import { getRandomItem } from "@/helpers/commonFunctions";
 
 export const bandNamesModule = {
-  state() {
-    return {
-      bandAdjectives: adjectives,
-      bandNouns: nouns,
-      bandSuffixes: suffixes,
-      savedBandNames: [],
-    };
-  },
+  state: () => ({
+    bandAdjectives: adjectives,
+    bandNouns: nouns,
+    bandSuffixes: suffixes,
+    savedBandNames: [],
+  }),
   mutations: {
     generateBandName(state) {
       const adjective = getRandomItem(state.bandAdjectives);
