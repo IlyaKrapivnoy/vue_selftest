@@ -39,15 +39,17 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { computed } from "vue";
 import appList from "@/data/navData";
 import router from "@/router";
 import { setActiveIndex } from "@/helpers/commonFunctions";
 import { HOME_HEAD } from "@/data/head";
 import HeadSetter from "@/components/common/HeadSetter/HeadSetter.vue";
 
-const activeName = ref([]);
 const appListData = appList;
+const activeName = computed(() => {
+  return appListData.map((app) => (app.title === "Home" ? "0" : ""));
+});
 
 const getOrdinal = (number) => {
   const suffixes = ["st", "nd", "rd"];
@@ -62,13 +64,4 @@ const goToApp = (app) => {
   router.push(`/${app.path}`);
   setActiveIndex(app.id);
 };
-onMounted(() => {
-  appListData.forEach((app) => {
-    if (app.title === "Home") {
-      activeName.value.push("0");
-    } else {
-      activeName.value.push("");
-    }
-  });
-});
 </script>
