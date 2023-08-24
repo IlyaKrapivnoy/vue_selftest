@@ -158,9 +158,9 @@ const removeAllTodos = () => {
 
 const isAllDone = computed(() => todos.value.every((todo) => todo.completed));
 
-const getStatusButtonText = () => {
-  return isAllDone.value ? "Unmark all done" : "Mark all done";
-};
+const getStatusButtonText = computed(() =>
+  isAllDone.value ? "Unmark all done" : "Mark all done"
+);
 
 const requestFetchTodos = () => {
   isLoading.value = true;
