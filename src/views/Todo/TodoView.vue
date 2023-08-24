@@ -22,7 +22,7 @@
           :disabled="todos.length === 0"
           class="w-[140px]"
         >
-          {{ getStatusButtonText() }}
+          {{ getStatusButtonText }}
         </el-button>
         <el-button
           @click="removeAllTodos"
@@ -116,7 +116,7 @@ const pageSize = ref(10);
 
 const handleSubmit = () => {
   if (newTodo.value) {
-    requestAddTodo(newTodo.value);
+    requestAddTodo();
     newTodo.value = "";
     isAlert.value = false;
   } else {
