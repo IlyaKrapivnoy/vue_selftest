@@ -6,15 +6,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from "vue";
 
-export default {
-  setup() {
-    const currentYear = ref(new Date().getFullYear());
-    return {
-      currentYear,
-    };
-  },
-};
+const currentYear = ref(new Date().getFullYear());
 </script>
