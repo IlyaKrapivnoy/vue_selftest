@@ -13,10 +13,12 @@
       <CounterSection :counter="counter" />
       <div class="w-[200px] flex flex-col items-center">
         <ButtonControllerSection
+          :buttons="buttons"
           @reset="reset"
           @increase="increase"
           @decrease="decrease"
         />
+
         <div class="w-full mt-4">
           <el-input
             v-model.number="inputNumber"
@@ -79,6 +81,12 @@ const infoData = [
     title: "Total amount of operations by browser session:",
     data: operations,
   },
+];
+
+const buttons = [
+  { label: "-", event: "decrease", type: "success" },
+  { label: "+", event: "increase", type: "success" },
+  { label: "reset", event: "reset", type: "danger" },
 ];
 
 const decrease = () => store.commit("decrease");
