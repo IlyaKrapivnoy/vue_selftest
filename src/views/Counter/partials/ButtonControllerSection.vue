@@ -1,13 +1,22 @@
 <template>
   <div class="w-full flex">
-    <el-button @click="$emit('decrease')" type="success" plain class="w-1/3">
-      -
-    </el-button>
-    <el-button @click="$emit('increase')" type="success" plain class="w-1/3">
-      +
-    </el-button>
-    <el-button @click="$emit('reset')" type="danger" plain class="w-1/3">
-      reset
+    <el-button
+      v-for="(button, index) in props.buttons"
+      :key="index"
+      @click="$emit(button.event)"
+      :type="button.type"
+      plain
+      class="w-1/3"
+    >
+      {{ button.label }}
     </el-button>
   </div>
 </template>
+
+<script setup>
+import { defineProps } from "vue";
+
+const props = defineProps({
+  buttons: Array,
+});
+</script>
