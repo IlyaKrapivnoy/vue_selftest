@@ -123,14 +123,14 @@ const startOver = () => {
 };
 
 const getResultMessage = computed(() => {
-  if (score > 3) return "AWESOME RESULT!";
-  if (score >= 2 && score <= 3) return "NOT BAD";
+  if (score.value > 3) return "AWESOME RESULT!";
+  if (score.value >= 2 && score.value <= 3) return "NOT BAD";
   return "YOU CAN DO BETTER!";
 });
 
 const getResultClass = computed(() => {
-  if (score > 3) return "text-green-500 font-bold";
-  if (score >= 2 && score <= 3) return "text-yellow-500 font-bold";
+  if (score.value > 3) return "text-green-500 font-bold";
+  if (score.value >= 2 && score.value <= 3) return "text-yellow-500 font-bold";
   return "text-red-500 font-bold";
 });
 </script>
