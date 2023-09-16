@@ -9,7 +9,15 @@
     <section v-if="!quizCompleted" class="flex flex-col">
       <div class="flex justify-between text-indigo-300">
         <span>{{ getCurrentQuestion.question }}</span>
-        <span>Score {{ score }}/{{ questions.length }}</span>
+        <div class="w-[240px] flex justify-between">
+          <span>Score {{ score }}/{{ questions.length }}</span>
+          <span class="border-r-[1px] border-black"></span>
+          <span
+            >Question {{ questions.length }}/{{
+              getCurrentQuestion.index + 1
+            }}</span
+          >
+        </div>
       </div>
 
       <div class="mt-6">
