@@ -7,18 +7,12 @@
   <main class="container mx-auto px-4 mt-20">
     <h1>Quiz Page</h1>
     <section v-if="!quizCompleted" class="flex flex-col">
-      <div class="flex justify-between text-indigo-300">
-        <span>{{ getCurrentQuestion.question }}</span>
-        <div class="w-[240px] flex justify-between">
-          <span>Score {{ score }}/{{ questions.length }}</span>
-          <span class="border-r-[1px] border-black"></span>
-          <span
-            >Question {{ questions.length }}/{{
-              getCurrentQuestion.index + 1
-            }}</span
-          >
-        </div>
-      </div>
+      <QuizHeader
+        :getCurrentQuestion="getCurrentQuestion"
+        :currentQuestion="currentQuestion"
+        :totalQuestionsCount="questions.length"
+        :currentScore="score"
+      />
 
       <div class="mt-6">
         <label
@@ -82,6 +76,7 @@ import quizQuestions from "@/data/quiz";
 import { QUIZ_HEAD } from "@/data/head";
 import HeadSetter from "@/components/common/HeadSetter/HeadSetter.vue";
 import FinishScreen from "@/views/Quiz/partials/FinishScreen.vue";
+import QuizHeader from "@/views/Quiz/partials/QuizHeader.vue";
 
 const questions = ref(quizQuestions);
 
