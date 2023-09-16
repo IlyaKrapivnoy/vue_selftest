@@ -63,8 +63,8 @@
 
     <FinishScreen
       v-else
-      :score="score"
-      :totalQuestions="questions.length"
+      :currentScore="score"
+      :totalQuestionsCount="questions.length"
       @onStartOver="startOver"
     />
   </main>

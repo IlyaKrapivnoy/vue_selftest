@@ -1,7 +1,9 @@
 <template>
   <section class="finish">
     <h2>You have finished the quiz!</h2>
-    <p>Your score is {{ score }}/{{ totalQuestions }}</p>
+    <p>
+      Your score is {{ props.currentScore }}/{{ props.totalQuestionsCount }}
+    </p>
 
     <div class="mt-4">
       <p :class="getResultClass">{{ getResultMessage }}</p>
@@ -14,20 +16,18 @@
 </template>
 
 <script setup>
-import { ref, computed, defineEmits } from "vue";
-
-const score = ref(0);
-const totalQuestions = ref(0);
+import { computed, defineEmits } from "vue";
 
 const getResultMessage = computed(() => {
-  if (score.value > 3) return "AWESOME RESULT!";
-  if (score.value >= 2 && score.value <= 3) return "NOT BAD";
+  if (props.currentScore > 3) return "AWESOME RESULT!";
+  if (props.currentScore >= 2 && props.currentScore <= 3) return "NOT BAD";
   return "YOU CAN DO BETTER!";
 });
 
 const getResultClass = computed(() => {
-  if (score.value > 3) return "text-green-500 font-bold";
-  if (score.value >= 2 && score.value <= 3) return "text-yellow-500 font-bold";
+  if (props.currentScore > 3) return "text-green-500 font-bold";
+  if (props.currentScore >= 2 && props.currentScore <= 3)
+    return "text-yellow-500 font-bold";
   return "text-red-500 font-bold";
 });
 
@@ -36,4 +36,9 @@ const emit = defineEmits(["onStartOver"]);
 const startOver = () => {
   emit("onStartOver");
 };
+
+const props = defineProps({
+  currentScore: Number,
+  totalQuestionsCount: Number,
+});
 </script>
