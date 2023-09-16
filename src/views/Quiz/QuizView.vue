@@ -59,18 +59,12 @@
       </el-button>
     </section>
 
-    <section v-else class="finish">
-      <h2>You have finished the quiz!</h2>
-      <p>Your score is {{ score }}/{{ questions.length }}</p>
-
-      <div class="mt-4">
-        <p :class="getResultClass">{{ getResultMessage }}</p>
-      </div>
-
-      <el-button type="warning" plain @click="startOver" class="mt-6">
-        Start Over
-      </el-button>
-    </section>
+    <FinishScreen
+      v-else
+      :score="score"
+      :totalQuestions="questions.length"
+      @onStartOver="startOver"
+    />
   </main>
 </template>
 
@@ -79,6 +73,7 @@ import { ref, computed } from "vue";
 import quizQuestions from "@/data/quiz";
 import { QUIZ_HEAD } from "@/data/head";
 import HeadSetter from "@/components/common/HeadSetter/HeadSetter.vue";
+import FinishScreen from "@/views/Quiz/partials/FinishScreen.vue";
 
 const questions = ref(quizQuestions);
 
@@ -121,18 +116,6 @@ const startOver = () => {
     q.selected = null;
   });
 };
-
-const getResultMessage = computed(() => {
-  if (score.value > 3) return "AWESOME RESULT!";
-  if (score.value >= 2 && score.value <= 3) return "NOT BAD";
-  return "YOU CAN DO BETTER!";
-});
-
-const getResultClass = computed(() => {
-  if (score.value > 3) return "text-green-500 font-bold";
-  if (score.value >= 2 && score.value <= 3) return "text-yellow-500 font-bold";
-  return "text-red-500 font-bold";
-});
 </script>
 
 <style scoped>
