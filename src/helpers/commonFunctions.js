@@ -6,6 +6,4 @@ export const setActiveIndex = (index) => {
   localStorage.setItem("activeIndex", index);
 };
 
-export function getRandomItem(array) {
-  return array[Math.floor(Math.random() * array.length)];
-}
+export const getRandomItem = array => array[Math.floor(Math.random() * array.length)];
