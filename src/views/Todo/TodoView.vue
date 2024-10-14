@@ -98,6 +98,7 @@
 <script setup>
 import { computed, onMounted, ref } from "vue";
 import axios from "axios";
+import { nanoid } from "nanoid";
 import MySpinner from "@/components/common/MySpinner/MySpinner.vue";
 import HeadSetter from "@/components/common/HeadSetter/HeadSetter.vue";
 import { TODO_HEAD } from "@/data/head";
@@ -170,7 +171,11 @@ const requestFetchTodos = () => {
   axios
     .get("https://jsonplaceholder.typicode.com/todos")
     .then((response) => {
-      todos.value = response.data.slice(startIndex, endIndex).reverse();
+      const fetchedTodos = response.data.slice(startIndex, endIndex).reverse();
+      todos.value = fetchedTodos.map((todo) => ({
+        ...todo,
+        id: nanoid(),
+      }));
       totalTodos.value = response.data.length;
 
       saveTodosToLocalStorage();
@@ -184,16 +189,19 @@ const requestFetchTodos = () => {
 };
 
 const requestAddTodo = (title) => {
+  const uniqueId = nanoid();
   const newTodo = {
     title: title,
     completed: false,
-    userId: 1,
+    userId: nanoid(),
+    id: uniqueId,
   };
 
   axios
     .post("https://jsonplaceholder.typicode.com/todos", newTodo)
     .then((response) => {
-      todos.value.unshift(response.data);
+      const addedTodo = { ...response.data, id: uniqueId };
+      todos.value.unshift(addedTodo);
       saveTodosToLocalStorage();
     })
     .catch((error) => {
