@@ -65,6 +65,9 @@
             >
               TODO: {{ todo.title }}
             </h3>
+            <span class="text-sm text-gray-500"
+              >Created at: {{ todo.createdAt }}</span
+            >
             <el-button type="danger" @click.stop="deleteItem(todo)"
               >x</el-button
             >
@@ -191,17 +194,23 @@ const requestFetchTodos = () => {
 
 const requestAddTodo = (title) => {
   const uniqueId = nanoid();
+  const currentDateTime = new Date().toLocaleString();
   const newTodo = {
     title: title,
     completed: false,
     userId: nanoid(),
     id: uniqueId,
+    createdAt: currentDateTime,
   };
 
   axios
     .post("https://jsonplaceholder.typicode.com/todos", newTodo)
     .then((response) => {
-      const addedTodo = { ...response.data, id: uniqueId };
+      const addedTodo = {
+        ...response.data,
+        id: uniqueId,
+        createdAt: currentDateTime,
+      };
       todos.value.unshift(addedTodo);
       saveTodosToLocalStorage();
     })
