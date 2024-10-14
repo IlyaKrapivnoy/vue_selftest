@@ -15,7 +15,6 @@
         class="mt-3"
         clearable
       />
-
       <div class="self-end mt-3">
         <el-button
           @click="toggleMarkAll"
@@ -43,16 +42,14 @@
         </el-button>
       </div>
     </form>
-
     <MyAlert
       :isAlert="isAlert"
       :wrapperClass="'mt-6'"
-      :title="'Add some text to create a todo'"
+      :title="alertMessage"
       :type="'error'"
       :showIcon="false"
       :closable="false"
     />
-
     <ul class="mt-10">
       <li
         v-for="todo in todos"
@@ -75,7 +72,6 @@
         </el-card>
       </li>
     </ul>
-
     <div class="flex justify-center my-5">
       <el-pagination
         layout="prev, pager, next"
@@ -86,12 +82,10 @@
         v-show="todos.length"
       />
     </div>
-
     <div v-show="todos.length === 0" class="mt-4 text-center text-gray-500">
       No todos to display.
     </div>
-
-    <my-spinner v-show="isLoading" />
+    <MySpinner v-show="isLoading" />
   </main>
 </template>
 
@@ -108,6 +102,7 @@ const newTodo = ref("");
 const todos = ref([]);
 const isAlert = ref(false);
 const alertTimeout = ref(null);
+const alertMessage = ref("");
 const isLoading = ref(true);
 
 // pagination
@@ -117,18 +112,26 @@ const pageSize = ref(10);
 
 const handleSubmit = () => {
   if (newTodo.value) {
-    requestAddTodo(newTodo.value);
-    newTodo.value = "";
-    isAlert.value = false;
-  } else {
-    isAlert.value = true;
-
-    clearTimeout(alertTimeout.value);
-
-    alertTimeout.value = setTimeout(() => {
+    if (!todos.value.some((todo) => todo.title === newTodo.value.trim())) {
+      requestAddTodo(newTodo.value);
+      newTodo.value = "";
       isAlert.value = false;
-    }, 3000);
+    } else {
+      alertMessage.value = "Todo with this title already exists!";
+      triggerAlert();
+    }
+  } else {
+    alertMessage.value = "Add some text to create a todo";
+    triggerAlert();
   }
+};
+
+const triggerAlert = () => {
+  isAlert.value = true;
+  clearTimeout(alertTimeout.value);
+  alertTimeout.value = setTimeout(() => {
+    isAlert.value = false;
+  }, 3000);
 };
 
 const handlePageChange = (newPage) => {
@@ -158,7 +161,6 @@ const removeAllTodos = () => {
 };
 
 const isAllDone = computed(() => todos.value.every((todo) => todo.completed));
-
 const getStatusButtonText = computed(() =>
   isAllDone.value ? "Unmark all done" : "Mark all done"
 );
@@ -177,7 +179,6 @@ const requestFetchTodos = () => {
         id: nanoid(),
       }));
       totalTodos.value = response.data.length;
-
       saveTodosToLocalStorage();
     })
     .catch((error) => {
@@ -214,7 +215,6 @@ const requestDeleteTodo = (todo) => {
     .delete(`https://jsonplaceholder.typicode.com/todos/${todo.id}`)
     .then(() => {
       todos.value = todos.value.filter((t) => t.id !== todo.id);
-
       saveTodosToLocalStorage();
     })
     .catch((error) => {
