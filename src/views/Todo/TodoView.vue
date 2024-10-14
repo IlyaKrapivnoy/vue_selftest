@@ -116,7 +116,7 @@ const pageSize = ref(10);
 
 const handleSubmit = () => {
   if (newTodo.value) {
-    requestAddTodo();
+    requestAddTodo(newTodo.value);
     newTodo.value = "";
     isAlert.value = false;
   } else {
@@ -194,7 +194,6 @@ const requestAddTodo = (title) => {
     .post("https://jsonplaceholder.typicode.com/todos", newTodo)
     .then((response) => {
       todos.value.unshift(response.data);
-
       saveTodosToLocalStorage();
     })
     .catch((error) => {
