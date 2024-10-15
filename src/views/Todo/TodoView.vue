@@ -7,7 +7,16 @@
   <main class="container mx-auto px-4 mt-20">
     <h1>TODO PAGE</h1>
     <form @submit.prevent="handleSubmit" class="flex flex-col mt-8">
-      <label for="todoInput" class="text-lg font-bold">Add new todo</label>
+      <label for="userNameInput" class="text-lg font-bold">Name:</label>
+      <el-input
+        placeholder="Enter your name..."
+        v-model="userName"
+        id="userNameInput"
+        class="mt-3 mb-6"
+        clearable
+      />
+
+      <label for="todoInput" class="text-lg font-bold">New todo:</label>
       <el-input
         placeholder="Enter your task..."
         v-model="newTodo"
@@ -59,15 +68,20 @@
       >
         <el-card :class="['box-card', { 'bg-slate-400-card': todo.completed }]">
           <div class="flex justify-between items-center">
-            <h3
-              :class="{ 'line-through': todo.completed }"
-              class="cursor-pointer pr-[50px]"
-            >
-              TODO: {{ todo.title }}
-            </h3>
-            <span class="text-sm text-gray-500"
-              >Created at: {{ todo.createdAt }}</span
-            >
+            <div>
+              <h3
+                :class="{ 'line-through': todo.completed }"
+                class="cursor-pointer pr-[50px]"
+              >
+                TODO: {{ todo.title }}
+              </h3>
+              <p class="text-sm text-gray-400">
+                Created at: {{ todo.createdAt }}
+              </p>
+              <p class="text-sm text-gray-400">
+                Created by: {{ todo.createdBy }}
+              </p>
+            </div>
             <el-button type="danger" @click.stop="deleteItem(todo)"
               >x</el-button
             >
@@ -103,6 +117,7 @@ import MyAlert from "@/components/common/MyAlert/MyAlert.vue";
 
 const newTodo = ref("");
 const todos = ref([]);
+const userName = ref("");
 const isAlert = ref(false);
 const alertTimeout = ref(null);
 const alertMessage = ref("");
@@ -114,6 +129,12 @@ const currentPage = ref(1);
 const pageSize = ref(10);
 
 const handleSubmit = () => {
+  if (!userName.value) {
+    alertMessage.value = "Add username";
+    triggerAlert();
+    return;
+  }
+
   if (newTodo.value) {
     if (!todos.value.some((todo) => todo.title === newTodo.value.trim())) {
       requestAddTodo(newTodo.value);
@@ -201,6 +222,7 @@ const requestAddTodo = (title) => {
     userId: nanoid(),
     id: uniqueId,
     createdAt: currentDateTime,
+    createdBy: userName.value,
   };
 
   axios
@@ -210,6 +232,7 @@ const requestAddTodo = (title) => {
         ...response.data,
         id: uniqueId,
         createdAt: currentDateTime,
+        createdBy: userName.value,
       };
       todos.value.unshift(addedTodo);
       saveTodosToLocalStorage();
