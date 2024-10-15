@@ -27,21 +27,21 @@
       <div class="self-end mt-3">
         <el-button
           @click="toggleMarkAll"
-          :disabled="todos.length === 0"
+          :disabled="!!todos.length === 0"
           class="w-[140px]"
         >
           {{ getStatusButtonText }}
         </el-button>
         <el-button
           @click="removeAllTodos"
-          :disabled="todos.length === 0"
+          :disabled="!!todos.length === 0"
           class="w-[140px]"
         >
           Remove all todos
         </el-button>
         <el-button
           @click="requestFetchTodos"
-          :disabled="todos.length"
+          :disabled="!!todos.length === 0"
           class="w-[140px]"
         >
           Get todos
@@ -97,7 +97,9 @@
         :page-size="pageSize"
         @current-change="handlePageChange"
         v-show="todos.length"
-      />
+      >
+        { console.log({totalTodos, currentPage, pageSize, todos.length}) }
+      </el-pagination>
     </div>
     <div v-show="todos.length === 0" class="mt-4 text-center text-gray-500">
       No todos to display.
@@ -117,7 +119,7 @@ import MyAlert from "@/components/common/MyAlert/MyAlert.vue";
 
 const newTodo = ref("");
 const todos = ref([]);
-const userName = ref("");
+const userName = ref("") || "Craig";
 const isAlert = ref(false);
 const alertTimeout = ref(null);
 const alertMessage = ref("");
@@ -135,9 +137,10 @@ const handleSubmit = () => {
     return;
   }
 
+  const username = userName.value || "Craig";
   if (newTodo.value) {
     if (!todos.value.some((todo) => todo.title === newTodo.value.trim())) {
-      requestAddTodo(newTodo.value);
+      requestAddTodo(newTodo.value, username);
       newTodo.value = "";
       isAlert.value = false;
     } else {
@@ -201,6 +204,8 @@ const requestFetchTodos = () => {
       todos.value = fetchedTodos.map((todo) => ({
         ...todo,
         id: nanoid(),
+        createdAt: todo.createdAt || new Date().toLocaleString(),
+        createdBy: todo.createdBy || "Craig",
       }));
       totalTodos.value = response.data.length;
       saveTodosToLocalStorage();
@@ -213,7 +218,7 @@ const requestFetchTodos = () => {
     });
 };
 
-const requestAddTodo = (title) => {
+const requestAddTodo = (title, username) => {
   const uniqueId = nanoid();
   const currentDateTime = new Date().toLocaleString();
   const newTodo = {
@@ -222,7 +227,7 @@ const requestAddTodo = (title) => {
     userId: nanoid(),
     id: uniqueId,
     createdAt: currentDateTime,
-    createdBy: userName.value,
+    createdBy: username,
   };
 
   axios
@@ -232,7 +237,7 @@ const requestAddTodo = (title) => {
         ...response.data,
         id: uniqueId,
         createdAt: currentDateTime,
-        createdBy: userName.value,
+        createdBy: username,
       };
       todos.value.unshift(addedTodo);
       saveTodosToLocalStorage();
