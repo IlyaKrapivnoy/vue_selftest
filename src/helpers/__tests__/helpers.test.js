@@ -1,7 +1,7 @@
 import {
   getRandomItem,
   activeIndex,
-  setActiveIndex,
+  updateActiveIndex,
 } from "@/helpers/commonFunctions";
 
 describe("getRandomItem", () => {
@@ -32,7 +32,7 @@ describe("getRandomItem", () => {
   });
 });
 
-describe("activeIndex and setActiveIndex", () => {
+describe("activeIndex and updateActiveIndex", () => {
   it("initializes activeIndex with default value", () => {
     const defaultValue = "1"; // Assuming '1' is the default value
     const initialActiveIndex = activeIndex.value;
@@ -41,7 +41,7 @@ describe("activeIndex and setActiveIndex", () => {
 
   it("updates activeIndex and sets value", () => {
     const newValue = "2";
-    setActiveIndex(newValue);
+    updateActiveIndex(newValue);
     expect(activeIndex.value).toBe(newValue);
   });
 });
