@@ -75,7 +75,7 @@
                 Created by: {{ todo.createdBy }}
               </p>
             </div>
-            <el-button type="danger" @click.stop="deleteItem(todo)">
+            <el-button type="danger" @click.stop="removeTodo(todo)">
               x
             </el-button>
           </div>
@@ -174,10 +174,6 @@ const toggleMarkAll = () => {
   }
 };
 
-const deleteItem = (todo) => {
-  deleteTodo(todo);
-};
-
 const removeAllTodos = () => {
   allTodos.value = [];
   paginatedTodos.value = getPaginatedTodos();
@@ -209,7 +205,7 @@ const addTodo = (title, username) => {
   saveTodosToLocalStorage();
 };
 
-const deleteTodo = (todo) => {
+const removeTodo = (todo) => {
   allTodos.value = allTodos.value.filter((t) => t.id !== todo.id);
   totalTodoCount.value -= 1;
   paginatedTodos.value = getPaginatedTodos();
