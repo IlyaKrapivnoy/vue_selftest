@@ -39,13 +39,6 @@
         >
           Remove all todos
         </el-button>
-        <el-button
-          @click="requestFetchTodos"
-          :disabled="!!todos.length === 0"
-          class="w-[140px]"
-        >
-          Get todos
-        </el-button>
         <el-button native-type="submit" type="primary" class="w-[140px]">
           Add todo
         </el-button>
@@ -82,9 +75,9 @@
                 Created by: {{ todo.createdBy }}
               </p>
             </div>
-            <el-button type="danger" @click.stop="deleteItem(todo)"
-              >x</el-button
-            >
+            <el-button type="danger" @click.stop="deleteItem(todo)">
+              x
+            </el-button>
           </div>
         </el-card>
       </li>
@@ -97,9 +90,7 @@
         :page-size="pageSize"
         @current-change="handlePageChange"
         v-show="todos.length"
-      >
-        { console.log({totalTodos, currentPage, pageSize, todos.length}) }
-      </el-pagination>
+      />
     </div>
     <div v-show="todos.length === 0" class="mt-4 text-center text-gray-500">
       No todos to display.
@@ -110,7 +101,6 @@
 
 <script setup>
 import { computed, onMounted, ref } from "vue";
-import axios from "axios";
 import { nanoid } from "nanoid";
 import MySpinner from "@/components/common/MySpinner/MySpinner.vue";
 import HeadSetter from "@/components/common/HeadSetter/HeadSetter.vue";
@@ -119,6 +109,7 @@ import MyAlert from "@/components/common/MyAlert/MyAlert.vue";
 
 const newTodo = ref("");
 const todos = ref([]);
+const allTodos = ref([]);
 const userName = ref("") || "Craig";
 const isAlert = ref(false);
 const alertTimeout = ref(null);
@@ -128,7 +119,7 @@ const isLoading = ref(true);
 // pagination
 const totalTodos = ref(0);
 const currentPage = ref(1);
-const pageSize = ref(10);
+const pageSize = ref(5);
 
 const handleSubmit = () => {
   if (!userName.value) {
@@ -139,8 +130,8 @@ const handleSubmit = () => {
 
   const username = userName.value || "Craig";
   if (newTodo.value) {
-    if (!todos.value.some((todo) => todo.title === newTodo.value.trim())) {
-      requestAddTodo(newTodo.value, username);
+    if (!allTodos.value.some((todo) => todo.title === newTodo.value.trim())) {
+      addTodo(newTodo.value, username);
       newTodo.value = "";
       isAlert.value = false;
     } else {
@@ -163,7 +154,7 @@ const triggerAlert = () => {
 
 const handlePageChange = (newPage) => {
   currentPage.value = newPage;
-  requestFetchTodos();
+  todos.value = getPaginatedTodos();
 };
 
 const toggleDone = (todo) => {
@@ -179,99 +170,69 @@ const toggleMarkAll = () => {
 };
 
 const deleteItem = (todo) => {
-  requestDeleteTodo(todo);
+  deleteTodo(todo);
 };
 
 const removeAllTodos = () => {
-  todos.value = [];
+  allTodos.value = [];
+  todos.value = getPaginatedTodos();
+  totalTodos.value = 0;
   saveTodosToLocalStorage();
 };
 
-const isAllDone = computed(() => todos.value.every((todo) => todo.completed));
+const isAllDone = computed(() =>
+  allTodos.value.every((todo) => todo.completed)
+);
 const getStatusButtonText = computed(() =>
   isAllDone.value ? "Unmark all done" : "Mark all done"
 );
 
-const requestFetchTodos = () => {
-  isLoading.value = true;
-  const startIndex = (currentPage.value - 1) * pageSize.value;
-  const endIndex = startIndex + pageSize.value;
-
-  axios
-    .get("https://jsonplaceholder.typicode.com/todos")
-    .then((response) => {
-      const fetchedTodos = response.data.slice(startIndex, endIndex).reverse();
-      todos.value = fetchedTodos.map((todo) => ({
-        ...todo,
-        id: nanoid(),
-        createdAt: todo.createdAt || new Date().toLocaleString(),
-        createdBy: todo.createdBy || "Craig",
-      }));
-      totalTodos.value = response.data.length;
-      saveTodosToLocalStorage();
-    })
-    .catch((error) => {
-      console.error("Error fetching todos:", error);
-    })
-    .finally(() => {
-      isLoading.value = false;
-    });
-};
-
-const requestAddTodo = (title, username) => {
+const addTodo = (title, username) => {
   const uniqueId = nanoid();
   const currentDateTime = new Date().toLocaleString();
   const newTodo = {
     title: title,
     completed: false,
-    userId: nanoid(),
     id: uniqueId,
     createdAt: currentDateTime,
     createdBy: username,
   };
 
-  axios
-    .post("https://jsonplaceholder.typicode.com/todos", newTodo)
-    .then((response) => {
-      const addedTodo = {
-        ...response.data,
-        id: uniqueId,
-        createdAt: currentDateTime,
-        createdBy: username,
-      };
-      todos.value.unshift(addedTodo);
-      saveTodosToLocalStorage();
-    })
-    .catch((error) => {
-      console.error("Error adding todo:", error);
-    });
+  allTodos.value.unshift(newTodo);
+  totalTodos.value += 1;
+  todos.value = getPaginatedTodos();
+  saveTodosToLocalStorage();
 };
 
-const requestDeleteTodo = (todo) => {
-  axios
-    .delete(`https://jsonplaceholder.typicode.com/todos/${todo.id}`)
-    .then(() => {
-      todos.value = todos.value.filter((t) => t.id !== todo.id);
-      saveTodosToLocalStorage();
-    })
-    .catch((error) => {
-      console.error("Error deleting todo:", error);
-    });
+const deleteTodo = (todo) => {
+  allTodos.value = allTodos.value.filter((t) => t.id !== todo.id);
+  totalTodos.value -= 1;
+  todos.value = getPaginatedTodos();
+  saveTodosToLocalStorage();
+};
+
+const getPaginatedTodos = () => {
+  const startIndex = (currentPage.value - 1) * pageSize.value;
+  const endIndex = startIndex + pageSize.value;
+  return allTodos.value.slice(startIndex, endIndex);
 };
 
 const saveTodosToLocalStorage = () => {
-  localStorage.setItem("todos", JSON.stringify(todos.value));
+  localStorage.setItem("todos", JSON.stringify(allTodos.value));
 };
 
 const loadTodosFromLocalStorage = () => {
   const savedTodos = localStorage.getItem("todos");
   if (savedTodos) {
-    todos.value = JSON.parse(savedTodos);
+    allTodos.value = JSON.parse(savedTodos);
+    totalTodos.value = allTodos.value.length;
+    todos.value = getPaginatedTodos();
   }
 };
 
 onMounted(() => {
   loadTodosFromLocalStorage();
+  todos.value = getPaginatedTodos();
   isLoading.value = false;
 });
 </script>
