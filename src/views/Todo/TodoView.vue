@@ -6,7 +6,7 @@
   />
   <main class="container mx-auto px-4 mt-20">
     <h1>TODO PAGE</h1>
-    <form @submit.prevent="handleSubmit" class="flex flex-col mt-8">
+    <form @submit.prevent="handleFormSubmit" class="flex flex-col mt-8">
       <label for="userNameInput" class="text-lg font-bold">Name:</label>
       <el-input
         placeholder="Enter your name..."
@@ -19,7 +19,7 @@
       <label for="todoInput" class="text-lg font-bold">New todo:</label>
       <el-input
         placeholder="Enter your task..."
-        v-model="newTodo"
+        v-model="newTodoTitle"
         id="todoInput"
         class="mt-3"
         clearable
@@ -27,14 +27,14 @@
       <div class="self-end mt-3">
         <el-button
           @click="toggleMarkAll"
-          :disabled="!!todos.length === 0"
+          :disabled="!!paginatedTodos.length === 0"
           class="w-[140px]"
         >
           {{ getStatusButtonText }}
         </el-button>
         <el-button
           @click="removeAllTodos"
-          :disabled="!!todos.length === 0"
+          :disabled="!!paginatedTodos.length === 0"
           class="w-[140px]"
         >
           Remove all todos
@@ -54,10 +54,10 @@
     />
     <ul class="mt-10">
       <li
-        v-for="todo in todos"
+        v-for="todo in paginatedTodos"
         :key="todo.id"
         class="my-5 cursor-pointer"
-        @click="toggleDone(todo)"
+        @click="toggleTodoStatus(todo)"
       >
         <el-card :class="['box-card', { 'bg-slate-400-card': todo.completed }]">
           <div class="flex justify-between items-center">
@@ -85,14 +85,17 @@
     <div class="flex justify-center my-5">
       <el-pagination
         layout="prev, pager, next"
-        :total="totalTodos"
+        :total="totalTodoCount"
         :current-page="currentPage"
         :page-size="pageSize"
         @current-change="handlePageChange"
-        v-show="todos.length"
+        v-show="paginatedTodos.length"
       />
     </div>
-    <div v-show="todos.length === 0" class="mt-4 text-center text-gray-500">
+    <div
+      v-show="paginatedTodos.length === 0"
+      class="mt-4 text-center text-gray-500"
+    >
       No todos to display.
     </div>
     <MySpinner v-show="isLoading" />
@@ -107,8 +110,8 @@ import HeadSetter from "@/components/common/HeadSetter/HeadSetter.vue";
 import { TODO_HEAD } from "@/data/head";
 import MyAlert from "@/components/common/MyAlert/MyAlert.vue";
 
-const newTodo = ref("");
-const todos = ref([]);
+const newTodoTitle = ref("");
+const paginatedTodos = ref([]);
 const allTodos = ref([]);
 const userName = ref("") || "Craig";
 const isAlert = ref(false);
@@ -117,34 +120,36 @@ const alertMessage = ref("");
 const isLoading = ref(true);
 
 // pagination
-const totalTodos = ref(0);
+const totalTodoCount = ref(0);
 const currentPage = ref(1);
 const pageSize = ref(5);
 
-const handleSubmit = () => {
+const handleFormSubmit = () => {
   if (!userName.value) {
     alertMessage.value = "Add username";
-    triggerAlert();
+    showAlert();
     return;
   }
 
   const username = userName.value || "Craig";
-  if (newTodo.value) {
-    if (!allTodos.value.some((todo) => todo.title === newTodo.value.trim())) {
-      addTodo(newTodo.value, username);
-      newTodo.value = "";
+  if (newTodoTitle.value) {
+    if (
+      !allTodos.value.some((todo) => todo.title === newTodoTitle.value.trim())
+    ) {
+      addTodo(newTodoTitle.value, username);
+      newTodoTitle.value = "";
       isAlert.value = false;
     } else {
       alertMessage.value = "Todo with this title already exists!";
-      triggerAlert();
+      showAlert();
     }
   } else {
     alertMessage.value = "Add some text to create a todo";
-    triggerAlert();
+    showAlert();
   }
 };
 
-const triggerAlert = () => {
+const showAlert = () => {
   isAlert.value = true;
   clearTimeout(alertTimeout.value);
   alertTimeout.value = setTimeout(() => {
@@ -154,18 +159,18 @@ const triggerAlert = () => {
 
 const handlePageChange = (newPage) => {
   currentPage.value = newPage;
-  todos.value = getPaginatedTodos();
+  paginatedTodos.value = getPaginatedTodos();
 };
 
-const toggleDone = (todo) => {
+const toggleTodoStatus = (todo) => {
   todo.completed = !todo.completed;
 };
 
 const toggleMarkAll = () => {
   if (isAllDone.value) {
-    todos.value.forEach((todo) => (todo.completed = false));
+    paginatedTodos.value.forEach((todo) => (todo.completed = false));
   } else {
-    todos.value.forEach((todo) => (todo.completed = true));
+    paginatedTodos.value.forEach((todo) => (todo.completed = true));
   }
 };
 
@@ -175,8 +180,8 @@ const deleteItem = (todo) => {
 
 const removeAllTodos = () => {
   allTodos.value = [];
-  todos.value = getPaginatedTodos();
-  totalTodos.value = 0;
+  paginatedTodos.value = getPaginatedTodos();
+  totalTodoCount.value = 0;
   saveTodosToLocalStorage();
 };
 
@@ -199,15 +204,15 @@ const addTodo = (title, username) => {
   };
 
   allTodos.value.unshift(newTodo);
-  totalTodos.value += 1;
-  todos.value = getPaginatedTodos();
+  totalTodoCount.value += 1;
+  paginatedTodos.value = getPaginatedTodos();
   saveTodosToLocalStorage();
 };
 
 const deleteTodo = (todo) => {
   allTodos.value = allTodos.value.filter((t) => t.id !== todo.id);
-  totalTodos.value -= 1;
-  todos.value = getPaginatedTodos();
+  totalTodoCount.value -= 1;
+  paginatedTodos.value = getPaginatedTodos();
   saveTodosToLocalStorage();
 };
 
@@ -225,14 +230,14 @@ const loadTodosFromLocalStorage = () => {
   const savedTodos = localStorage.getItem("todos");
   if (savedTodos) {
     allTodos.value = JSON.parse(savedTodos);
-    totalTodos.value = allTodos.value.length;
-    todos.value = getPaginatedTodos();
+    totalTodoCount.value = allTodos.value.length;
+    paginatedTodos.value = getPaginatedTodos();
   }
 };
 
 onMounted(() => {
   loadTodosFromLocalStorage();
-  todos.value = getPaginatedTodos();
+  paginatedTodos.value = getPaginatedTodos();
   isLoading.value = false;
 });
 </script>
