@@ -159,11 +159,12 @@ const showAlert = () => {
 
 const handlePageChange = (newPage) => {
   currentPage.value = newPage;
-  paginatedTodos.value = getPaginatedTodos();
+  updateTodos(false);
 };
 
 const toggleTodoStatus = (todo) => {
   todo.completed = !todo.completed;
+  updateTodos(false);
 };
 
 const toggleMarkAll = () => {
@@ -172,13 +173,12 @@ const toggleMarkAll = () => {
   } else {
     paginatedTodos.value.forEach((todo) => (todo.completed = true));
   }
+  updateTodos(false);
 };
 
 const removeAllTodos = () => {
   allTodos.value = [];
-  paginatedTodos.value = getPaginatedTodos();
-  totalTodoCount.value = 0;
-  saveTodosToLocalStorage();
+  updateTodos(true);
 };
 
 const isAllDone = computed(() =>
@@ -200,14 +200,16 @@ const addTodo = (title, username) => {
   };
 
   allTodos.value.unshift(newTodo);
-  totalTodoCount.value += 1;
-  paginatedTodos.value = getPaginatedTodos();
-  saveTodosToLocalStorage();
+  updateTodos(false);
 };
 
 const removeTodo = (todo) => {
   allTodos.value = allTodos.value.filter((t) => t.id !== todo.id);
-  totalTodoCount.value -= 1;
+  updateTodos(false);
+};
+
+const updateTodos = (totalReset = false) => {
+  totalTodoCount.value = totalReset ? 0 : allTodos.value.length;
   paginatedTodos.value = getPaginatedTodos();
   saveTodosToLocalStorage();
 };
