@@ -133,14 +133,16 @@ const handleFormSubmit = () => {
 
   const username = userName.value || "Craig";
   if (newTodoTitle.value) {
-    if (
-      !allTodos.value.some((todo) => todo.title === newTodoTitle.value.trim())
-    ) {
+    const existingTodo = allTodos.value.find(
+      (todo) =>
+        todo.title === newTodoTitle.value.trim() && todo.createdBy === username
+    );
+    if (!existingTodo) {
       addTodo(newTodoTitle.value, username);
       newTodoTitle.value = "";
       isAlert.value = false;
     } else {
-      alertMessage.value = "Todo with this title already exists!";
+      alertMessage.value = "Todo with this title already exists for this user!";
       showAlert();
     }
   } else {
