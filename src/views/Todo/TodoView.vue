@@ -111,10 +111,14 @@ import { TODO_HEAD } from "@/data/head";
 import MyAlert from "@/components/common/MyAlert/MyAlert.vue";
 import { Todo } from "@/types";
 
+const loadUserNameFromLocalStorage = (): string | null => {
+  return localStorage.getItem("username");
+};
+
+const userName = ref<string>(loadUserNameFromLocalStorage() || "Craig");
 const newTodoTitle = ref<string>("");
 const paginatedTodos = ref<Todo[]>([]);
 const allTodos = ref<Todo[]>([]);
-const userName = ref<string>("") || "Craig";
 const isAlert = ref<boolean>(false);
 const alertTimeout = ref<number | null>(null);
 const alertMessage = ref<string>("");
@@ -124,6 +128,10 @@ const isLoading = ref<boolean>(true);
 const totalTodoCount = ref<number>(0);
 const currentPage = ref<number>(1);
 const pageSize = ref<number>(5);
+
+const saveUserNameToLocalStorage = (): void => {
+  localStorage.setItem("username", userName.value);
+};
 
 const handleFormSubmit = (): void => {
   if (!userName.value) {
@@ -150,6 +158,8 @@ const handleFormSubmit = (): void => {
     alertMessage.value = "Add some text to create a todo";
     showAlert();
   }
+
+  saveUserNameToLocalStorage();
 };
 
 const showAlert = (): void => {
