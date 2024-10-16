@@ -20,7 +20,11 @@
       <div class="flex justify-between items-center">
         <h2>SAVED BAND NAMES:</h2>
         <div class="flex justify-end mb-3">
-          <el-select v-model="sortBy" placeholder="Sort by">
+          <el-select
+            v-model="sortBy"
+            placeholder="Sort by"
+            style="width: 130px"
+          >
             <el-option
               v-for="option in sortOptions"
               :key="option.value"
@@ -94,18 +98,18 @@ const savedBandNames = computed<BandName[]>(
 // Sorting logic
 const sortOptions = [
   { label: "Name", value: "name" },
-  { label: "Score | from big to low", value: "score from big" },
-  { label: "Score | from low to big", value: "score from low" },
+  { label: "Score ↑", value: "score from big to low" },
+  { label: "Score ↓", value: "score from low to big" },
 ];
-const sortBy = ref<string>("name");
+const sortBy = ref<string>("Sort by...");
 const sortedSavedBandNames = computed<BandName[]>(() => {
   const copyOfSavedBandNames = [...savedBandNames.value];
   return copyOfSavedBandNames.sort((a, b) => {
     if (sortBy.value === "name") {
       return a.name.localeCompare(b.name);
-    } else if (sortBy.value === "score from low") {
+    } else if (sortBy.value === "score from big to low") {
       return b.score - a.score;
-    } else if (sortBy.value === "score from big") {
+    } else if (sortBy.value === "score from low to big") {
       return a.score - b.score;
     }
   });
