@@ -11,11 +11,9 @@ describe("HeadSetter", () => {
     const title = "Page Title";
     const name = "description";
     const content = "This is the page description";
-
-    const wrapper = mount(HeadSetter, {
+    mount(HeadSetter, {
       props: { title, name, content },
     });
-
     expect(useHead).toHaveBeenCalledWith({
       title: title,
       meta: [{ name: name, content: content }],

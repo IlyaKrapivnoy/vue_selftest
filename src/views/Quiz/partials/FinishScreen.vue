@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { computed, defineEmits } from "vue";
+import { computed } from "vue";
 
 const getResultMessage = computed(() => {
   if (props.currentScore > 3) return "AWESOME RESULT!";

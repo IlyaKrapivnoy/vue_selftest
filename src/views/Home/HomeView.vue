@@ -42,7 +42,7 @@
 import { computed } from "vue";
 import appList from "@/data/navData";
 import router from "@/router";
-import { setActiveIndex } from "@/helpers/commonFunctions";
+import { updateActiveIndex } from "@/helpers/commonFunctions";
 import { HOME_HEAD } from "@/data/head";
 import HeadSetter from "@/components/common/HeadSetter/HeadSetter.vue";
 
@@ -62,6 +62,6 @@ const getTitle = (app, i) => `${getOrdinal(i)} App: ${app.title}`;
 
 const goToApp = (app) => {
   router.push(`/${app.path}`);
-  setActiveIndex(app.id);
+  updateActiveIndex(app.id);
 };
 </script>

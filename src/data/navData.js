@@ -8,7 +8,7 @@ const navData = [
   {
     id: 1,
     path: "todo",
-    title: "Task Tracker",
+    title: "Todo",
     description: [
       "you can fetch todos",
       "you can remove single one or all todos by one click",
@@ -22,7 +22,7 @@ const navData = [
   {
     id: 2,
     path: "quotes",
-    title: "Quote Generator",
+    title: "Quote",
     description: [
       "you can generate random quote",
       "you can pick up a category",
@@ -42,7 +42,7 @@ const navData = [
   {
     id: 4,
     path: "band-names",
-    title: "Sad Band Names",
+    title: "Random Names",
     description: ["get your sad band name by clicking on a button"],
   },
   {

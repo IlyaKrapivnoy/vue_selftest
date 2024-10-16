@@ -6,228 +6,249 @@
   />
   <main class="container mx-auto px-4 mt-20">
     <h1>TODO PAGE</h1>
-    <form @submit.prevent="handleSubmit" class="flex flex-col mt-8">
-      <label for="todoInput" class="text-lg font-bold">Add new todo</label>
+    <form @submit.prevent="handleFormSubmit" class="flex flex-col mt-8">
+      <label for="userNameInput" class="text-lg font-bold">Name:</label>
+      <el-input
+        placeholder="Enter your name..."
+        v-model="userName"
+        id="userNameInput"
+        class="mt-3 mb-6"
+        clearable
+      />
+
+      <label for="todoInput" class="text-lg font-bold">New todo:</label>
       <el-input
         placeholder="Enter your task..."
-        v-model="newTodo"
+        v-model="newTodoTitle"
         id="todoInput"
         class="mt-3"
         clearable
       />
-
       <div class="self-end mt-3">
         <el-button
           @click="toggleMarkAll"
-          :disabled="todos.length === 0"
+          :disabled="!!paginatedTodos.length === 0"
           class="w-[140px]"
         >
           {{ getStatusButtonText }}
         </el-button>
         <el-button
           @click="removeAllTodos"
-          :disabled="todos.length === 0"
+          :disabled="!!paginatedTodos.length === 0"
           class="w-[140px]"
         >
           Remove all todos
-        </el-button>
-        <el-button
-          @click="requestFetchTodos"
-          :disabled="todos.length"
-          class="w-[140px]"
-        >
-          Get todos
         </el-button>
         <el-button native-type="submit" type="primary" class="w-[140px]">
           Add todo
         </el-button>
       </div>
     </form>
-
     <MyAlert
       :isAlert="isAlert"
       :wrapperClass="'mt-6'"
-      :title="'Add some text to create a todo'"
+      :title="alertMessage"
       :type="'error'"
       :showIcon="false"
       :closable="false"
     />
-
     <ul class="mt-10">
       <li
-        v-for="todo in todos"
+        v-for="todo in paginatedTodos"
         :key="todo.id"
         class="my-5 cursor-pointer"
-        @click="toggleDone(todo)"
+        @click="toggleTodoStatus(todo)"
       >
         <el-card :class="['box-card', { 'bg-slate-400-card': todo.completed }]">
           <div class="flex justify-between items-center">
-            <h3
-              :class="{ 'line-through': todo.completed }"
-              class="cursor-pointer pr-[50px]"
-            >
-              TODO: {{ todo.title }}
-            </h3>
-            <el-button type="danger" @click.stop="deleteItem(todo)"
-              >x</el-button
-            >
+            <div>
+              <h3
+                :class="{ 'line-through': todo.completed }"
+                class="cursor-pointer pr-[50px]"
+              >
+                TODO: {{ todo.title }}
+              </h3>
+              <p class="text-sm text-gray-400">
+                Created at: {{ todo.createdAt }}
+              </p>
+              <p class="text-sm text-gray-400">
+                Created by: {{ todo.createdBy }}
+              </p>
+            </div>
+            <el-button type="danger" @click.stop="removeTodo(todo)">
+              x
+            </el-button>
           </div>
         </el-card>
       </li>
     </ul>
-
     <div class="flex justify-center my-5">
       <el-pagination
         layout="prev, pager, next"
-        :total="totalTodos"
+        :total="totalTodoCount"
         :current-page="currentPage"
         :page-size="pageSize"
         @current-change="handlePageChange"
-        v-show="todos.length"
+        v-show="paginatedTodos.length"
       />
     </div>
-
-    <div v-show="todos.length === 0" class="mt-4 text-center text-gray-500">
+    <div
+      v-show="paginatedTodos.length === 0"
+      class="mt-4 text-center text-gray-500"
+    >
       No todos to display.
     </div>
-
-    <my-spinner v-show="isLoading" />
+    <MySpinner v-show="isLoading" />
   </main>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { computed, onMounted, ref } from "vue";
-import axios from "axios";
+import { nanoid } from "nanoid";
 import MySpinner from "@/components/common/MySpinner/MySpinner.vue";
 import HeadSetter from "@/components/common/HeadSetter/HeadSetter.vue";
 import { TODO_HEAD } from "@/data/head";
 import MyAlert from "@/components/common/MyAlert/MyAlert.vue";
+import { Todo } from "@/types";
 
-const newTodo = ref("");
-const todos = ref([]);
-const isAlert = ref(false);
-const alertTimeout = ref(null);
-const isLoading = ref(true);
+const loadUserNameFromLocalStorage = (): string | null => {
+  return localStorage.getItem("username");
+};
+
+const userName = ref<string>(loadUserNameFromLocalStorage() || "Craig");
+const newTodoTitle = ref<string>("");
+const paginatedTodos = ref<Todo[]>([]);
+const allTodos = ref<Todo[]>([]);
+const isAlert = ref<boolean>(false);
+const alertTimeout = ref<number | null>(null);
+const alertMessage = ref<string>("");
+const isLoading = ref<boolean>(true);
 
 // pagination
-const totalTodos = ref(0);
-const currentPage = ref(1);
-const pageSize = ref(10);
+const totalTodoCount = ref<number>(0);
+const currentPage = ref<number>(1);
+const pageSize = ref<number>(5);
 
-const handleSubmit = () => {
-  if (newTodo.value) {
-    requestAddTodo();
-    newTodo.value = "";
-    isAlert.value = false;
-  } else {
-    isAlert.value = true;
+const saveUserNameToLocalStorage = (): void => {
+  localStorage.setItem("username", userName.value);
+};
 
-    clearTimeout(alertTimeout.value);
+const handleFormSubmit = (): void => {
+  if (!userName.value) {
+    alertMessage.value = "Add username";
+    showAlert();
+    return;
+  }
 
-    alertTimeout.value = setTimeout(() => {
+  const username = userName.value || "Craig";
+  if (newTodoTitle.value) {
+    const existingTodo = allTodos.value.find(
+      (todo) =>
+        todo.title === newTodoTitle.value.trim() && todo.createdBy === username
+    );
+    if (!existingTodo) {
+      addTodo(newTodoTitle.value, username);
+      newTodoTitle.value = "";
       isAlert.value = false;
-    }, 3000);
-  }
-};
-
-const handlePageChange = (newPage) => {
-  currentPage.value = newPage;
-  requestFetchTodos();
-};
-
-const toggleDone = (todo) => {
-  todo.completed = !todo.completed;
-};
-
-const toggleMarkAll = () => {
-  if (isAllDone.value) {
-    todos.value.forEach((todo) => (todo.completed = false));
+    } else {
+      alertMessage.value = "Todo with this title already exists for this user!";
+      showAlert();
+    }
   } else {
-    todos.value.forEach((todo) => (todo.completed = true));
+    alertMessage.value = "Add some text to create a todo";
+    showAlert();
   }
+
+  saveUserNameToLocalStorage();
 };
 
-const deleteItem = (todo) => {
-  requestDeleteTodo(todo);
+const showAlert = (): void => {
+  isAlert.value = true;
+  clearTimeout(alertTimeout.value);
+  alertTimeout.value = setTimeout(() => {
+    isAlert.value = false;
+  }, 3000);
 };
 
-const removeAllTodos = () => {
-  todos.value = [];
-  saveTodosToLocalStorage();
+const handlePageChange = (newPage: number): void => {
+  currentPage.value = newPage;
+  updateTodos(false);
 };
 
-const isAllDone = computed(() => todos.value.every((todo) => todo.completed));
+const toggleTodoStatus = (todo: Todo): void => {
+  todo.completed = !todo.completed;
+  updateTodos(false);
+};
 
-const getStatusButtonText = computed(() =>
+const toggleMarkAll = (): void => {
+  if (isAllDone.value) {
+    paginatedTodos.value.forEach((todo) => (todo.completed = false));
+  } else {
+    paginatedTodos.value.forEach((todo) => (todo.completed = true));
+  }
+  updateTodos(false);
+};
+
+const removeAllTodos = (): void => {
+  allTodos.value = [];
+  updateTodos(true);
+};
+
+const isAllDone = computed<boolean>(() =>
+  paginatedTodos.value.every((todo) => todo.completed)
+);
+const getStatusButtonText = computed<string>(() =>
   isAllDone.value ? "Unmark all done" : "Mark all done"
 );
 
-const requestFetchTodos = () => {
-  isLoading.value = true;
-  const startIndex = (currentPage.value - 1) * pageSize.value;
-  const endIndex = startIndex + pageSize.value;
-
-  axios
-    .get("https://jsonplaceholder.typicode.com/todos")
-    .then((response) => {
-      todos.value = response.data.slice(startIndex, endIndex).reverse();
-      totalTodos.value = response.data.length;
-
-      saveTodosToLocalStorage();
-    })
-    .catch((error) => {
-      console.error("Error fetching todos:", error);
-    })
-    .finally(() => {
-      isLoading.value = false;
-    });
-};
-
-const requestAddTodo = (title) => {
+const addTodo = (title: string, username: string): void => {
+  const uniqueId = nanoid();
+  const currentDateTime = new Date().toLocaleString();
   const newTodo = {
     title: title,
     completed: false,
-    userId: 1,
+    id: uniqueId,
+    createdAt: currentDateTime,
+    createdBy: username,
   };
 
-  axios
-    .post("https://jsonplaceholder.typicode.com/todos", newTodo)
-    .then((response) => {
-      todos.value.unshift(response.data);
-
-      saveTodosToLocalStorage();
-    })
-    .catch((error) => {
-      console.error("Error adding todo:", error);
-    });
+  allTodos.value.unshift(newTodo);
+  updateTodos(false);
 };
 
-const requestDeleteTodo = (todo) => {
-  axios
-    .delete(`https://jsonplaceholder.typicode.com/todos/${todo.id}`)
-    .then(() => {
-      todos.value = todos.value.filter((t) => t.id !== todo.id);
-
-      saveTodosToLocalStorage();
-    })
-    .catch((error) => {
-      console.error("Error deleting todo:", error);
-    });
+const removeTodo = (todo: Todo): void => {
+  allTodos.value = allTodos.value.filter((t) => t.id !== todo.id);
+  updateTodos(false);
 };
 
-const saveTodosToLocalStorage = () => {
-  localStorage.setItem("todos", JSON.stringify(todos.value));
+const updateTodos = (totalReset: boolean = false): void => {
+  totalTodoCount.value = totalReset ? 0 : allTodos.value.length;
+  paginatedTodos.value = getPaginatedTodos();
+  saveTodosToLocalStorage();
 };
 
-const loadTodosFromLocalStorage = () => {
-  const savedTodos = localStorage.getItem("todos");
+const getPaginatedTodos = (): Todo[] => {
+  const startIndex = (currentPage.value - 1) * pageSize.value;
+  const endIndex = startIndex + pageSize.value;
+  return allTodos.value.slice(startIndex, endIndex);
+};
+
+const saveTodosToLocalStorage = (): void => {
+  localStorage.setItem("todos", JSON.stringify(allTodos.value));
+};
+
+const loadTodosFromLocalStorage = (): void => {
+  const savedTodos: string = localStorage.getItem("todos");
   if (savedTodos) {
-    todos.value = JSON.parse(savedTodos);
+    allTodos.value = JSON.parse(savedTodos);
+    totalTodoCount.value = allTodos.value.length;
+    paginatedTodos.value = getPaginatedTodos();
   }
 };
 
-onMounted(() => {
+onMounted((): void => {
   loadTodosFromLocalStorage();
+  paginatedTodos.value = getPaginatedTodos();
   isLoading.value = false;
 });
 </script>
