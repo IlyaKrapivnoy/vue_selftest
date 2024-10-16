@@ -7,6 +7,7 @@ export const bandNamesModule = {
     bandNouns: nouns,
     bandSuffixes: suffixes,
     savedBandNames: [],
+    bandName: "",
   }),
   mutations: {
     generateBandName(state) {
@@ -16,14 +17,16 @@ export const bandNamesModule = {
       state.bandName = `${adjective} ${noun} ${suffix}`;
     },
     saveBandName(state) {
-      const newBandNameData = {
-        id: Date.now(),
-        name: state.bandName,
-        score: Math.floor(Math.random() * 101),
-        comment: getRandomItem(comments),
-      };
-      state.savedBandNames.push(newBandNameData);
-      state.bandName = "";
+      if (state.bandName) {
+        const newBandNameData = {
+          id: Date.now(),
+          name: state.bandName,
+          score: Math.floor(Math.random() * 101),
+          comment: getRandomItem(comments),
+        };
+        state.savedBandNames.push(newBandNameData);
+        state.bandName = "";
+      }
     },
     removeSavedBandName(state, nameId) {
       state.savedBandNames = state.savedBandNames.filter(

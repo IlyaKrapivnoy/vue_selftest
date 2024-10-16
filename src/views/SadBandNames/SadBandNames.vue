@@ -12,7 +12,7 @@
 
       <CustomCard
         :cardTextLight="bandName || 'Band name will be displayed here...'"
-        :buttons="showSaveButton ? bandNameButtons : [generateButton]"
+        :buttons="bandNameButtons"
       />
     </section>
 
@@ -63,7 +63,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from "vue";
+import { computed, ref, onMounted } from "vue";
 import { useStore } from "vuex";
 import HeadSetter from "@/components/common/HeadSetter/HeadSetter.vue";
 import { BAND_NAMES_HEAD } from "@/data/head";
@@ -90,14 +90,6 @@ const bandName = computed<string>(() => store.state.bandNames.bandName);
 const savedBandNames = computed<BandName[]>(
   () => store.state.bandNames.savedBandNames
 );
-const showSaveButton = ref<boolean>(false);
-
-// Watcher for bandName changes
-watch(bandName, (newBandName) => {
-  if (!newBandName) {
-    showSaveButton.value = false;
-  }
-});
 
 // Sorting logic
 const sortOptions = [
@@ -122,8 +114,11 @@ const sortedSavedBandNames = computed<BandName[]>(() => {
 // Methods definitions
 const generateName = (): void => {
   store.commit("generateBandName");
-  showSaveButton.value = true;
 };
+
+onMounted(() => {
+  store.commit("generateBandName");
+});
 
 const saveName = (): void => {
   store.commit("saveBandName");
