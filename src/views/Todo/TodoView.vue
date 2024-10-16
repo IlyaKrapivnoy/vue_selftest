@@ -102,29 +102,30 @@
   </main>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { computed, onMounted, ref } from "vue";
 import { nanoid } from "nanoid";
 import MySpinner from "@/components/common/MySpinner/MySpinner.vue";
 import HeadSetter from "@/components/common/HeadSetter/HeadSetter.vue";
 import { TODO_HEAD } from "@/data/head";
 import MyAlert from "@/components/common/MyAlert/MyAlert.vue";
+import { Todo } from "@/types";
 
-const newTodoTitle = ref("");
-const paginatedTodos = ref([]);
-const allTodos = ref([]);
-const userName = ref("") || "Craig";
-const isAlert = ref(false);
-const alertTimeout = ref(null);
-const alertMessage = ref("");
-const isLoading = ref(true);
+const newTodoTitle = ref<string>("");
+const paginatedTodos = ref<Todo[]>([]);
+const allTodos = ref<Todo[]>([]);
+const userName = ref<string>("") || "Craig";
+const isAlert = ref<boolean>(false);
+const alertTimeout = ref<number | null>(null);
+const alertMessage = ref<string>("");
+const isLoading = ref<boolean>(true);
 
 // pagination
-const totalTodoCount = ref(0);
-const currentPage = ref(1);
-const pageSize = ref(5);
+const totalTodoCount = ref<number>(0);
+const currentPage = ref<number>(1);
+const pageSize = ref<number>(5);
 
-const handleFormSubmit = () => {
+const handleFormSubmit = (): void => {
   if (!userName.value) {
     alertMessage.value = "Add username";
     showAlert();
@@ -151,7 +152,7 @@ const handleFormSubmit = () => {
   }
 };
 
-const showAlert = () => {
+const showAlert = (): void => {
   isAlert.value = true;
   clearTimeout(alertTimeout.value);
   alertTimeout.value = setTimeout(() => {
@@ -159,17 +160,17 @@ const showAlert = () => {
   }, 3000);
 };
 
-const handlePageChange = (newPage) => {
+const handlePageChange = (newPage: number): void => {
   currentPage.value = newPage;
   updateTodos(false);
 };
 
-const toggleTodoStatus = (todo) => {
+const toggleTodoStatus = (todo: Todo): void => {
   todo.completed = !todo.completed;
   updateTodos(false);
 };
 
-const toggleMarkAll = () => {
+const toggleMarkAll = (): void => {
   if (isAllDone.value) {
     paginatedTodos.value.forEach((todo) => (todo.completed = false));
   } else {
@@ -178,19 +179,19 @@ const toggleMarkAll = () => {
   updateTodos(false);
 };
 
-const removeAllTodos = () => {
+const removeAllTodos = (): void => {
   allTodos.value = [];
   updateTodos(true);
 };
 
-const isAllDone = computed(() =>
-  allTodos.value.every((todo) => todo.completed)
+const isAllDone = computed<boolean>(() =>
+  paginatedTodos.value.every((todo) => todo.completed)
 );
-const getStatusButtonText = computed(() =>
+const getStatusButtonText = computed<string>(() =>
   isAllDone.value ? "Unmark all done" : "Mark all done"
 );
 
-const addTodo = (title, username) => {
+const addTodo = (title: string, username: string): void => {
   const uniqueId = nanoid();
   const currentDateTime = new Date().toLocaleString();
   const newTodo = {
@@ -205,29 +206,29 @@ const addTodo = (title, username) => {
   updateTodos(false);
 };
 
-const removeTodo = (todo) => {
+const removeTodo = (todo: Todo): void => {
   allTodos.value = allTodos.value.filter((t) => t.id !== todo.id);
   updateTodos(false);
 };
 
-const updateTodos = (totalReset = false) => {
+const updateTodos = (totalReset: boolean = false): void => {
   totalTodoCount.value = totalReset ? 0 : allTodos.value.length;
   paginatedTodos.value = getPaginatedTodos();
   saveTodosToLocalStorage();
 };
 
-const getPaginatedTodos = () => {
+const getPaginatedTodos = (): Todo[] => {
   const startIndex = (currentPage.value - 1) * pageSize.value;
   const endIndex = startIndex + pageSize.value;
   return allTodos.value.slice(startIndex, endIndex);
 };
 
-const saveTodosToLocalStorage = () => {
+const saveTodosToLocalStorage = (): void => {
   localStorage.setItem("todos", JSON.stringify(allTodos.value));
 };
 
-const loadTodosFromLocalStorage = () => {
-  const savedTodos = localStorage.getItem("todos");
+const loadTodosFromLocalStorage = (): void => {
+  const savedTodos: string = localStorage.getItem("todos");
   if (savedTodos) {
     allTodos.value = JSON.parse(savedTodos);
     totalTodoCount.value = allTodos.value.length;
@@ -235,7 +236,7 @@ const loadTodosFromLocalStorage = () => {
   }
 };
 
-onMounted(() => {
+onMounted((): void => {
   loadTodosFromLocalStorage();
   paginatedTodos.value = getPaginatedTodos();
   isLoading.value = false;
