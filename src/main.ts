@@ -3,7 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import "./main.css";
-import components from "./components";
+import components from "./components/common";
 import directives from "./directives";
 import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
