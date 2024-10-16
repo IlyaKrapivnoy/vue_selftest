@@ -3,9 +3,7 @@
     <div class="flex justify-between items-center">
       <p class="font-bold">
         {{ props.cardTextBold }}
-        <span class="font-extralight text-indigo-600">{{
-          props.cardTextLight
-        }}</span>
+        <span class="font-extralight">{{ props.cardTextLight }}</span>
       </p>
       <div>
         <el-button
