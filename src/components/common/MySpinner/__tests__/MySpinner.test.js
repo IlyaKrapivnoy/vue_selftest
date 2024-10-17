@@ -16,17 +16,17 @@ describe("MySpinner", () => {
   });
 
   it("applies the provided CSS class to the wrapper div", () => {
-    const wrapper = getWrapper({ class: "my-custom-class" });
+    const wrapper = getWrapper({ wrapperClass: "my-custom-class" });
     expect(wrapper.classes()).toContain("my-custom-class");
   });
 
-  it("renders with default name", () => {
+  it("renders with the correct component name", () => {
     const wrapper = getWrapper();
-    expect(wrapper.vm.$options.name).toBe("my-spinner");
+    expect(wrapper.vm.$options.name).toBe("MySpinner");
   });
 
-  it("has a default prop for wrapper class", () => {
+  it("has a default prop for wrapperClass", () => {
     const wrapper = getWrapper();
-    expect(wrapper.props("wrapperClass")).toBeUndefined();
+    expect(wrapper.props("wrapperClass")).toBe("");
   });
 });
