@@ -1,9 +1,9 @@
 <template>
   <div v-show="props.isAlert" :class="props.wrapperClass">
     <el-alert
-      :title="props.title"
+      :title="props.title ?? ''"
       :type="props.type"
-      :description="props.description"
+      :description="props.description ?? ''"
       :show-icon="props.showIcon"
       :closable="props.closable"
     />
@@ -12,16 +12,35 @@
 
 <script setup>
 const props = defineProps({
-  isAlert: Boolean,
-  wrapperClass: String,
-  title: String,
+  isAlert: {
+    type: Boolean,
+    default: false,
+  },
+  wrapperClass: {
+    type: String,
+    default: "",
+  },
+  title: {
+    type: String,
+    default: "",
+  },
   type: {
+    type: String,
     validator: (value) =>
       ["success", "warning", "error", "info"].includes(value),
     default: "success",
   },
-  description: String,
-  showIcon: Boolean,
-  closable: Boolean,
+  description: {
+    type: String,
+    default: "",
+  },
+  showIcon: {
+    type: Boolean,
+    default: true,
+  },
+  closable: {
+    type: Boolean,
+    default: true,
+  },
 });
 </script>
