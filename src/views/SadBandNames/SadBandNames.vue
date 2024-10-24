@@ -12,7 +12,7 @@
 
       <CustomCard
         :cardTextLight="bandName || 'Band name will be displayed here...'"
-        :buttons="showSaveButton ? bandNameButtons : [generateButton]"
+        :buttons="bandNameButtons"
       />
     </section>
 
@@ -20,7 +20,11 @@
       <div class="flex justify-between items-center">
         <h2>SAVED BAND NAMES:</h2>
         <div class="flex justify-end mb-3">
-          <el-select v-model="sortBy" placeholder="Sort by">
+          <el-select
+            v-model="sortBy"
+            placeholder="Sort by"
+            style="width: 130px"
+          >
             <el-option
               v-for="option in sortOptions"
               :key="option.value"
@@ -62,65 +66,75 @@
   </main>
 </template>
 
-<script setup>
-import { computed, ref, watch } from "vue";
+<script lang="ts" setup>
+import { computed, ref, onMounted } from "vue";
 import { useStore } from "vuex";
 import HeadSetter from "@/components/common/HeadSetter/HeadSetter.vue";
 import { BAND_NAMES_HEAD } from "@/data/head";
 import CustomCard from "@/components/common/CustomCard/CustomCard.vue";
 
+interface Button {
+  name: string;
+  type?: string;
+  click: () => void;
+}
+
+interface BandName {
+  id: number;
+  name: string;
+  score: number;
+  comment: string;
+}
+
 // Store initialization
 const store = useStore();
 
 // Computed properties
-const bandName = computed(() => store.state.bandNames.bandName);
-const savedBandNames = computed(() => store.state.bandNames.savedBandNames);
-const showSaveButton = ref(false);
-
-// Watcher for bandName changes
-watch(bandName, (newBandName) => {
-  if (!newBandName) {
-    showSaveButton.value = false;
-  }
-});
+const bandName = computed<string>(() => store.state.bandNames.bandName);
+const savedBandNames = computed<BandName[]>(
+  () => store.state.bandNames.savedBandNames
+);
 
 // Sorting logic
 const sortOptions = [
   { label: "Name", value: "name" },
-  { label: "Score | from big to low", value: "score from big" },
-  { label: "Score | from low to big", value: "score from low" },
+  { label: "Score ↑", value: "score from big to low" },
+  { label: "Score ↓", value: "score from low to big" },
 ];
-const sortBy = ref("name");
-const sortedSavedBandNames = computed(() => {
+const sortBy = ref<string>("Sort by...");
+const sortedSavedBandNames = computed<BandName[]>(() => {
   const copyOfSavedBandNames = [...savedBandNames.value];
   return copyOfSavedBandNames.sort((a, b) => {
     if (sortBy.value === "name") {
       return a.name.localeCompare(b.name);
-    } else if (sortBy.value === "score from low") {
+    } else if (sortBy.value === "score from big to low") {
       return b.score - a.score;
-    } else if (sortBy.value === "score from big") {
+    } else if (sortBy.value === "score from low to big") {
       return a.score - b.score;
     }
   });
 });
 
-// Methods
-const generateName = () => {
+// Methods definitions
+const generateName = (): void => {
   store.commit("generateBandName");
-  showSaveButton.value = true;
 };
 
-const saveName = () => {
+onMounted(() => {
+  store.commit("generateBandName");
+});
+
+const saveName = (): void => {
   store.commit("saveBandName");
 };
 
-const removeSavedBandName = (nameId) => {
+const removeSavedBandName = (nameId: number): void => {
   store.commit("removeSavedBandName", nameId);
 };
 
 // Button definitions
-const generateButton = { name: "Generate New", click: generateName };
-const bandNameButtons = [
+const generateButton: Button = { name: "Generate New", click: generateName };
+const bandNameButtons: Button[] = [
   { name: "Save Name", type: "success", click: saveName },
   generateButton,
 ];
