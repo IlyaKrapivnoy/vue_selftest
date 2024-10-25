@@ -23,6 +23,8 @@ export const counterModule = {
     reset(state) {
       state.counter = 0;
       state.isAlert = false;
+      state.number = 1;
+      state.inputNumber = 1;
     },
     applyChange(state, newVal) {
       if (!isNaN(newVal)) {
