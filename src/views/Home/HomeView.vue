@@ -1,8 +1,8 @@
 <template>
   <HeadSetter
-    :title="HOME_HEAD.title"
-    :name="HOME_HEAD.name"
-    :content="HOME_HEAD.content"
+    :title="HEAD_METADATA.HOME.title"
+    :name="HEAD_METADATA.HOME.name"
+    :content="HEAD_METADATA.HOME.content"
   />
   <main class="container mx-auto px-4 mt-20">
     <h1>HOME PAGE</h1>
@@ -39,17 +39,14 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { ref } from "vue";
 import appList from "@/data/navData";
 import router from "@/router";
 import { updateActiveIndex } from "@/helpers/commonFunctions";
-import { HOME_HEAD } from "@/data/head";
+import { HEAD_METADATA } from "@/data/head";
 import HeadSetter from "@/components/common/HeadSetter/HeadSetter.vue";
 
-const appListData = appList;
-const activeName = computed(() => {
-  return appListData.map((app) => (app.title === "Home" ? "0" : ""));
-});
+const activeName = ref("0");
 
 const getOrdinal = (number) => {
   const suffixes = ["st", "nd", "rd"];
@@ -61,7 +58,7 @@ const getOrdinal = (number) => {
 const getTitle = (app, i) => `${getOrdinal(i)} App: ${app.title}`;
 
 const goToApp = (app) => {
-  router.push(`/${app.path}`);
+  router.push(app.path);
   updateActiveIndex(app.id);
 };
 </script>

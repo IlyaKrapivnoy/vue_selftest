@@ -7,7 +7,7 @@ const navData = [
   },
   {
     id: 1,
-    path: "todo",
+    path: "/todo",
     title: "Todo",
     description: [
       "you can fetch todos",
@@ -21,7 +21,7 @@ const navData = [
   },
   {
     id: 2,
-    path: "quotes",
+    path: "/quotes",
     title: "Quote",
     description: [
       "you can generate random quote",
@@ -31,7 +31,7 @@ const navData = [
   },
   {
     id: 3,
-    path: "quiz",
+    path: "/quiz",
     title: "Quiz",
     description: [
       "I've used mocked data",
@@ -41,13 +41,13 @@ const navData = [
   },
   {
     id: 4,
-    path: "band-names",
+    path: "/band-names",
     title: "Random Names",
     description: ["get your sad band name by clicking on a button"],
   },
   {
     id: 5,
-    path: "counter",
+    path: "/counter",
     title: "Counter",
     description: [
       "increase / decrease counter",

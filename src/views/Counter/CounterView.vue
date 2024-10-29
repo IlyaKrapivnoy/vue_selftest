@@ -1,8 +1,8 @@
 <template>
   <HeadSetter
-    :title="COUNTER_HEAD.title"
-    :name="COUNTER_HEAD.name"
-    :content="COUNTER_HEAD.content"
+    :title="HEAD_METADATA.COUNTER.title"
+    :name="HEAD_METADATA.COUNTER.name"
+    :content="HEAD_METADATA.COUNTER.content"
   />
   <main class="container mx-auto px-4 mt-20">
     <h1>Counter Page</h1>
@@ -39,13 +39,12 @@
           </el-button>
         </div>
       </div>
-
       <MyAlert
         :isAlert="isAlert"
         :wrapperClass="'alert'"
         :title="'warning alert'"
         :type="'warning'"
-        :description="'Only positive numbers that are bigger than zero'"
+        :description="'Only positive numbers that are larger than zero'"
         :showIcon="true"
         :closable="false"
       />
@@ -56,7 +55,7 @@
 <script setup>
 import { computed, onMounted, watch } from "vue";
 import { useStore } from "vuex";
-import { COUNTER_HEAD } from "@/data/head";
+import { HEAD_METADATA } from "@/data/head";
 import HeadSetter from "@/components/common/HeadSetter/HeadSetter.vue";
 import InfoView from "@/views/Counter/partials/InfoSection.vue";
 import ButtonControllerSection from "@/views/Counter/partials/ButtonControllerSection.vue";
@@ -89,17 +88,17 @@ const buttons = [
   { label: "reset", event: "reset", type: "danger" },
 ];
 
-const decrease = () => store.commit("decrease");
-const increase = () => store.commit("increase");
-const reset = () => store.commit("reset");
+const decrease = () => store.dispatch("decrease");
+const increase = () => store.dispatch("increase");
+const reset = () => store.dispatch("reset");
 
 const applyChange = () => {
   const newValue = Number(inputNumber.value);
-  store.commit("applyChange", newValue);
+  store.dispatch("applyChange", newValue);
 };
 
 const onInputChange = (value) => {
-  counterModule.inputNumber = value.replace(/\D/g, "");
+  store.dispatch("updateInputNumber", value);
 };
 
 onMounted(() => {

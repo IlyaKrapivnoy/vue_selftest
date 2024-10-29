@@ -6,7 +6,7 @@ describe("Footer.vue", () => {
     const wrapper = mount(Footer);
 
     const currentYear = new Date().getFullYear();
-    expect(wrapper.text()).toContain(`By Ilya Krapivnoy ${currentYear}`);
+    expect(wrapper.text()).toContain(`by Ilya Krapivnoy ${currentYear}`);
     expect(wrapper.html()).toMatchSnapshot();
   });
 });

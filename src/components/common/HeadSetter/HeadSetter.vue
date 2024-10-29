@@ -6,9 +6,18 @@ export default {
     return null;
   },
   props: {
-    title: String,
-    name: String,
-    content: String,
+    title: {
+      type: String,
+      required: true,
+    },
+    name: {
+      type: String,
+      default: "description",
+    },
+    content: {
+      type: String,
+      required: true,
+    },
   },
   setup(props) {
     useHead({

@@ -1,8 +1,8 @@
 <template>
   <HeadSetter
-    :title="TODO_HEAD.title"
-    :name="TODO_HEAD.name"
-    :content="TODO_HEAD.content"
+    :title="HEAD_METADATA.TODO.title"
+    :name="HEAD_METADATA.TODO.name"
+    :content="HEAD_METADATA.TODO.content"
   />
   <main class="container mx-auto px-4 mt-20">
     <h1>TODO PAGE</h1>
@@ -107,7 +107,7 @@ import { computed, onMounted, ref } from "vue";
 import { nanoid } from "nanoid";
 import MySpinner from "@/components/common/MySpinner/MySpinner.vue";
 import HeadSetter from "@/components/common/HeadSetter/HeadSetter.vue";
-import { TODO_HEAD } from "@/data/head";
+import { HEAD_METADATA } from "@/data/head";
 import MyAlert from "@/components/common/MyAlert/MyAlert.vue";
 import { Todo } from "@/types";
 

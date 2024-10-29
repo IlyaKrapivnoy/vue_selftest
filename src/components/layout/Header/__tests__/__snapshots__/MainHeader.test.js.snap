@@ -15,19 +15,19 @@ exports[`NavMenu.vue matches snapshot 1`] = `
       <router-link to="/">
         <el-menu-item index="0">Home</el-menu-item>
       </router-link>
-      <router-link to="todo">
+      <router-link to="/todo">
         <el-menu-item index="1">Todo</el-menu-item>
       </router-link>
-      <router-link to="quotes">
+      <router-link to="/quotes">
         <el-menu-item index="2">Quote</el-menu-item>
       </router-link>
-      <router-link to="quiz">
+      <router-link to="/quiz">
         <el-menu-item index="3">Quiz</el-menu-item>
       </router-link>
-      <router-link to="band-names">
+      <router-link to="/band-names">
         <el-menu-item index="4">Random Names</el-menu-item>
       </router-link>
-      <router-link to="counter">
+      <router-link to="/counter">
         <el-menu-item index="5">Counter</el-menu-item>
       </router-link>
     </div>

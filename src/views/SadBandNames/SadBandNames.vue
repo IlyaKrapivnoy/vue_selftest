@@ -1,8 +1,8 @@
 <template>
   <HeadSetter
-    :title="BAND_NAMES_HEAD.title"
-    :name="BAND_NAMES_HEAD.name"
-    :content="BAND_NAMES_HEAD.content"
+    :title="HEAD_METADATA.BAND_NAMES.title"
+    :name="HEAD_METADATA.BAND_NAMES.name"
+    :content="HEAD_METADATA.BAND_NAMES.content"
   />
   <main class="container mx-auto px-4 mt-20">
     <h1>Sad Rock Band Name Generator</h1>
@@ -15,6 +15,16 @@
         :buttons="bandNameButtons"
       />
     </section>
+
+    <MyAlert
+      :isAlert="isAlert"
+      :wrapperClass="'alert'"
+      :title="'Warning Alert'"
+      :type="'warning'"
+      :description="alertMessage"
+      :showIcon="true"
+      :closable="false"
+    />
 
     <section class="my-6">
       <div class="flex justify-between items-center">
@@ -70,8 +80,9 @@
 import { computed, ref, onMounted } from "vue";
 import { useStore } from "vuex";
 import HeadSetter from "@/components/common/HeadSetter/HeadSetter.vue";
-import { BAND_NAMES_HEAD } from "@/data/head";
+import { HEAD_METADATA } from "@/data/head";
 import CustomCard from "@/components/common/CustomCard/CustomCard.vue";
+import MyAlert from "@/components/common/MyAlert/MyAlert.vue";
 
 interface Button {
   name: string;
@@ -93,6 +104,11 @@ const store = useStore();
 const bandName = computed<string>(() => store.state.bandNames.bandName);
 const savedBandNames = computed<BandName[]>(
   () => store.state.bandNames.savedBandNames
+);
+
+const isAlert = ref<boolean>(false);
+const alertMessage = ref<string>(
+  "You need to generate a band name before saving it."
 );
 
 // Sorting logic
@@ -125,6 +141,17 @@ onMounted(() => {
 });
 
 const saveName = (): void => {
+  if (!bandName.value) {
+    isAlert.value = true;
+    alertMessage.value = "Generate name before saving it";
+
+    setTimeout(() => {
+      isAlert.value = false;
+    }, 3000);
+
+    return;
+  }
+
   store.commit("saveBandName");
 };
 
