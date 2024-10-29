@@ -7,35 +7,73 @@ export const counterModule = {
     isAlert: false,
   }),
   mutations: {
-    decrease(state) {
+    decrement(state) {
       if (state.counter > 0) {
         state.counter -= state.number;
         state.operations++;
-      } else {
-        state.isAlert = true;
       }
     },
-    increase(state) {
+    increment(state) {
       state.counter += state.number;
       state.operations++;
       state.isAlert = false;
     },
-    reset(state) {
+    resetCounter(state) {
       state.counter = 0;
-      state.isAlert = false;
+      state.operations = 0;
       state.number = 1;
       state.inputNumber = 1;
+      state.isAlert = false;
     },
-    applyChange(state, newVal) {
-      if (!isNaN(newVal)) {
-        const newNumber = Number(newVal);
-        if (newNumber > 0) {
-          state.number = newNumber;
-          state.isAlert = false;
-        } else {
-          state.isAlert = true;
-        }
+    setNumber(state, newVal) {
+      if (!isNaN(newVal) && newVal > 0) {
+        state.number = newVal;
+        state.isAlert = false;
+      } else {
+        state.isAlert = true;
       }
+    },
+    setInputNumber(state, newVal) {
+      if (!isNaN(newVal)) {
+        state.inputNumber = newVal;
+      }
+    },
+    showAlert(state) {
+      state.isAlert = true;
+    },
+    hideAlert(state) {
+      state.isAlert = false;
+    },
+  },
+  actions: {
+    async triggerAlert({ commit }) {
+      commit("showAlert");
+
+      setTimeout(() => {
+        commit("hideAlert");
+      }, 3000);
+    },
+    decrease({ commit, dispatch, state }) {
+      commit("decrement");
+      if (state.counter <= 0) {
+        dispatch("triggerAlert");
+      }
+    },
+    increase({ commit }) {
+      commit("increment");
+    },
+    reset({ commit }) {
+      commit("resetCounter");
+    },
+    applyChange({ commit, dispatch }, newVal) {
+      commit("setNumber", newVal);
+
+      if (newVal <= 0) {
+        dispatch("triggerAlert");
+      }
+    },
+    updateInputNumber({ commit }, newVal) {
+      commit("setInputNumber", newVal);
     },
   },
 };

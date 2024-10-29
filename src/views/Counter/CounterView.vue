@@ -39,13 +39,12 @@
           </el-button>
         </div>
       </div>
-
       <MyAlert
         :isAlert="isAlert"
         :wrapperClass="'alert'"
         :title="'warning alert'"
         :type="'warning'"
-        :description="'Only positive numbers that are bigger than zero'"
+        :description="'Only positive numbers that are larger than zero'"
         :showIcon="true"
         :closable="false"
       />
@@ -89,17 +88,17 @@ const buttons = [
   { label: "reset", event: "reset", type: "danger" },
 ];
 
-const decrease = () => store.commit("decrease");
-const increase = () => store.commit("increase");
-const reset = () => store.commit("reset");
+const decrease = () => store.dispatch("decrease");
+const increase = () => store.dispatch("increase");
+const reset = () => store.dispatch("reset");
 
 const applyChange = () => {
   const newValue = Number(inputNumber.value);
-  store.commit("applyChange", newValue);
+  store.dispatch("applyChange", newValue);
 };
 
 const onInputChange = (value) => {
-  counterModule.inputNumber = value.replace(/\D/g, "");
+  store.dispatch("updateInputNumber", value);
 };
 
 onMounted(() => {
