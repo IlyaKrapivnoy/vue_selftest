@@ -1,8 +1,8 @@
 <template>
   <HeadSetter
-    :title="BAND_NAMES_HEAD.title"
-    :name="BAND_NAMES_HEAD.name"
-    :content="BAND_NAMES_HEAD.content"
+    :title="HEAD_METADATA.BAND_NAMES.title"
+    :name="HEAD_METADATA.BAND_NAMES.name"
+    :content="HEAD_METADATA.BAND_NAMES.content"
   />
   <main class="container mx-auto px-4 mt-20">
     <h1>Sad Rock Band Name Generator</h1>
@@ -80,7 +80,7 @@
 import { computed, ref, onMounted } from "vue";
 import { useStore } from "vuex";
 import HeadSetter from "@/components/common/HeadSetter/HeadSetter.vue";
-import { BAND_NAMES_HEAD } from "@/data/head";
+import { HEAD_METADATA } from "@/data/head";
 import CustomCard from "@/components/common/CustomCard/CustomCard.vue";
 import MyAlert from "@/components/common/MyAlert/MyAlert.vue";
 

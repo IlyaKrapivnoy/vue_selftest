@@ -1,8 +1,8 @@
 <template>
   <HeadSetter
-    :title="QUIZ_HEAD.title"
-    :name="QUIZ_HEAD.name"
-    :content="QUIZ_HEAD.content"
+    :title="HEAD_METADATA.QUIZ.title"
+    :name="HEAD_METADATA.QUIZ.name"
+    :content="HEAD_METADATA.QUIZ.content"
   />
   <main class="container mx-auto px-4 mt-20">
     <h1>Quiz Page</h1>
@@ -73,7 +73,7 @@
 <script setup>
 import { ref, computed } from "vue";
 import quizQuestions from "@/data/quiz";
-import { QUIZ_HEAD } from "@/data/head";
+import { HEAD_METADATA } from "@/data/head";
 import HeadSetter from "@/components/common/HeadSetter/HeadSetter.vue";
 import FinishScreen from "@/views/Quiz/partials/FinishScreen.vue";
 import QuizHeader from "@/views/Quiz/partials/QuizHeader.vue";

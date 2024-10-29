@@ -1,8 +1,8 @@
 <template>
   <HeadSetter
-    :title="QUOTES_HEAD.title"
-    :name="QUOTES_HEAD.name"
-    :content="QUOTES_HEAD.content"
+    :title="HEAD_METADATA.QUOTES.title"
+    :name="HEAD_METADATA.QUOTES.name"
+    :content="HEAD_METADATA.QUOTES.content"
   />
   <main class="container mx-auto px-4 mt-20">
     <h1>Quotes Page</h1>
@@ -63,7 +63,7 @@
 import { computed, onMounted, watch } from "vue";
 import QuoteDisplay from "@/views/Quotes/partials/QuoteDisplay.vue";
 import { useStore } from "vuex";
-import { QUOTES_HEAD } from "@/data/head";
+import { HEAD_METADATA } from "@/data/head";
 import HeadSetter from "@/components/common/HeadSetter/HeadSetter.vue";
 
 const store = useStore();

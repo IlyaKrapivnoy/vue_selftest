@@ -1,8 +1,8 @@
 <template>
   <HeadSetter
-    :title="COUNTER_HEAD.title"
-    :name="COUNTER_HEAD.name"
-    :content="COUNTER_HEAD.content"
+    :title="HEAD_METADATA.COUNTER.title"
+    :name="HEAD_METADATA.COUNTER.name"
+    :content="HEAD_METADATA.COUNTER.content"
   />
   <main class="container mx-auto px-4 mt-20">
     <h1>Counter Page</h1>
@@ -55,7 +55,7 @@
 <script setup>
 import { computed, onMounted, watch } from "vue";
 import { useStore } from "vuex";
-import { COUNTER_HEAD } from "@/data/head";
+import { HEAD_METADATA } from "@/data/head";
 import HeadSetter from "@/components/common/HeadSetter/HeadSetter.vue";
 import InfoView from "@/views/Counter/partials/InfoSection.vue";
 import ButtonControllerSection from "@/views/Counter/partials/ButtonControllerSection.vue";
