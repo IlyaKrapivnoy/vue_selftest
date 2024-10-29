@@ -1,6 +1,7 @@
-import { adjectives, comments, nouns, suffixes } from "@/data/band";
+import bandNameData from "@/data/band";
 import { getRandomItem } from "@/helpers/commonFunctions";
 
+const { adjectives, nouns, suffixes, comments } = bandNameData;
 export const bandNamesModule = {
   state: () => ({
     bandAdjectives: adjectives,
