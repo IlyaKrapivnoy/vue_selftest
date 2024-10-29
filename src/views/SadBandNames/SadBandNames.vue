@@ -16,6 +16,16 @@
       />
     </section>
 
+    <MyAlert
+      :isAlert="isAlert"
+      :wrapperClass="'alert'"
+      :title="'Warning Alert'"
+      :type="'warning'"
+      :description="alertMessage"
+      :showIcon="true"
+      :closable="false"
+    />
+
     <section class="my-6">
       <div class="flex justify-between items-center">
         <h2>SAVED BAND NAMES:</h2>
@@ -72,6 +82,7 @@ import { useStore } from "vuex";
 import HeadSetter from "@/components/common/HeadSetter/HeadSetter.vue";
 import { BAND_NAMES_HEAD } from "@/data/head";
 import CustomCard from "@/components/common/CustomCard/CustomCard.vue";
+import MyAlert from "@/components/common/MyAlert/MyAlert.vue";
 
 interface Button {
   name: string;
@@ -93,6 +104,11 @@ const store = useStore();
 const bandName = computed<string>(() => store.state.bandNames.bandName);
 const savedBandNames = computed<BandName[]>(
   () => store.state.bandNames.savedBandNames
+);
+
+const isAlert = ref<boolean>(false);
+const alertMessage = ref<string>(
+  "You need to generate a band name before saving it."
 );
 
 // Sorting logic
@@ -125,6 +141,17 @@ onMounted(() => {
 });
 
 const saveName = (): void => {
+  if (!bandName.value) {
+    isAlert.value = true;
+    alertMessage.value = "Generate name before saving it";
+
+    setTimeout(() => {
+      isAlert.value = false;
+    }, 3000);
+
+    return;
+  }
+
   store.commit("saveBandName");
 };
 
