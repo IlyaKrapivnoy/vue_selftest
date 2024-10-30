@@ -23,6 +23,7 @@
         >
           -
         </el-button>
+        <img src="@/assets/LikeIcon.svg" alt="Logo" />
       </div>
     </div>
   </el-card>
