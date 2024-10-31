@@ -12,8 +12,10 @@
 </template>
 
 <script setup>
-/* eslint-disable */
 const props = defineProps({
-  infoData: Array,
+  infoData: {
+    type: Array,
+    required: true,
+  },
 });
 </script>

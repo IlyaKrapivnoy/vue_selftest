@@ -25,8 +25,7 @@ const props = defineProps({
   quote: Object,
 });
 
-/* eslint-disable */
-const emits = defineEmits(["increaseLikes", "decreaseLikes"]);
+defineEmits(["increaseLikes", "decreaseLikes"]);
 const store = useStore();
 </script>
 
