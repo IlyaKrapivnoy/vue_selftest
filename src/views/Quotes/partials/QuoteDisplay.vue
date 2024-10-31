@@ -7,12 +7,11 @@
       </div>
       <div
         @click="$emit('increaseLikes')"
-        class="flex self-end items-center cursor-pointer"
+        class="flex self-end items-center cursor-pointer like-status"
+        :class="{ liked: store.state.quotes.likeStatus }"
       >
-        <SvgLikeIcon
-          :class="{ liked: store.state.quotes.likeStatus ? 'liked' : '' }"
-        />
-        <span class="px-3">{{ props.quote.likes }}</span>
+        <SvgLikeIcon />
+        <span class="px-3 w-[40px]">{{ props.quote.likes }}</span>
       </div>
     </div>
   </el-card>
@@ -32,7 +31,13 @@ const store = useStore();
 </script>
 
 <style scoped>
+.like-status {
+  transition: opacity 0.3s ease;
+}
 .liked {
-  fill: red;
+  opacity: 0.5;
+}
+.like-status:not(.liked) {
+  opacity: 1;
 }
 </style>
